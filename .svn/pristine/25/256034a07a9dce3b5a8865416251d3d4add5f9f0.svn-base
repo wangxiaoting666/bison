@@ -1,0 +1,40 @@
+package com.threegrand.bison.system.service.impl;
+
+import com.threegrand.bison.system.dao.SysParamDao;
+import com.threegrand.bison.system.model.SysParam;
+import com.threegrand.bison.system.service.SysParamService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * Created by Administrator on 2014/9/26.
+ */
+@Service("sysParamService")
+public class SysParamServiceImpl implements SysParamService {
+
+    @Autowired
+    private SysParamDao sysParamDao;
+
+    @Override
+    public List<SysParam> getSysParamListPage(SysParam sysParam) {
+        return sysParamDao.getSysParamListPage(sysParam);
+    }
+
+    @Override
+    public SysParam getSysParam(String sysParamId, String companyId) {
+        return sysParamDao.getSysParam(sysParamId, companyId);
+    }
+
+    @Override
+    public int updateSysParam(SysParam sysParam) {
+        return sysParamDao.updateSysParam(sysParam);
+    }
+
+    @Override
+    public List<SysParam> getSysParamList(String companyId) {
+        return sysParamDao.getSysParamList(companyId);
+    }
+
+}

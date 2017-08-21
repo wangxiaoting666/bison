@@ -1,0 +1,350 @@
+package com.threegrand.controller.assets;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
+import org.apache.shiro.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.threegrand.bison.assets.model.Asset;
+import com.threegrand.bison.assets.model.Classify;
+import com.threegrand.bison.assets.service.AssetService;
+import com.threegrand.bison.common.ajax.DataTablesResponse;
+import com.threegrand.bison.security.model.Role;
+import com.threegrand.bison.security.service.RoleService;
+import com.threegrand.bison.security.service.UserService;
+import com.threegrand.bison.system.model.Organ;
+import com.threegrand.bison.system.model.Staff;
+import com.threegrand.bison.system.service.OrganService;
+import com.threegrand.bison.system.service.StaffService;
+import com.wonderland.sail.ajax.response.AjaxResponse;
+import com.wonderland.sail.ajax.response.ReturnState;
+import com.wonderland.sail.constant.Constant;
+
+/**
+ * 资产管理 Created by Administrator on 2016/1/1.
+ * 
+ * @param <E>
+ */
+@Controller
+@RequestMapping("/asset")
+public class AssetController<E> {
+	@Autowired
+	private AssetService assetService;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private RoleService roleService;
+
+	@Autowired
+	private OrganService organService;
+	
+	@Autowired
+	private StaffService staffService;
+
+	/**
+	 * 页面跳转
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.GET)
+	public String assetInfo(Model model, HttpServletRequest request) {
+		String companyId = request.getSession().getAttribute("companyId")
+				.toString();
+		getClassOrOrganList(model, companyId);
+		return "asset/assetPage";
+	}
+
+	/**
+	 * 分页查询数据
+	 * 
+	 * @param asset
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getAssetListPage")
+	@ResponseBody
+	public DataTablesResponse getAssetListPage(Asset asset,
+			HttpServletRequest request) {
+		String companyId = request.getSession().getAttribute("companyId")
+				.toString();
+		// 获取当前用户对应的角色名
+		String loginName = (String) SecurityUtils.getSubject().getPrincipal();
+		String roleName = userService.getRoles(loginName, companyId).get(0);
+		// 通过角色名获取部门id
+		Role role = roleService.getRoleByName(roleName, companyId);
+		List<String> organIds = roleService.getOrganIds(role.getRoleId(),
+				companyId);
+		ArrayList<String> arrayList = new ArrayList<String>();
+
+		for (String organId : organIds) {
+			/**
+			 * 获取该部门下的所有子部门id集合 如果子部门id集合不为null，判断organIds是否包含所有的子部门id集合 --
+			 * 是，有该部门的权限 如果子部门id集合为null，有该部门的权限
+			 */
+			List<String> organIdList = organService.queryOrganByPId(organId,
+					companyId);
+			if (organIdList.size() > 0) {
+				if (organIds.containsAll(organIdList)) {
+					arrayList.add(organId);
+				}
+			} else {
+				arrayList.add(organId);
+			}
+		}
+
+		asset.setCompanyId(companyId);
+		asset.setOrganIdList(arrayList);
+		List<Asset> assetListPage = assetService.getAssetListPage(asset);
+		// 判断用户是否有查看该资产的权限
+		for (int i = 0; i < assetListPage.size(); i++) {
+			String organId = assetListPage.get(i).getOrganId().toString();
+			if (!organIds.contains(organId)) {
+				assetListPage.remove(assetListPage.get(i));
+			}
+		}
+		return new DataTablesResponse(asset, assetListPage);
+	}
+
+	/**
+	 * 验证资产名称是否存在
+	 * 
+	 * @param name
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/validateRepeatName", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResponse validateRepeatName(String name,
+			HttpServletRequest request) {
+		String companyId = request.getSession().getAttribute("companyId")
+				.toString();
+		int affectedLineNum = assetService.validateRepeatName(name, companyId);
+		return AjaxResponse
+				.getInstanceByResult(affectedLineNum == Constant.AFFECTED_LINE_1);
+	}
+
+	/**
+	 * 添加资产
+	 * 
+	 * @param asset
+	 * @param result
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResponse addAsset(@Valid Asset asset, BindingResult result,
+			HttpServletRequest request) {
+		if (result.hasErrors()) {
+			return new AjaxResponse(result);
+		}
+		String companyId = request.getSession().getAttribute("companyId")
+				.toString();
+		// 验证资产id是否重复
+		if (assetService.getAssetById(asset.getAssetId(), companyId) != null) {
+			return new AjaxResponse(ReturnState.ERROR, "资产编号已存在！");
+		}
+		asset.setCompanyId(companyId);
+		int affectedLineNum = assetService.addAsset(asset);
+		return AjaxResponse
+				.getInstanceByResult(affectedLineNum == Constant.AFFECTED_LINE_1);
+	}
+
+	/**
+	 * 删除资产
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/deleteAsset")
+	@ResponseBody
+	public AjaxResponse deleteAsset(String id, HttpServletRequest request) {
+		String companyId = request.getSession().getAttribute("companyId")
+				.toString();
+		int affectedLineNum = assetService.deleteAsset(id, companyId);
+		return AjaxResponse
+				.getInstanceByResult(affectedLineNum == Constant.AFFECTED_LINE_1);
+	}
+
+	/**
+	 * 根据id获取资产
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "getAsset", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResponse getAsset(String id, HttpServletRequest request) {
+		String companyId = request.getSession().getAttribute("companyId")
+				.toString();
+		Asset asset = assetService.getAsset(id, companyId);
+		return new AjaxResponse("asset", asset);
+	}
+
+	/**
+	 * 更新资产
+	 * 
+	 * @param asset
+	 * @param result
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "updateAsset", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResponse updateAsset(Asset asset, BindingResult result,
+			HttpServletRequest request) {
+		if (result.hasErrors()) {
+			return new AjaxResponse(result);
+		}
+		String companyId = request.getSession().getAttribute("companyId")
+				.toString();
+		// 验证更新资产id是否重复
+		if (!assetService.getAsset(asset.getId(), companyId).getAssetId()
+				.equals(asset.getAssetId())) {
+			if (assetService.getAssetById(asset.getAssetId(), companyId) != null)
+				return new AjaxResponse(ReturnState.ERROR, "资产编号已存在！");
+		}
+		asset.setCompanyId(companyId);
+		int affectedLineNum = assetService.updateAsset(asset);
+		return AjaxResponse
+				.getInstanceByResult(affectedLineNum == Constant.AFFECTED_LINE_1);
+	}
+
+	/**
+	 * 根据变量名获取变量
+	 * 
+	 * @param val
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "getSysValue", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxResponse getSysValue(@RequestParam("val") String val,
+			HttpServletRequest request) {
+		String companyId = request.getSession().getAttribute("companyId")
+				.toString();
+		String value = assetService.getSysValue(val, companyId);
+		return new AjaxResponse("value", value);
+	}
+
+	/**
+	 * 跳转添加页面
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/toAddassetMap", method = RequestMethod.GET)
+	public String toAddassetMap(Model model, HttpServletRequest request) {
+		String companyId = request.getSession().getAttribute("companyId")
+				.toString();
+		getClassOrOrganList(model, companyId);
+		return "asset/addassetMap";
+	}
+
+	/**
+	 * 跳转添加页面
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/toEditassetMap", method = RequestMethod.GET)
+	public String toEditassetMap(
+			@RequestParam(value = "assetId") String assetId, Model model,
+			HttpServletRequest request) {
+		String companyId = request.getSession().getAttribute("companyId")
+				.toString();
+		getClassOrOrganList(model, companyId);
+		// 获取某个资产
+		Asset asset = assetService.getAsset(assetId, companyId);
+		model.addAttribute("asset", asset);
+		return "asset/editassetMap";
+	}
+
+	public void getClassOrOrganList(Model model, String companyId) {
+		// 查询二级分类
+		List<Classify> twoClassList = assetService.getTwoClassify();
+		model.addAttribute("twoClassList", twoClassList);
+
+		// 查询当前用户管理部门
+		// 获取当前用户对应的角色名
+		String loginName = (String) SecurityUtils.getSubject().getPrincipal();
+		String roleName = userService.getRoles(loginName, companyId).get(0);
+		// 通过角色名获取部门id
+		Role role = roleService.getRoleByName(roleName, companyId);
+		List<String> organIds = roleService.getOrganIds(role.getRoleId(),
+				companyId);
+		ArrayList<Organ> arrayList = new ArrayList<Organ>();
+
+		for (String organId : organIds) {
+			/**
+			 * 获取该部门下的所有子部门id集合 如果子部门id集合不为null，判断organIds是否包含所有的子部门id集合 --
+			 * 是，有该部门的权限 如果子部门id集合为null，有该部门的权限
+			 */
+			List<String> organIdList = organService.queryOrganByPId(organId,
+					companyId);
+			if (organIdList.size() > 0) {
+
+				if (organIds.containsAll(organIdList)) {
+					Organ organ = organService.getOrgan(organId, companyId);
+					arrayList.add(organ);
+				}
+			} else {
+				Organ organ = organService.getOrgan(organId, companyId);
+				arrayList.add(organ);
+			}
+		}
+		model.addAttribute("organList", arrayList);
+	}
+	
+	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResponse searchPeople(@RequestParam("key") String key,
+			HttpServletRequest request) throws Exception {
+		// 获取当前用户角色对应的部门id集合
+		String companyId = (String) request.getSession().getAttribute(
+				"companyId");
+
+		List<String> organIdList = getUserOrganIdsByRoleName(request,companyId);
+		//获取所有的员工姓名
+		List<Staff> nameList = staffService.getStaffLikeName(key, companyId);
+		StringBuffer sb = new StringBuffer();
+		for (Staff staff : nameList) {
+			if(organIdList.contains(staff.getOrganId())){
+				Organ organ = organService.getOrgan(staff.getOrganId(), companyId);
+				sb.append(staff.getName()).append("(").append(organ.getOrganName()).append(")").append(",");
+			}
+		}
+		return new AjaxResponse("nameList", sb.toString());
+	}
+	
+	//获取当前用户对应的部门
+	public List<String> getUserOrganIdsByRoleName(HttpServletRequest request,
+			String companyId) {
+		// 获取当前用户对应的角色名
+		String loginName = (String) SecurityUtils.getSubject().getPrincipal();
+		String roleName = userService.getRoles(loginName, companyId).get(0);
+
+		// 通过角色名获取部门id
+		Role role = roleService.getRoleByName(roleName, companyId);
+		List<String> organIds = roleService.getOrganIds(role.getRoleId(),
+				companyId);
+		return organIds;
+	}
+
+}

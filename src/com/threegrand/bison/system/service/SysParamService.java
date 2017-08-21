@@ -1,0 +1,20 @@
+package com.threegrand.bison.system.service;
+
+import com.threegrand.bison.system.model.SysParam;
+
+import java.util.List;
+
+/**
+ * Created by Administrator on 2014/9/26.
+ */
+public interface SysParamService {
+
+    List<SysParam> getSysParamListPage(SysParam sysParam);
+
+    SysParam getSysParam(String sysParamId, String companyId);
+
+    int updateSysParam(SysParam sysParam);
+
+    List<SysParam> getSysParamList(String companyId);
+
+}

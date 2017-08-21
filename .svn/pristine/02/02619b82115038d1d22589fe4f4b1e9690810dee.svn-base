@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.assets.dao.AssetDao">
+ <select id="getAssetsByAssetName"  resultType="String">
+     select * from acl_assets where asset_name=#{assetName}
+ </select>
+    <select id="getAssetPageListPage"  resultType="com.threegrand.bison.assets.model.Asset">
+        select * from acl_assets s
+        <if test="assetId!=null">and s.asset_id=#{assetId}</if>
+        <if test="assetName!=null">and s.asset_name=#{assetName}</if>
+        <if test="assetRole!=null">and s.asset_role=#{assetRole}</if>
+        <if test="assetTag!=null">and s.asset_tag=#{assetTag}</if>
+    </select>
+
+    <select id="getAssetsById" resultType="com.threegrand.bison.assets.model.Asset">
+        select * from acl_assets where asset_id=#{assetId}
+    </select>
+
+    <select id="getAreasQuery" resultType="com.threegrand.bison.personInfo.model.Area">
+        select * from acl_user_area x
+        where 1=1
+        <if test="building!=''">and x.building=#{building}</if>
+    </select>
+
+    <select id="getAssetRole" resultType="com.threegrand.bison.assets.model.AssetRole">
+        select * from acl_asset_role
+    </select>
+
+    <select id="getAssetTag"  resultType="com.threegrand.bison.assets.model.AssetTag">
+        select * from acl_asset_tag
+    </select>
+
+
+    <select id="getBuilds" resultType="com.threegrand.bison.personInfo.model.Area">
+        select building from  acl_area;
+    </select>
+
+    <select id="getStepsByBuild" resultType="com.threegrand.bison.personInfo.model.Area">
+        select step  from  acl_area where building=#{build};
+    </select>
+
+    <select id="getAreaByStep" resultType="com.threegrand.bison.personInfo.model.Area">
+        select area_name from acl_area where building=#{building} and step =#{step};
+    </select>
+
+ <insert id="addAsset">
+     insert into acl_assets   (asset_id,asset_name,asset_role,asset_tag)
+                    values(#{assetId},#{assetName},#{assetRole},#{assetTag})
+
+ </insert>
+ <update id="setInitZone">
+     update acl_assets set
+     buildName=#{buildName},
+     stepName=#{stepName},
+     asset_init= #{assetInit}
+     where asset_id= #{assetId}
+ </update>
+
+
+    <update id="setAssetRole">
+        update acl_assets SET
+        asset_role=#{assetRole}
+        where asset_id=#{assetId}
+    </update>
+    <update id="setAssetTag">
+        update acl_assets SET
+        asset_tag=#{assetTag}
+        where asset_id in (#{assetId})
+    </update>
+    <select id="getAssetListPage" resultType="com.threegrand.bison.assets.model.Asset">
+      select * from  acl_assets s where 1=1
+      <if test="assetId !='' and assetId !=null "> and s.asset_id =#{assetId}</if>
+      <if test="assetName !='' and assetName !=null"> and s.asset_name =#{assetName}</if>
+      <if test="assetRole !=''and assetRole !=null"> and s.asset_role =#{assetRole}</if>
+      <if test="assetTag !='' and assetTag !=null"> and s.asset_tag =#{assetTag}</if>
+    </select>
+
+</mapper>

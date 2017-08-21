@@ -1,0 +1,72 @@
+@charset "utf-8";
+/* CSS Document */
+#top{ width:100%;}
+#top .up{ height:95px; background:url(../img/top_01.gif) repeat-x;}
+#top .up .logo{ position:absolute; left:50%; margin-left:-204px;z-index:999;}
+#top .up .english{ position:absolute; color:#FFF; right:5%; padding-top:70px; font-size:12px;}
+#top .up .english .ch{ padding-right:10px;}
+#top .up .english .en{ padding-left:10px;}
+/*弹出菜单*/
+/*概况*/
+.out_menu_gaikuang{ position:absolute; width:100%; height:155px; top:449px; background:#fff; border-bottom:#999 solid 1px; z-index:100;}
+.out_menu_gaikuang .menu_gaikuang{ margin:0 auto; width:850px; margin-top:20px;}
+.out_menu_gaikuang .menu_gaikuang div{ float:left;}
+.out_menu_gaikuang .menu_gaikuang .menu_div_01 ul{ float:left; margin-right:50px;}
+.out_menu_gaikuang .menu_gaikuang .menu_div_01 ul li a{ font-weight:bold;}
+.out_menu_gaikuang .menu_gaikuang .menu_div_02{ width:30em; margin-right:50px;}
+.out_menu_gaikuang .menu_gaikuang .menu_div_02 p{ text-indent:2em;}
+.out_menu_gaikuang .menu_gaikuang .menu_div_03{}
+/*教育*/
+.out_menu_jiaoyu{ position:absolute; width:100%; height:155px; top:449px; background:#fff; border-bottom:#999 solid 1px; z-index:100;}
+.out_menu_jiaoyu .menu_jiaoyu{ margin:0 auto; width:850px; margin-top:20px;}
+.out_menu_jiaoyu .menu_jiaoyu div{ float:left;}
+.out_menu_jiaoyu .menu_jiaoyu .menu_div_01 ul{ float:left; margin-right:50px;}
+.out_menu_jiaoyu .menu_jiaoyu .menu_div_01 ul li a{ font-weight:bold;}
+.out_menu_jiaoyu .menu_jiaoyu .menu_div_02{ width:30em; margin-right:50px;}
+.out_menu_jiaoyu .menu_jiaoyu .menu_div_02 p{ text-indent:2em;}
+.out_menu_jiaoyu .menu_jiaoyu .menu_div_03{}
+/*建设*/
+.out_menu_jianshe{ position:absolute; width:100%; height:155px; top:449px; background:#fff; border-bottom:#999 solid 1px; z-index:100;}
+.out_menu_jianshe .menu_jianshe{ margin:0 auto; width:850px; margin-top:20px;}
+.out_menu_jianshe .menu_jianshe div{ float:left;}
+.out_menu_jianshe .menu_jianshe .menu_div_01 ul{ float:left; margin-right:50px;}
+.out_menu_jianshe .menu_jianshe .menu_div_01 ul li a{ font-weight:bold;}
+.out_menu_jianshe .menu_jianshe .menu_div_02{ width:30em; margin-right:50px;}
+.out_menu_jianshe .menu_jianshe .menu_div_02 p{ text-indent:2em;}
+.out_menu_jianshe .menu_jianshe .menu_div_03{}
+/*
+ * jQuery图片轮播(焦点图)插件
+ * ADD.JENA.201206291027
+ * EDIT.JENA.201206300904
+ * Author: jena
+ * Demo: http://ishere.cn/demo/jquery.slidebox/
+ */
+#top .slideBox{ width:100% !important; margin:0 auto; position:relative; overflow:hidden; border:1px solid #666;}
+#top .slideBox .sousuo{}
+#top .slideBox .sousuo .text{border: 0px solid #c00; color:#FFF width:156px;  margin-top:10px;  margin-left:20px; height:30px; background-color:transparent; *+font-size:14px; *+padding-top:10px;}
+#top .slideBox .sousuo .button{border: 0px solid #c00; width: 30px; height: 30px; margin-right: 3px; background-color: transparent;}
+#top .slideBox .text{border: 0px solid #c00; color:#FFF; width:156px;  margin-top:10px;  margin-left:20px; height:30px; background-color:#00103C;}
+#top .slideBox .button{border: 0px solid #c00; width: 30px; height: 30px; margin-right: 3px; background-color:transparent;}
+#top .slideBox ul.items{ position:absolute; float:left; background:none; list-style:none; }
+#top .slideBox ul.items li{ width:100% ; float:left; background:none; list-style:none; padding:0px; margin:0px;}
+#top .slideBox ul.items li a{ float:left; line-height:normal !important; padding:0px !important; border:none/*For IE.ADD.JENA.201206300844*/; display:inline-block; width:100%;}
+#top .slideBox ul.items li a img{ width:100% !important; margin:0px !important; padding:0px !important; display:block; border:none/*For IE.ADD.JENA.201206300844*/;}
+#top .slideBox .tips{ position:absolute; bottom:0px; width:100%; height:50px; background-color:#000; overflow:hidden;}
+#top .slideBox .tips div.title{ position:absolute; left:0px; top:0px; height:100%;}
+#top .slideBox .tips div.title a{ color:#FFF; font-size:18px; line-height:50px; margin-left:10px; text-decoration:none;}
+#top .slideBox .tips div.title a:hover{ text-decoration:underline !important;}
+#top .slideBox .tips div.nums{ position:absolute; right:0px; top:0px; height:100%;}
+#top .slideBox .tips div.nums a{ display:inline-block; >float:left/*For IE.ADD.JENA.201206300844*/; width:20px; height:20px; background-color:#FFF; text-indent:-99999px; margin:15px 10px 0px 0px;}
+#top .slideBox .tips div.nums a.active{ background-color:#093;}
+
+#top .nav{ margin:0 auto; background:url(../img/nav.gif);width:100%; height:52px; border-bottom:1px solid #999;}
+#top .nav ul{ margin:0 auto; width:1100px; text-align:center;}
+#top .nav ul li{ float:left; width:74px; height:52px; line-height:52px; font:'微软雅黑'; font-size:14px; font-weight:bold;display:inline; background:url(../img/nav_bg.gif) no-repeat 0px 17px;}
+				/*{ float:left; padding:13px 38px; font-size:14px; font:'微软雅黑'; font-weight:bold; color:#E8E8E8; background:url(../img/22.gif) no-repeat right 13px; margin:1px; line-height:14px;}*/
+#top .nav .no_bg{ background:none;}
+#top .nav ul a{ color:#09C; display:block;}
+
+
+#foot{ background:url(../img/foot.gif); width:100%; height:93px; border-top:1px solid #999;}
+#foot ul{ margin:0 auto; color:#666; text-align:center; padding-top:36px;}
+#foot ul li{ line-height:20px;}

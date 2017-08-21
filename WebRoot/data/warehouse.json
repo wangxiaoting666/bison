@@ -1,0 +1,125 @@
+{
+    "mapwidth":"1857",
+	"mapheight":"2429",
+	"categories":[
+
+	],
+	"levels":[
+		{
+			"id":"world",
+			"title":"World",
+			"map":"img/map/warehouse.jpg",
+			"minimap": "img/map/warehouse-mini.jpg",
+			"locations":[
+			    {
+					"id": "shelf_one",
+					"title": "北门",
+					"description": "进入指挥中心的北门",
+					"pin": "default",
+					"action": "default",
+					"link":"http://www.intmote.com/",
+					"thumbnail": "img/map/gate.jpg",
+					"x": "0.5756",
+					"y": "0.0473",
+					"zoom": "2"
+				},
+				{
+					"id": "shelf_two",
+					"title": "大厅",
+					"description": "这里是指挥中心大厅",
+					"pin": "default",
+					"action": "default",
+					"link":"http://www.intmote.com/",
+					"thumbnail": "img/map/control.jpg",
+					"x": "0.7361",
+					"y": "0.4874",
+					"zoom": "2"
+				},
+				{
+					"id": "shelf_three",
+					"title": "南门",
+					"description": "进入指挥中心的南门。",
+					"pin": "default",
+					"action": "default",
+					"link":"http://www.intmote.com/",
+					"thumbnail": "img/map/gate.jpg",
+					"x": "0.7049",
+					"y": "0.9518",
+					"zoom": "2"
+				},
+				{
+					"id": "shelf_four",
+					"title": "西门",
+					"description": "西门是我名，不是我的姓；",
+					"pin": "default",
+					"action": "default",
+					"link":"http://www.intmote.com/",
+					"thumbnail": "img/map/gate.jpg",
+					"x": "0.0900",
+					"y": "0.1955",
+					"zoom": "2"
+				},
+				{
+					"id": "shelf_five",
+					"title": "会议室大门",
+					"description": "从由此进入会议室。",
+					"pin": "default",
+					"action": "default",
+					"link":"http://www.intmote.com/",
+					"thumbnail": "img/map/gate.jpg",
+					"x": "0.3667",
+					"y": "0.6496",
+					"zoom": "2"
+				},
+				{
+					"id": "shelf_six",
+					"title": "会议室",
+					"description": "来！一起商量一些事情吧！",
+					"pin": "default",
+					"action": "default",
+					"link":"http://www.intmote.com/",
+					"thumbnail": "img/map/control.jpg",
+					"x": "0.2539",
+					"y": "0.8000",
+					"zoom": "2"
+				},
+				{
+					"id": "shelf_seven",
+					"title": "休息区",
+					"description": "大家可以到此坐下喝一杯茶；",
+					"pin": "default",
+					"action": "default",
+					"link":"http://www.intmote.com/",
+					"thumbnail": "img/map/control.jpg",
+					"x": "0.2154",
+					"y": "0.5000",
+					"zoom": "2"
+				},
+				{
+					"id": "shelf_eight",
+					"title": "控制台",
+					"description": "其实，我可以控制一切；但是我很低调。",
+					"pin": "default",
+					"action": "default",
+					"link":"http://www.intmote.com/",
+					"thumbnail": "img/map/control.jpg",
+					"x": "0.5411",
+					"y": "0.5000",
+					"zoom": "2"
+				},
+				{
+					"id": "shelf_nine",
+					"title": "更衣室",
+					"description": "别看我里面小，我外面其实很大。",
+					"pin": "default",
+					"action": "default",
+					"link":"http://www.intmote.com/",
+					"thumbnail": "img/map/gate.jpg",
+					"x": "0.3527",
+					"y": "0.2276",
+					"zoom": "2"
+				}
+			]	
+		}
+	]		
+}

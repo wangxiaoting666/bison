@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.flex.dao.AreaUserDao">
+	
+	<resultMap id="AreaUserMap" type="com.threegrand.bison.flex.entity.AreaUserVO">
+		<result column="user_id" property="userId" jdbcType="DECIMAL" />
+		<result column="area_id" property="areaId" jdbcType="DECIMAL" />
+		<result column="creator" property="creator" jdbcType="DECIMAL" />
+		<result column="create_time" property="creatTime" jdbcType="DATE" />
+	</resultMap>
+	
+	<select id="findByUserId" resultMap="AreaUserMap"  parameterType="java.util.Map">
+		select a.user_id ,a.area_id ,m.area_name 
+		from area_user a 
+		left join map_area m 
+		on a.area_id = m.area_id
+		where a.user_id = #{userId}
+	</select>
+	
+</mapper>

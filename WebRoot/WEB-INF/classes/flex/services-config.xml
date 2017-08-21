@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<services-config>
+
+    <services>
+        <service-include file-path="remoting-config.xml"/>
+        <!-- where dynamic destinations created at runtime reside -->
+        <!-- 
+        <service id="remoting-service" class="flex.messaging.services.RemotingService">
+            <adapters>
+                <adapter-definition id="java-object" default="true"
+                    class="flex.messaging.services.remoting.adapters.JavaAdapter"/>
+            </adapters>
+        </service>
+         -->
+        <!-- create destination for beans managed by Spring and annotated with @RemotingDestination -->
+        <!-- 
+        <service id="spring-autowiring-bootstrap-service"
+            class="flex.contrib.services.SpringAutowiringBootstrapService"/>
+         -->
+        <default-channels>
+            <channel ref="channel-amf"/>
+        </default-channels>
+    </services>
+
+    <factories>
+        <factory id="spring" class="flex.contrib.factories.flex.SpringFactory"/>
+    </factories>
+
+    <channels>
+        <channel-definition id="channel-amf" class="mx.messaging.channels.AMFChannel">
+            <endpoint url="/zndn/messagebroker/amf"
+                class="flex.messaging.endpoints.AMFEndpoint"/>
+            <properties>
+                <polling-enabled>false</polling-enabled>
+            </properties>
+        </channel-definition>
+    </channels>
+</services-config>

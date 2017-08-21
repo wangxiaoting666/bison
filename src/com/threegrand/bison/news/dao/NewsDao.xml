@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.news.dao.NewsDao">
+
+    <resultMap id="getNewsListPageResult" type="com.threegrand.bison.news.model.News">
+        <result property="newsId" column="news_id"/>
+        <result property="newsType.newsTypeId" column="news_type_id"/>
+        <result property="newsType.newsTypeName" column="news_type_name"/>
+    </resultMap>
+
+    <select id="getNewsListPage" resultMap="getNewsListPageResult">
+        SELECT b.news_type_name,b.module_id,b.state,a.*
+        FROM news_type b, news a
+        WHERE b.news_type_id = a.news_type_id
+        AND b.state='1'
+        AND b.module_id= #{newsType.moduleId}
+        <if test="pageTitle!=null and pageTitle !=''">
+            and page_title LIKE CONCAT('%',#{pageTitle},'%')
+        </if>
+        <if test="newsTypeId!=null and newsTypeId !=''">
+            and a.news_type_id = #{newsTypeId}
+        </if>
+    </select>
+
+    <insert id="addNews">
+        INSERT INTO news
+        (news_type_id,title,page_title,summary,keyword,author,link,content,image,video,publish_time,index_sequence,list_sequence,creator_id,create_time,last_modify_time,last_modify_operator)
+        VALUES
+        (#{newsTypeId},#{title},#{pageTitle},#{summary},#{keyword},#{author},#{link},#{content},#{image},#{video},#{publishTime},#{indexSequence},#{listSequence},#{creatorId},#{createTime},#{lastModifyTime},#{lastModifyOperator})
+        <selectKey resultType="string" keyProperty="newsId">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="getNews" resultType="com.threegrand.bison.news.model.News">
+        SELECT * FROM news WHERE news_id=#{newsId}
+    </select>
+
+    <update id="updateNews">
+        UPDATE news SET
+        news_type_id=#{newsTypeId},title=#{title},page_title=#{pageTitle},summary=#{summary},keyword=#{keyword},author=#{author},
+        link=#{link},content=#{content},image=#{image},video=#{video},publish_time=#{publishTime},index_sequence=#{indexSequence},
+        list_sequence=#{listSequence},last_modify_time=#{lastModifyTime},last_modify_operator=#{lastModifyOperator}
+        WHERE news_id=#{newsId}
+    </update>
+
+    <delete id="deleteNews">
+        DELETE FROM news WHERE news_id=#{newsId}
+    </delete>
+
+    <select id="getNewsByPageTitle" resultType="com.threegrand.bison.news.model.News">
+        SELECT * FROM news WHERE page_title=#{pageTitle}
+    </select>
+
+    <select id="getNewsList" resultType="com.threegrand.bison.news.model.News">
+        SELECT * FROM module m, news_type t, news n
+        WHERE m.module_id=t.module_id AND t.news_type_id=n.news_type_id AND m.module_id=#{newsType.moduleId}
+        ORDER BY n.list_sequence DESC, n.publish_time DESC
+    </select>
+
+    <select id="getNewsListNoSequence" resultType="com.threegrand.bison.news.model.News">
+        SELECT * FROM module m, news_type t, news n WHERE m.module_id=t.module_id AND t.news_type_id=n.news_type_id AND
+        m.module_id=#{newsType.moduleId} and n.index_sequence=0
+    </select>
+
+    <select id="getNewsListSequence" resultType="com.threegrand.bison.news.model.News">
+        SELECT * FROM module m, news_type t, news n
+        WHERE m.module_id=t.module_id AND t.news_type_id=n.news_type_id AND m.module_id=#{newsType.moduleId}
+        ORDER BY n.list_sequence DESC, publish_time DESC
+    </select>
+
+    <select id="getNewsByTypeId" resultType="com.threegrand.bison.news.model.News">
+        SELECT * FROM news WHERE news_type_id = #{newsTypeId} ORDER BY list_sequence DESC,publish_time DESC
+    </select>
+    <select id="getFrontNewsListPage" resultType="com.threegrand.bison.news.model.News">
+        SELECT n.* FROM module m, news_type t, news n
+        WHERE m.module_id=t.module_id AND t.news_type_id=n.news_type_id AND m.module_id=#{newsType.moduleId}
+        <if test="newsTypeId!=null and newsTypeId !=''">
+            and n.news_type_id = #{newsTypeId}
+        </if>
+        ORDER BY n.list_sequence DESC, n.publish_time DESC
+    </select>
+</mapper>

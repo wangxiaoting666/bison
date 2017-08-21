@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.security.dao.RoleDao">
+
+	<select id="getRolesByLoginName" resultType="string">
+		SELECT role_name FROM acl_user_role
+		WHERE login_name=#{loginName}
+	</select>
+
+	<select id="getUserByRoleName" resultType="string">
+		SELECT r.login_name FROM acl_user_role r,acl_user u
+		WHERE u.login_name = r.login_name AND u.company_id=#{companyId}
+		AND r.role_name=#{roleName}
+	</select>
+
+	<select id="getRolePermTokensByLoginName" resultType="string">
+		SELECT p.perm_token FROM acl_role_permission p,acl_user_role r,acl_user u
+		WHERE p.role_name=r.role_name AND u.login_name = r.login_name AND
+		p.company_id=u.company_id
+		AND r.login_name=#{loginName}
+	</select>
+
+	<select id="getRoleList" resultType="com.threegrand.bison.security.model.Role">
+		SELECT * FROM acl_role where company_id=#{companyId}
+	</select>
+
+	<select id="getRoleListPage" resultType="com.threegrand.bison.security.model.Role">
+		SELECT * FROM acl_role
+		where company_id=#{companyId}
+		<if test="roleName!=null and roleName !=''">
+			and role_name = #{roleName}
+		</if>
+		<if test="description!=null and description !=''">
+			and description like CONCAT('%',#{description},'%')
+		</if>
+	</select>
+
+	<insert id="addRole">
+		INSERT INTO acl_role (role_name,description,company_id) VALUES
+		(#{roleName},#{description},#{companyId})
+		<selectKey resultType="string" keyProperty="roleId">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<select id="getRoleByRoleName" resultType="com.threegrand.bison.security.model.Role">
+		select * from acl_role where role_name=#{roleName}
+	</select>
+
+	<insert id="addUserList">
+		INSERT INTO acl_user_role (login_name,role_name) VALUES
+		<foreach collection="getUserList" item="loginName" separator=",">
+			(#{loginName},#{roleName})
+		</foreach>
+	</insert>
+
+	<insert id="addRolePermission">
+		INSERT INTO acl_role_permission
+		(company_id,role_name,perm_token)VALUES
+		<foreach collection="permTokenList" item="permToken"
+			separator=",">
+			(#{companyId},#{roleName},#{permToken})
+		</foreach>
+	</insert>
+
+	<select id="getRole" resultType="com.threegrand.bison.security.model.Role">
+		SELECT * FROM acl_role
+		WHERE role_id=#{roleId} and company_id=#{companyId}
+	</select>
+
+	<delete id="deleteUserPermissionByLoginName">
+		DELETE FROM acl_role_permission
+		WHERE role_name=#{roleName}
+		and company_id=#{companyId}
+	</delete>
+
+	<delete id="deleteRole">
+		DELETE FROM acl_role
+		WHERE role_id=#{roleId} and company_id=#{companyId}
+	</delete>
+
+	<insert id="addUserRole">
+		INSERT INTO acl_user_role VALUES
+		<foreach collection="getUserList" item="loginName" separator=",">
+			(#{loginName},#{roleName})
+		</foreach>
+	</insert>
+
+	<delete id="deleteUserByRoleName">
+		DELETE * FROM acl_user_role WHERE
+	     company_id = #{companyId}
+		AND role_name=#{roleName}
+	</delete>
+
+	<delete id="deleteRolePermissionByRoleName">
+		DELETE FROM acl_role_permission
+		WHERE role_name=#{roleName}
+		and company_id=#{companyId}
+	</delete>
+
+	<update id="updateRole">
+		UPDATE acl_role SET role_name=#{roleName},description=#{description}
+		WHERE role_id=#{roleId} and company_id=#{companyId}
+	</update>
+
+	<delete id="deleteRolePermissionByPermToken">
+		DELETE FROM acl_role_permission
+		WHERE perm_token=#{permToken}
+		and company_id=#{companyId}
+	</delete>
+
+	<select id="getPermTokens" resultType="String">
+		SELECT perm_token FROM acl_role_permission WHERE role_name=#{roleName} and
+		company_id=#{companyId}
+	</select>
+
+	<insert id="addRoleOrgan">
+		INSERT INTO acl_role_organ (role_id, organ_id, company_id) VALUES
+		<foreach collection="organTokenList" item="organId" separator=",">
+			(#{roleId}, #{organId}, #{companyId})
+		</foreach>
+	</insert>
+
+	<delete id="deleteUserRole">
+		DELETE FROM acl_user_role WHERE role_name=#{roleName} and
+		company_id=#{companyId}
+	</delete>
+
+	<delete id="deleteRoleOrgan">
+		DELETE FROM acl_role_organ WHERE role_id=#{roleId} and
+		company_id=#{companyId}
+	</delete>
+
+	<select id="getRoleOrgan" resultType="com.threegrand.bison.security.model.OrganTreeNode">
+		SELECT a.id,a.name,a.pId,IF(b.organ_id IS NULL,'false','true')checked
+		FROM
+		(SELECT o.organ_id id,o.organ_name name,o.parent_id pId
+		FROM organ o WHERE o.company_id = #{companyId}) a
+		LEFT JOIN
+		(SELECT * FROM
+		acl_role_organ WHERE role_id=#{roleId}) b
+		ON a.id=b.organ_id
+	</select>
+	
+	<update id="updateUserRole">
+	UPDATE acl_user_role SET role_name=#{roleName}  WHERE role_name=#{oldRoleName} and company_id=#{companyId}
+	</update>
+	
+	<select id="getRoleByName" resultType="com.threegrand.bison.security.model.Role">
+	SELECT * FROM acl_role WHERE role_name=#{roleName} and company_id=#{companyId}
+	</select>
+	
+	<select id="getOrganIds"  resultType="string">
+	SELECT organ_id FROM acl_role_organ WHERE role_id=#{roleId} and company_id=#{companyId}
+	</select>
+</mapper>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.monitor.dao.AssetMonitorDao">
+
+    <select id="getAssetMonitorListPage" resultType="com.threegrand.bison.monitor.model.AssetMonitor">
+       select * from acl_assets
+       where  1=1
+        <if test="assetId!=''">and asset_id like  '%${assetId}%' </if>
+        <if test="assetName!=''">and asset_name like  '%${assetName}%' </if>
+        <if test="roleName!=''">and asset_role like '%${roleName}%' </if>
+        <if test="tagName!=''">and asset_tag like '%${tagName}%' </if>
+    </select>
+</mapper>

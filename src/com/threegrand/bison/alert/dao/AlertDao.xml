@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.alert.dao.AlertDao">
+	<select id="getAlertHistoryListPage" resultType="com.threegrand.bison.alert.model.Alert">
+		select * from acl_alert  where company_id = #{companyId}  AND organ_id in 
+		<foreach collection="organIdList" item="item" separator="," open="(" close=")">
+            ${item}
+        </foreach>
+		<if test="aDate !='' and aDate !=null ">and alert_data like '${aDate}%'</if>
+		<if test="alertClass !='' and alertClass !=null">and alert_class = #{alertClass}</if>
+		<if test="deviceId!='' and deviceId!=null">and device_id  like '${deviceId}%'</if>
+		<if test="organId!='' and organId!=null">and organ_id = #{organId}</if>
+		<if test="deviceName!='' and deviceName != null">and device_name like '%${deviceName}%'</if>
+		ORDER BY checked ASC, alert_data DESC
+	</select>
+
+	<select id="getUncheckedAlert" resultType="com.threegrand.bison.alert.model.Alert">
+		select alert_class from acl_alert WHERE checked=0 AND company_id =
+		#{companyId}
+	</select>
+	<select id="getAlertTrace" resultType="com.threegrand.bison.alert.model.Alert">
+		select * from acl_alert where id = #{id} AND company_id = #{companyId}
+	</select>
+	<update id="checkAlert" parameterType="com.threegrand.bison.alert.model.Alert">
+		update acl_alert set checked = 1 where id = #{id} AND company_id =
+		#{companyId};
+	</update>
+
+	<insert id="addAlert">
+		INSERT INTO acl_alert (device_id, device_name, device_class, device_version,
+		alert_data, alert_class, alert_level, alert_descripe, alert_x,
+		alert_y, alert_floor, alert_builder, checked, company_id,organ_id,organ_name) VALUES
+		(#{deviceId}, #{deviceName}, #{deviceClass}, #{deviceVersion},
+		#{alertData},#{alertClass},#{alertLevel},#{alertDescripe},#{alertX},
+		#{alertY}, #{alertFloor}, #{alertBuilder}, #{checked},#{companyId},#{organId},#{organName});
+	</insert>
+
+	<select id="getCompanyIdByAsset" resultType="com.threegrand.bison.assets.model.Asset">
+		SELECT company_id,organ_id,organ_name FROM acl_assets WHERE asset_id = #{deviceId} AND
+		asset_name = #{deviceName}
+	</select>
+
+	<select id="getCompanyIdByStaff" resultType="com.threegrand.bison.system.model.Staff">
+		SELECT company_id,organ_id,organ_name FROM staff WHERE id = #{deviceId} AND name = #{deviceName}
+	</select>
+
+	<delete id="deleteAlerts">
+		DELETE FROM acl_alert WHERE id IN
+		<foreach item="id" collection="ids" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+		AND company_id = #{companyId}
+	</delete>
+</mapper>

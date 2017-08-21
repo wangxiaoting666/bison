@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.system.dao.CompanyDao">
+
+    <update id="updateIndexTemplate">
+        UPDATE company
+        SET index_template = #{indexTemplate.templateId}
+        WHERE company_id = #{companyId}
+    </update>
+
+    <resultMap id="getCompanyResult" type="com.threegrand.bison.system.model.Company">
+        <result property="indexTemplate.templateId" column="index_template"/>
+    </resultMap>
+
+    <select id="getCompany" resultMap="getCompanyResult">
+        SELECT
+            *
+        FROM company
+        WHERE company_id = #{companyId}
+    </select>
+
+</mapper>

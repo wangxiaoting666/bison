@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.news.dao.NewsTypeDao">
+
+    <insert id="addNewsType">
+        INSERT INTO news_type (module_id,news_type_name,sequence,state) VALUES
+        (#{moduleId},#{newsTypeName},#{sequence},#{state})
+        <selectKey resultType="string" keyProperty="newsTypeId">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="updateNewsType">
+        UPDATE news_type SET news_type_name=#{newsTypeName},sequence=#{sequence},state=#{state}
+        WHERE news_type_id=#{newsTypeId}
+    </update>
+
+    <delete id="deleteNewsType">
+        delete from news_type where news_type_id=#{newsTypeId}
+    </delete>
+
+    <select id="getTypeList" resultType="com.threegrand.bison.news.model.NewsType">
+        SELECT * FROM news_type
+        <where>
+            <if test="moduleId!=null and moduleId !=''">
+                and module_id = #{moduleId}
+            </if>
+            <if test="state !=null and state !=''">
+                and state = #{state}
+            </if>
+        </where>
+    </select>
+
+    <select id="getTypeListPage" resultType="com.threegrand.bison.news.model.NewsType">
+        SELECT * FROM news_type
+        <where>
+            <if test="newsTypeName!=null and newsTypeName !=''">
+                and news_type_name = #{newsTypeName}
+            </if>
+            <if test="state !=null and state !=''">
+                and state = #{state}
+            </if>
+            <if test="moduleId!=null and moduleId !=''">
+                and module_id = #{moduleId}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryNewsType" resultType="com.threegrand.bison.news.model.NewsType">
+        select * from news_type where news_type_id=#{newsTypeId}
+    </select>
+
+</mapper>

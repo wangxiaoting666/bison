@@ -1,0 +1,528 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<%
+	String path = request.getRequestURI();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path;
+%>
+<base href="<%=basePath%>">
+
+<html lang="en">
+<!--<![endif]-->
+<head>
+<%@include file="../includes/head.jsp"%>
+<title>${menu.menuName}</title>
+<style>
+/* 弹出效果 */
+/* 弹出效果 */
+.toggle {
+	position: relative;
+}
+
+.toggle dl dt {
+	background: #FFFFFF url('../../img/organTree/add.png') no-repeat scroll
+		0px 0px;
+	background-position: center center;
+	height: 40px;
+	cursor: pointer;
+	display: block;
+	position: absolute;
+	bottom: 10px;
+}
+
+.toggle dl dt.current {
+	background: #FFFFFF url('../../img/organTree/minus.png') no-repeat
+		scroll 0px 0px;
+	background-position: center center;
+}
+
+.toggle dl dd {
+	line-height: 24px;
+}
+
+.toggle dl dd h2 {
+	background: #FFFFFF;
+	font-size: 15px;
+	border: 1px solid #f1efef;
+	text-align: center; /* width:260px; */
+	height: 40px;
+	line-height: 40px;
+	display: block;
+}
+/*弹出*/
+.po_phone_num {
+	display: none;
+	margin-left: 210px;
+	color: red;
+}
+
+.po_email {
+	display: none;
+	margin-left: 210px;
+	color: red;
+}
+
+.po_phone_num_r {
+	display: none;
+	margin-left: 210px;
+	color: red;
+}
+
+.po_email_r {
+	display: none;
+	margin-left: 210px;
+	color: red;
+}
+</style>
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/js/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/js/bower_components/ztree_v3/css/zTreeStyle/zTreeStyle.css"/>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/global/ztree_custom.css"/>" />
+<style>
+.ztree li span.button.icon03_ico_close {
+	margin-right: 2px;
+	background: url(../../img/organTree/school.png) no-repeat scroll 0 0
+		transparent;
+	vertical-align: top;
+	*vertical-align: middle
+}
+
+.ztree li span.button.icon03_ico_open {
+	margin-right: 2px;
+	background: url(../../img/organTree/school.png) no-repeat scroll 0 0
+		transparent;
+	vertical-align: top;
+	*vertical-align: middle
+}
+
+.ztree li span.button.icon01_ico_close {
+	margin-right: 2px;
+	background: url(../../img/organTree/dclose.png) no-repeat scroll 0 0
+		transparent;
+	vertical-align: top;
+	*vertical-align: middle
+}
+
+.ztree li span.button.icon01_ico_open {
+	margin-right: 2px;
+	background: url(../../img/organTree/dopen.png) no-repeat scroll 0 0
+		transparent;
+	vertical-align: top;
+	*vertical-align: middle
+}
+
+.ztree li span.button.icon01_ico_docu {
+	margin-right: 2px;
+	background: url(../../img/organTree/dclose.png) no-repeat scroll 0 0
+		transparent;
+	vertical-align: top;
+	*vertical-align: middle
+}
+
+.ztree li span.button.icon02_ico_docu {
+	margin-right: 2px;
+	background: url(../../img/organTree/people.png) no-repeat scroll 0 0
+		transparent;
+	vertical-align: top;
+	*vertical-align: middle
+}
+
+.ztree li span.button.icon04_ico_docu {
+	margin-right: 2px;
+	background: url(../../img/organTree/women.png) no-repeat scroll 0 0
+		transparent;
+	vertical-align: top;
+	*vertical-align: middle
+}
+
+#organSelectList1 {
+	width: 80%;
+	height: 80%;
+	float: right;
+}
+
+#organSelectList1 option {
+	width: 100%;
+	line-height: 20px;
+	font-size: 14px;
+	padding-left: 10%;
+}
+
+#search_result {
+	width: 131px;
+	position: absolute;
+	left: 5px;
+	top: 40px;
+	z-index: 1;
+	overflow: hidden;
+	background: #dcf6f8;
+	border: #c5dadb 1px solid;
+	border-top: none;
+}
+
+.line {
+	font-size: 12px;
+	color: #000;
+	background: #ffffff;
+	width: 302px;
+	padding: 2px;
+}
+
+.hover {
+	background: #007ab8;
+	color: #fff;
+}
+</style>
+</head>
+<body class="page-header-fixed page-quick-sidebar-over-content">
+	<%@include file="../includes/top.jsp"%>
+	<div class="page-container">
+		<%@include file="../includes/sidebar.jsp"%>
+		<div class="page-content-wrapper">
+			<div class="page-content">
+				<%@include file="../includes/current.jsp"%>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="portlet">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="${menu.icon}"></i>${menu.menuName}
+								</div>
+								<div class="actions">
+									<a href="javascript:;" class="btn default yellow-stripe"
+										id="treeReload"><i class="fa fa-refresh"></i><span
+										class="hidden-480" id="reload"> 重新载入</span></a>
+								</div>
+							</div>
+							<!-- 树形菜单开始 -->
+							<div class="portlet-body">
+
+								<!-- 左侧按钮 -->
+								<div class="ztree col-md-3  col-sm-4 col-xs-12"
+									style="background: #f7f7f7; padding-top: 10px; height:465px;">
+									<!-- 搜索按钮 -->
+									<div class="row">
+										<div class="input-group  col-md-12 ">
+											<input type="text" id="search" class="form-control "
+												id="newName" name="newName"> <span
+												class="input-group-addon btn btn-primary" id="doSearch"
+												style="background: #eaeaea;"><i id="doSearch"
+												class="fa fa-search"></i></span>
+										</div>
+									</div>
+
+
+									<div id="search_result" class=" "></div>
+
+									<ul id="organTree" class="ztree"
+										style=" overflow-y: auto;  overflow-x: hidden;  "></ul>
+									<div class="content col-md-12">
+										<div class="toggle">
+											<dl>
+												<shiro:hasPermission name="fansai:organAdd:open">
+													<dt class=" col-md-12   col-sm-12 col-xs-12"></dt>
+												</shiro:hasPermission>
+												<dd class=" col-md-12   col-sm-12 col-xs-12">
+													<h2 id="addChildOrgan">新建部门</h2>
+													<h2 id="toUpdateBtn">新建员工</h2>
+												</dd>
+												<div  id="Hiden" style="width: 100px; height: 131px;"></div>
+
+											</dl>
+										</div>
+									</div>
+
+								</div>
+								<!-- 右侧的信息 -->
+								<div class="col-md-9  col-sm-8 col-xs-12" id="baseinform">
+
+									<div class="col-md-2 "></div>
+									<div class="col-md-7 ">
+										<form class="form-horizontal">
+											<div class="form-group">
+												<div class="col-sm-4 control-label"
+													style="padding-top: 0px;">
+													<label style="font-size: 17px;"></label>
+												</div>
+												<div class="col-sm-8">
+													<label style="font-size: 17px;"></label>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-4 control-label"
+													style="padding-top: 0px;">
+													<label style="font-size: 17px;">单位名称：</label>
+												</div>
+												<div class="col-sm-8">
+													<label style="font-size: 17px;">${companyInfo.companyName }</label>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-4 control-label"
+													style="padding-top: 0px;">
+													<label style="font-size: 17px;">单位地址：</label>
+												</div>
+												<div class="col-sm-8">
+													<label style="font-size: 17px;">${companyInfo.companySite }</label>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-4 control-label"
+													style="padding-top: 0px;">
+													<label style="font-size: 17px;">联系人：</label>
+												</div>
+												<div class="col-sm-8">
+													<label style="font-size: 17px;">${companyInfo.companyLinker }</label>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-4 control-label"
+													style="padding-top: 0px;">
+													<label style="font-size: 17px;">联系电话：</label>
+												</div>
+												<div class="col-sm-8">
+													<label style="font-size: 17px;">${companyInfo.companyLinkMethod }</label>
+												</div>
+											</div>
+										</form>
+									</div>
+
+								</div>
+
+								<div class="col-md-9  col-sm-8 col-xs-12"
+									style="padding-top: 10px; display: none;" id="moreinform">
+
+									<div class="white_content  col-md-12">
+										<form role="form" class="form-horizontal">
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="name" id="organ"></label>
+												<div class="col-sm-8">
+													<input type="text" class="form-control" id="name"
+														placeholder="华东师范大学"></input>
+												</div>
+											</div>
+											<input type="text" id="organId" hidden="true" />
+
+											<div id="po" class="form-group">
+												<label class="col-sm-2 control-label" for=""
+													id="sorgan"></label>
+												<div class="col-sm-8">
+													<select id="parentOrgan" class="form-control">
+														<option value="">请选择</option>
+														<c:forEach var="organ" items="${organList}">
+															<option value="${organ.organId}">${organ.organName}</option>
+														</c:forEach>
+													</select>
+												</div>
+											</div>
+
+											<div class="form-group" id="sex">
+												<label class="col-sm-2 control-label" for="">性别：</label>
+												<div class="col-sm-8">
+													<select id="profession" class="form-control">
+														<option value="男">男</option>
+														<option value="女">女</option>
+													</select>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="tel"
+													id="partaddress"></label>
+												<div class="col-sm-8">
+													<input type="text" class="form-control" id="diz"
+														placeholder="中山院校园北路"></input>
+												</div>
+											</div>
+											<div class="form-group" id="Partman">
+												<label class="col-sm-2 control-label" for="tel" id="partman"></label>
+												<div class="col-sm-8">
+													<input type="text" class="form-control" id="manage"
+														placeholder="陈群"></input>
+												</div>
+											</div>
+
+											<div class="form-group" id="Email">
+												<label class="col-sm-2 control-label" for="tel" id="Email01">邮箱</label>
+												<div class="col-sm-8">
+													<input type="text" class="form-control" id="Email02"
+														placeholder=""></input>
+												</div>
+												<div class="po_email_r">邮箱格式有误</div>
+											</div>
+
+											<div class="form-group">
+												<label class="col-sm-2 control-label" for="tel" id="parttel"></label>
+												<div class="col-sm-8">
+													<input type="text" class="form-control" id="tel"></input>
+												</div>
+												<div class="po_phone_num_r">手机格式有误</div>
+											</div>
+
+											<shiro:hasPermission name="fansai:organUpdate:open">
+												<div class="form-group">
+													<div class="col-sm-2 col-sm-offset-2">
+														<shiro:hasPermission name="fansai:organUpdate:open">
+															<a href="javascript:;" id="keep" class="btn blue">保存</a>
+														</shiro:hasPermission>
+													</div>
+												</div>
+											</shiro:hasPermission>
+										</form>
+
+									</div>
+								</div>
+								<!--右侧的信息结束 -->
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 点击右键，弹出新建部门 -->
+	<div class="dropdown open" id="treeContextMenu"
+		style="display: none; position: absolute">
+		<ul class="dropdown-menu">
+			<li><a href="#" id="deleteBtn" data-target="#confirmDialog"
+				data-toggle="modal">删除</a></li>
+		</ul>
+	</div>
+
+
+	<!--弹出对话框 -->
+	<div class="modal fade bs-modal-lg" id="modalDialog" tabindex="-1"
+		data-keyboard="false" aria-hidden="true" data-backdrop="static">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content" id="modalContent">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true"></button>
+					<h4 class="modal-title" id="modalTitle"></h4>
+				</div>
+
+				<form id="dialogForm" class="form-horizontal">
+					<div class="form-body">
+						<div class="row">
+							<div class="col-md-8 col-sm-6 col-xs-12">
+								<div class="white_content  col-md-12">
+
+									<div class="form-group">
+										<label class="col-sm-4 control-label" for="name" id="care"><span
+																	class="required"> * </span></label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="organName"
+												placeholder=""></input>
+										</div>
+									</div>
+
+									<div class="form-group" id="Sex">
+										<label class="col-sm-4 control-label" for="">性别</label>
+										<div class="col-sm-8">
+											<select id="profession1" class="form-control">
+												<option value="">请选择</option>
+												<option value="男">男</option>
+												<option value="女">女</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-sm-4 control-label" for=""
+											id="partment"></label>
+										<div class="col-sm-8">
+											<select id="parentId" class="form-control">
+												<option value="">请选择</option>
+												<c:forEach var="organ" items="${organList}">
+													<option value="${organ.organId}">${organ.organName}</option>
+												</c:forEach>
+											</select>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-sm-4 control-label" for="tel" id="adress"></label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="address"
+												placeholder=""></input>
+										</div>
+									</div>
+									<div class="form-group" id="email">
+										<label class="col-sm-4 control-label" for="tel">邮箱</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="email1"
+												placeholder=""></input>
+										</div>
+										<div class="po_email">邮箱格式有误</div>
+
+									</div>
+
+									<div class="form-group">
+										<label class="col-sm-4 control-label" for="tel" id="mangent"></label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="manager"
+												placeholder=""></input>
+										</div>
+
+
+									</div>
+									<div class="form-group">
+										<label class="col-sm-4 control-label" for="tel" id="phonetel"></label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="phone"
+												placeholder=""></input>
+										</div>
+										<div class="po_phone_num">手机格式有误</div>
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</form>
+
+				<div class="modal-footer">
+					<button type="button" class="btn default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn blue" id="addBtn">保存</button>
+					<button type="button" class="btn blue" id="updateBtn">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<%@include file="../includes/footer.jsp"%>
+	<jsp:include page="../includes/confirmdiv.jsp">
+		<jsp:param name="dialogContent"
+			value="确认删除当前部门或人员？（若当前部门包含子部门，其下所有部门将被删除！）" />
+	</jsp:include>
+	<%@include file="../includes/bottomscript.jsp"%>
+	<script type="text/javascript"
+		src="<c:url value="/js/bower_components/DataTables/media/js/jquery.dataTables.min.js"/>"></script>
+	<script type="text/javascript"
+		src="<c:url value="/js/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"/>"></script>
+	<script type="text/javascript"
+		src="<c:url value="/js/bower_components/ztree_v3/js/jquery.ztree.core-3.5.min.js"/>"></script>
+	<script type="text/javascript"
+		src="<c:url value="/js/bower_components/ztree_v3/js/jquery.ztree.exedit-3.5.min.js"/>"></script>
+	<script type="text/javascript"
+		src="<c:url value="/js/bower_components/ztree_v3/js/jquery.ztree.excheck-3.5.min.js"/>"></script>
+	<script src="<c:url value="/js/system/organ.js"/>"></script>
+	<!-- <script type="text/javascript" src="/js/bower_components/ztree_v3/js/jquery.ztree.all-3.5.min.js"></script>   -->
+	<script type="text/javascript">
+		$(function() {
+			organTree.init();
+		});
+	</script>
+</body>
+</html>

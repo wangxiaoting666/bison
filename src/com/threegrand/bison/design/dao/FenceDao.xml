@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.design.dao.FenceDao">
+
+		<update id="updateFence">
+			UPDATE acl_assets SET fence_num = #{fenceId} WHERE asset_id IN
+			<foreach collection="ids" index="index" item="item" open="(" separator="," close=")" >
+				#{item}
+			</foreach>
+			AND company_id = #{companyId}
+		</update>
+		
+		<update id="deleteFence">
+		UPDATE acl_assets SET fence_num = "" WHERE fence_num = #{fenceId} AND company_id = #{companyId}
+		</update>
+</mapper>

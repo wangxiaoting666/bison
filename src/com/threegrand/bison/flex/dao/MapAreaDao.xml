@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.flex.dao.MapAreaDao">
+
+
+
+	<resultMap id="MapAreaMap"
+		type="com.threegrand.bison.flex.entity.MapAreaVO">
+		<result column="area_id" property="areaId" jdbcType="DECIMAL" />
+		<result column="pic_id" property="picId" jdbcType="DECIMAL" />
+		<result column="area_name" property="areaName"
+			jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime"
+			jdbcType="DATE" />
+	</resultMap>
+	<select id="find" resultMap="MapAreaMap">
+		select area_id,pic_id,area_name,create_time from map_area
+	</select>
+	
+	<select id="findAreaByPicId" resultMap="MapAreaMap" parameterType="java.util.Map">
+		select area_id,pic_id,area_name,create_time from map_area
+		where pic_id = #{picId}
+	</select>
+	
+	<delete id="deleteAreaByAreaId"  parameterType="java.util.Map">
+		delete from map_area where area_id=#{areaId}
+	</delete>
+	<insert id="doAdd"  parameterType="com.threegrand.bison.flex.entity.MapAreaVO" keyProperty="areaId"  >
+		insert into map_area (pic_id,
+			area_name,
+			create_time
+			)
+			 values (#{picId,jdbcType=DECIMAL},
+			#{areaName,jdbcType=VARCHAR},
+			#{createTime,jdbcType=TIMESTAMP}) ;
+			  <selectKey resultType="java.lang.Long" keyProperty="areaId">  
+        			select last_insert_id() as areaId from map_area limit 1  
+    		</selectKey>
+	</insert>
+</mapper>

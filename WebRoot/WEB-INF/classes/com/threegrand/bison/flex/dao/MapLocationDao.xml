@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.flex.dao.MapLocationDao">
+	<resultMap id="MapLocationMap"
+		type="com.threegrand.bison.flex.entity.MapLocationVO">
+		<result column="location_id" property="locationId"
+			jdbcType="DECIMAL" />
+		<result column="area_id" property="areaId" jdbcType="DECIMAL" />
+		<result column="x" property="x" jdbcType="VARCHAR" />
+		<result column="y" property="y" jdbcType="VARCHAR" />
+		<result column="sortnum" property="sortnum" jdbcType="DECIMAL" />
+		<result column="create_time" property="createTime"
+			jdbcType="DATE" />
+	</resultMap>
+	<select id="find" resultMap="MapLocationMap">
+		select location_id,area_id,x,y,sortnum，create_time from map_location
+	</select>
+	<select id="findLocationByAreaId" resultMap="MapLocationMap" parameterType="java.util.Map">
+		select location_id,area_id,x,y,create_time,m.sortnum from map_location m
+		where area_id=  #{areaid}  order by sortnum asc
+	</select>
+	
+	<delete id="deleteMapLocationByAreaId" parameterType="java.util.Map">
+		delete from map_location where area_id=#{areaId}
+	</delete>
+	
+	
+	<insert id="doAdd"  parameterType="com.threegrand.bison.flex.entity.MapLocationVO" keyProperty="location_id">
+		insert into map_location (
+			area_id,
+			x,
+			y,
+			sortnum,
+			create_time
+			)
+			 values (#{areaId,jdbcType=DECIMAL},
+			#{x,jdbcType=VARCHAR},
+			#{y,jdbcType=VARCHAR},
+			#{sortnum,jdbcType=DECIMAL},
+			#{createTime,jdbcType=TIMESTAMP}
+			)
+	</insert>
+</mapper>

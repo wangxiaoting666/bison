@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.deviceManage.dao.DeviceUpdateManageDao">
+
+    <select id="findDeviceListPage" resultType="com.threegrand.bison.deviceManage.model.DeviceUpdateManage">
+        select * from mote_device_manage
+        <where>
+            1=1
+            <if test="applicationServerIp!=null and applicationServerIp !=''">
+                and application_server_ip like CONCAT('%',#{applicationServerIp},'%')
+            </if>
+            <if test="userid!=null and userid !=''">
+                and user_id like CONCAT('%',#{userid},'%')
+            </if>
+            <if test="positionServerIp!=null and positionServerIp !=''">
+                and position_server_ip like CONCAT('%',#{positionServerIp},'%')
+            </if>
+            <if test="queryFirmwareList!=null and queryFirmwareList !=''">
+
+                <foreach item="item" collection="queryFirmwareList" separator="or" open="and (" close=")" index="index">
+                    (major_ver=${item.majorVer} AND minor_ver=${item.minorVer} AND revison_ver=${item.revisonVer})
+                </foreach>
+
+            </if>
+            <if test="hwVerList!=null and hwVerList !=''">
+
+                <foreach item="item" collection="hwVerList" separator="or" open="and (" close=")" index="index">
+                    hw_ver = '${item}'
+                </foreach>
+            </if>
+            <if test="apVerList!=null and apVerList !=''">
+                <foreach item="item" collection="apVerList" separator="or" open="and (" close=")" index="index">
+                    ap_ver = '${item}'
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <update id="updateDevice" parameterType="com.threegrand.bison.deviceManage.model.DeviceUpdateManage">
+		update mote_device_manage set major_ver=#{majorVer},minor_ver=#{minorVer},revison_ver=#{revisonVer},hw_ver=#{hwVer},ap_ver=#{apVer},chip_id=#{chipid},flash_id=#{flashid},flash_size=#{flashsize},flash_mode=#{flashmode},flash_speed=#{flashspeed} where id=#{id}
+	</update>
+
+    <insert id="insertDevice" parameterType="com.threegrand.bison.deviceManage.model.DeviceUpdateManage">
+		insert into mote_device_manage(major_ver,minor_ver,revison_ver,hw_ver,ap_ver,chip_id,flash_id,flash_size,flash_mode,flash_speed) values
+		(#{majorVer},#{minorVer},#{revisonVer},#{hwVer},#{apVer},#{chipid},#{flashid},#{flashsize},#{flashmode},#{flashspeed})
+	</insert>
+
+    <update id="editDevice" parameterType="com.threegrand.bison.deviceManage.model.DeviceUpdateManage">
+        update mote_device_manage set application_server_ip=#{applicationServerIp},position_server_ip=#{positionServerIp} where user_id=#{userid}
+    </update>
+
+    <select id="findHardwareVer" resultType="com.threegrand.bison.deviceManage.model.DeviceUpdateManage">
+		SELECT DISTINCT(hw_ver) FROM mote_device_manage ORDER by hw_ver
+	</select>
+
+    <update id="updateVersion" parameterType="com.threegrand.bison.deviceManage.model.DeviceUpdateManage">
+        update mote_device_manage
+        <set>
+            <if test="majorVer!=null and majorVer !=''">
+                major_ver = #{majorVer},
+            </if>
+            <if test="minorVer!=null and minorVer !=''">
+                minor_ver = #{minorVer},
+            </if>
+            <if test="revisonVer!=null and revisonVer !=''">
+                revison_ver = #{revisonVer},
+            </if>
+            <if test="apVer!=null and apVer !=''">
+                ap_ver = #{apVer},
+            </if>
+        </set>
+        where user_id = #{userid}
+    </update>
+    <select id="getDeviceByUserId" parameterType="java.lang.String" resultType="com.threegrand.bison.deviceManage.model.DeviceUpdateManage">
+    	select * from mote_device_manage where user_id=#{userid}
+    </select>
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.design.dao.NodeDao">
+
+    <insert id="addNode">
+    	insert into node (id,pid,name,parentId)values(#{id},#{pId},#{name},#{parentId})
+    </insert>
+    
+    <delete id="delNode">
+    	delete from node where id = #{id}
+    </delete>
+    
+    <select id="selectNode" resultType="com.threegrand.bison.design.model.Node">
+    	select * from node
+    </select>
+    
+    <update id="updateNode">
+    	update node set name = #{name} where id=#{id}
+    </update>
+</mapper>

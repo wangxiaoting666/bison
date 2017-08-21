@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.design.dao.NewsParamDao">
+
+    <resultMap id="getNewsParamListPageResult" type="com.threegrand.bison.design.model.NewsParam">
+        <result property="newsParamId" column="news_param_id"/>
+        <result property="module.moduleId" column="module_id"/>
+        <result property="module.moduleName" column="module_name"/>
+    </resultMap>
+
+    <select id="getNewsParamListPage" resultMap="getNewsParamListPageResult">
+        SELECT b.module_name,a.*
+        FROM news_param a,module b
+        where a.module_id=b.module_id
+        <if test="paramName!=null and paramName !=''">
+            and param_name = #{paramName}
+        </if>
+        <if test="description!=null and description !=''">
+            and description like CONCAT('%',#{description},'%')
+        </if>
+        <if test="paramType!=null and paramType !=''">
+            and param_type like CONCAT('%',#{paramType},'%')
+        </if>
+    </select>
+
+    <insert id="addNewsParam">
+        INSERT INTO news_param (module_id,param_name,param_type,description) VALUES
+        (#{moduleId},#{paramName},#{paramType},#{description})
+        <selectKey resultType="string" keyProperty="newsParamId">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="updateNewsParam">
+        update news_param set module_id=#{moduleId},
+        param_name=#{paramName},description=#{description},param_type=#{paramType}
+        where news_param_id=#{newsParamId}
+    </update>
+
+    <delete id="deleteNewsParam">
+        delete from news_param where news_param_id=#{newsParamId}
+    </delete>
+
+    <select id="getNewsParamByParamName" resultType="com.threegrand.bison.design.model.NewsParam">
+        select * from news_param where param_name=#{paramName}
+    </select>
+
+    <select id="getNewsParam" resultType="com.threegrand.bison.design.model.NewsParam">
+        select * from news_param where news_param_id=#{newsParamId}
+    </select>
+
+    <select id="getNewsParamList" resultType="com.threegrand.bison.design.model.NewsParam">
+        SELECT * FROM news_param
+        WHERE module_id= #{moduleId}
+    </select>
+
+</mapper>

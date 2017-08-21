@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.assets.dao.AssetDao">
+
+
+	<select id="getAssetListPage" resultType="com.threegrand.bison.assets.model.Asset">
+		select * from acl_assets s where company_id = #{companyId}
+		<if test="assetName !='' and assetName !=null "> and s.asset_name like '%${assetName}%'</if>
+		<if test="classId !='' and classId !=null"> and s.class_id = #{classId}</if>
+		<if test="organId!='' and organId!=null">and s.organ_id = #{organId}</if>
+		<if test="user!='' and user != null">and s.user like '%${user}%'</if>
+	</select>
+
+	<select id="getOneClassify" resultType="com.threegrand.bison.assets.model.Classify">
+		SELECT class_id
+		classId,class_name className,pid pId FROM acl_asset_classify
+		WHERE pid
+		= '0'
+	</select>
+
+	<select id="getTwoClassify" resultType="com.threegrand.bison.assets.model.Classify">
+		SELECT class_id
+		classId,class_name className,pid pId FROM acl_asset_classify
+		WHERE pid
+		!= '0'
+	</select>
+
+	<select id="getAssetsByAssetName" resultType="com.threegrand.bison.assets.model.Asset">
+		SELECT id FROM
+		acl_assets WHERE asset_name = #{name} AND company_id =
+		#{companyId}
+	</select>
+
+	<insert id="addAsset">
+		INSERT INTO acl_assets (
+		asset_id, asset_name,
+		class_id, class_name,abbreviation, version, organ_id,
+		grade,
+		x, y,
+		init_floor, init_building, factory_name, buy_price, buy_date,
+		agency,
+		agency_phone, person, user, user_phone,
+		remark,fence_num,company_id,organ_name)
+		VALUES
+		(#{assetId},#{assetName}, #{classId},#{className}, #{abbreviation},
+		#{version}, #{organId}, #{grade}, #{x}, #{y},#{initFloor},
+		#{initBuilding}, #{factoryName}, #{buyPrice},#{buyDate}, #{agency},
+		#{agencyPhone}, #{person}, #{user},#{userPhone},
+		#{remark},#{fenceNum},#{companyId},#{organName});
+	</insert>
+
+	<delete id="deleteAsset">
+		DELETE FROM acl_assets WHERE id=#{id} AND company_id
+		= #{companyId}
+	</delete>
+
+	<select id="getAsset" resultType="com.threegrand.bison.assets.model.Asset">
+		SELECT * FROM acl_assets WHERE
+		id=#{id} AND company_id = #{companyId}
+	</select>
+
+	<update id="updateAsset">
+		UPDATE acl_assets SET asset_id=#{assetId},
+		asset_name=#{assetName},
+		class_id= #{classId}, class_name=
+		#{className},abbreviation=#{abbreviation},
+		version=#{version},
+		organ_id=#{organId}, organ_name=#{organName}, grade=#{grade}, x=#{x},
+		y= #{y}, init_floor=#{initFloor}, init_building=#{initBuilding},
+		factory_name= #{factoryName}, buy_price=#{buyPrice},
+		buy_date=#{buyDate}, agency=#{agency}, agency_phone=#{agencyPhone},
+		person= #{person}, user= #{user}, user_phone=#{userPhone},
+		remark=#{remark}, fence_num=#{fenceNum} WHERE id=#{id};
+	</update>
+
+	<select id="getAssetById" resultType="com.threegrand.bison.assets.model.Asset">
+		SELECT * FROM acl_assets
+		WHERE asset_id=#{assetId} AND company_id =
+		#{companyId}
+	</select>
+	
+	<select id="getAssetLikeName" resultType="com.threegrand.bison.assets.model.Asset">
+	    SELECT * FROM acl_assets
+	    WHERE asset_name LIKE '%${key}%' 
+	    AND company_id = #{companyId}
+	</select>
+	
+	<select id="queryAssetByLikeName" resultType="com.threegrand.bison.assets.model.Asset">
+	   SELECT asset_id, asset_name, organ_name FROM acl_assets WHERE asset_name LIKE '%${name}%' AND company_id = #{companyId}
+	</select>
+	
+	<select id="queryAssetByNameAndOrgan" resultType="com.threegrand.bison.assets.model.Asset">
+	   SELECT asset_id, asset_name, organ_name FROM acl_assets WHERE asset_name LIKE '%${assetName}%' AND company_id = #{companyId} AND organ_name = #{organName} 
+	</select>
+    
+    <select id="getSysValue" resultType="String">
+       SELECT sys_param_value FROM sys_param WHERE sys_param_name = #{val} AND company_id = #{companyId}
+    </select>
+    
+</mapper>

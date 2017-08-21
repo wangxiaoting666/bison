@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.flex.dao.BleLogDao">
+	<resultMap id="BleLogMapMap" type="com.threegrand.bison.flex.entity.BleLogVO">
+		<result column="userid" property="userid" jdbcType="DECIMAL" />
+		<result column="code" property="code" jdbcType="DECIMAL" />
+		<result column="describ" property="describ" jdbcType="VARCHAR" />
+		<result column="bid" property="bid" jdbcType="DECIMAL" />
+		<result column="levelid" property="levelid" jdbcType="DECIMAL" />
+		<result column="x" property="x" jdbcType="VARCHAR" />
+		<result column="y" property="y" jdbcType="VARCHAR" />
+		<result column="time" property="time" jdbcType="VARCHAR" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="UserDtoMap" type="com.threegrand.bison.flex.dto.UserDto">
+		<id column="USR_ID" property="usrId" jdbcType="DECIMAL" />
+		<result column="USR_LOGINNAME" property="usrLoginname"
+			jdbcType="VARCHAR" />
+		<result column="USR_NAME" property="usrName" jdbcType="VARCHAR" />
+		<result column="DEVICE_ID" property="deviceId" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="findDto" resultMap="UserDtoMap" >
+		select s.USR_NAME as USR_NAME, b.userid as DEVICE_ID 
+		from S_USER s ,ble_user  b  where s.USR_ID = b.suserid
+	</select>
+	
+	<sql id="searchWhere">
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="userid!=null and userid!=''">
+				userid = #{userid}
+			</if>
+			<if test="startTime!=null and startTime!=''">
+				and time <![CDATA[ >=]]> #{startTime}
+			</if>
+			<if test="endTime!=null and endTime!=''">
+				and time <![CDATA[ <=]]> #{endTime}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="searchHistory" resultMap="BleLogMapMap" parameterType="java.util.Map">
+		select userid,code,describ,bid,levelid,x,y,time from BLE_LOG bl
+		<include refid="searchWhere" /> order by time asc
+	</select>
+
+	<select id="find" resultMap="BleLogMapMap">
+		select b.userid,b.code,b.describ,b.bid,b.levelid,b.x,b.y,b.time, s.USR_NAME as userName 
+		from s_user s right join 
+		(
+		select a.userid,a.code,a.describ,a.bid,a.levelid,a.x,a.y,a.time,ble_user.suserid from (select
+				userid,code,describ,bid,levelid,x,y,time from BLE_LOG order by
+				time desc) a left join ble_user on a.userid = ble_user.userid group by a.userid
+		    ) b  on s.USR_ID = b.suserid 
+	</select>
+
+</mapper>

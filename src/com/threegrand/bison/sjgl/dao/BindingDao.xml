@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.sjgl.dao.BindingDao">
+
+
+
+    <select id="getBindingUserListPage" resultType="com.threegrand.bison.sjgl.model.Binding">
+        SELECT * from userinfo
+        where 1=1
+        <if test="username!=null and ''!=username">and username=#{username}</if>
+        <if test="userRole!=null and ''!=userRole">and userRole=#{userRole}</if>
+        <if test="userTag!=null and ''!=userTag">and userTag=#{userTag}</if>
+        <if test="userId!=null and ''!=userId">and userId=#{userId}</if>
+
+
+    </select>
+
+    <select id="findbduser" resultType="com.threegrand.bison.sjgl.model.Binding">
+        SELECT * from userinfo
+        where 1=1
+        and userId=#{userId}
+    </select>
+
+
+    <update id="addBindingUser">
+        UPDATE acl_bracelet SET
+        STATUS="绑定",
+        bindType=#{bindType},
+        bindObjmc=#{bindObjmc},
+        bindObj=#{bindObj}
+        WHERE braceletId=#{braceletId}
+    </update>
+
+
+
+    <insert id="addBindingUserBf">
+
+        INSERT INTO UserAssetinfo VALUES(
+        #{braceletId}
+        <if test="userId!=null">,#{userId}</if>
+        <if test="assetId!=null">,#{assetId}</if>
+
+        )
+
+    </insert>
+
+
+
+    <select id="getBindingAsset" resultType="com.threegrand.bison.sjgl.model.Binding">
+        SELECT * from assetinfo
+        where 1=1
+        <if test="assetName!=null">and assetName={assetName}</if>
+        <if test="assetRole!=null">and assetRole={assetRole}</if>
+        <if test="assetTag!=null">and assetTag={assetTag}</if>
+        <if test="assetId!=null">and assetId={assetId}</if>
+
+
+    </select>
+
+
+    <update id="deleteBindingInfo">
+        UPDATE acl_bracelet SET
+        STATUS=NULL,
+        bindType=NULL,
+        bindObj=NULL,
+        bindObjmc=NULL
+        WHERE braceletId=#{braceletId}
+    </update>
+
+
+    <delete id="deleteUserAssetinfo">
+        DELETE FROM UserAssetinfo
+        WHERE id=#{id}
+    </delete>
+
+
+
+    <insert id="addRz">
+        INSERT INTO braceletRz(XGSJ,userId,username,bindObj) VALUES(
+        #{xgsj}
+        <if test="userId!=null">,#{userId}</if>
+        <if test="username!=null">,#{username}</if>
+        <if test="bindObj!=null">,#{bindObj}</if>
+        )
+
+    </insert>
+
+    <select id="getBraceletListByIds" resultType="com.threegrand.bison.sjgl.model.Bracelet">
+
+        SELECT * FROM acl_bracelet
+        where 1=1
+        <if test="ids!=null and ''!=ids">and braceletId in (${ids})</if>
+
+    </select>
+
+
+
+</mapper>

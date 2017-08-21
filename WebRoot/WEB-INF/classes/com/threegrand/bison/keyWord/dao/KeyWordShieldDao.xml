@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.keyWord.dao.KeyWordShieldDao">
+    <select id="getKeyWordListPage" resultType="com.threegrand.bison.keyWord.model.KeyWordShield">
+        SELECT * FROM key_word_shield WHERE 1=1
+        <if test="companyId!=null and companyId !=''">
+            and company_id=#{companyId}
+        </if>
+    </select>
+
+    <select id="getKeyWordShieldByKeyWord" resultType="com.threegrand.bison.keyWord.model.KeyWordShield">
+        SELECT *FROM key_word_shield WHERE key_word=#{keyWord}
+    </select>
+
+    <select id="getKeyWordShieldById" resultType="com.threegrand.bison.keyWord.model.KeyWordShield">
+        SELECT * FROM key_word_shield WHERE key_word_shield_id=#{keyWordShieldId}
+    </select>
+
+    <insert id="addKeyWord">
+        INSERT INTO key_word_shield (company_id,key_word,replace_word) VALUES (#{companyId},#{keyWord},#{replaceWord}
+        <selectKey resultType="string" keyProperty="keyWordShieldId">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        )
+    </insert>
+
+    <update id="updateKeyWord">
+        UPDATE key_word_shield SET company_id=#{companyId},key_word=#{keyWord}, replace_word=#{replaceWord} WHERE
+        key_word_shield_id=#{keyWordShieldId}
+    </update>
+
+    <delete id="deleteKeyWord">
+        DELETE FROM key_word_shield WHERE key_word_shield_id=#{keyWordShield}
+    </delete>
+
+</mapper>

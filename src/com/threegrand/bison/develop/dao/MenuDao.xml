@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.develop.dao.MenuDao">
+    <insert id="addMenu">
+        INSERT INTO acl_menu(menu_name,icon,url,perm_token,parent_id,level,leaf,sequence,memo,enable) VALUES (
+        #{menuName},#{icon},#{url},#{permToken},#{parentId},#{level},#{leaf},#{sequence},#{memo},#{enable}
+        <selectKey resultType="string" keyProperty="menuId">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        )
+    </insert>
+
+    <update id="updateMenu">
+        UPDATE acl_menu SET menu_name=#{menuName},icon=#{icon},url=#{url},perm_token=#{permToken},parent_id=#{parentId},
+        level=#{level},leaf=#{leaf},sequence=#{sequence},memo=#{memo},enable=#{enable}
+        WHERE menu_id=#{menuId}
+    </update>
+    <update id="updateMenuOrder">
+        UPDATE acl_menu SET parent_id=#{parentId},level=#{level},leaf=#{leaf},sequence=#{sequence},enable=#{enable}
+        WHERE menu_id=#{menuId}
+    </update>
+    <delete id="deleteMenu">
+        DELETE FROM acl_menu WHERE menu_id=#{menuId}
+    </delete>
+    <delete id="deleteMenuByPermToken">
+        DELETE FROM acl_menu WHERE perm_token=#{permToken}
+    </delete>
+    <delete id="deleteMenuByParentId">
+        DELETE FROM acl_menu WHERE parent_id=#{parentId}
+    </delete>
+
+    <select id="getMenuListByLevel" resultType="com.threegrand.bison.develop.model.Menu">
+        SELECT * FROM acl_menu m WHERE m.level=#{level} AND m.enable=1
+        ORDER BY m.sequence
+    </select>
+
+    <select id="getMenuTreeList" resultType="map">
+        SELECT m.menu_id id,m.menu_name name,m.parent_id pId,m.url menuUrl,
+        m.icon menuIcon,m.perm_token permToken,m.memo,m.enable checked,m.sequence sequence
+        FROM acl_menu m
+        ORDER BY m.sequence
+    </select>
+
+    <select id="getMenuList" resultType="com.threegrand.bison.develop.model.Menu">
+        SELECT * FROM acl_menu
+    </select>
+
+    <select id="getMenu" resultType="com.threegrand.bison.develop.model.Menu">
+        SELECT * FROM acl_menu WHERE menu_id=#{menuId}
+    </select>
+
+    <select id="getNewsMenu" resultType="com.threegrand.bison.develop.model.Menu">
+        select * from acl_menu where menu_name='根节点' and level='0'
+    </select>
+    <select id="getMenusByPermToken" resultType="com.threegrand.bison.develop.model.Menu">
+        SELECT * FROM acl_menu WHERE perm_token =#{permToken}
+    </select>
+    <select id="getMenuByMenuName" resultType="com.threegrand.bison.develop.model.Menu">
+        SELECT * FROM acl_menu WHERE menu_name=#{menuName}
+    </select>
+</mapper>

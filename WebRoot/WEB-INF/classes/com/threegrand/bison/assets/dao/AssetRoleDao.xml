@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.assets.dao.AssetRoleDao">
+<select id="getAssetRoles" resultType="com.threegrand.bison.assets.model.AssetRole">
+    select * from acl_asset_role
+</select>
+
+    <select id="getAssetRoleByName" resultType="com.threegrand.bison.assets.model.AssetRole">
+        select * from acl_asset_role s where s.role_name=#{userRole}
+    </select>
+
+   <insert id="addAssetRole">
+    insert into acl_asset_role (#{roleName})
+   </insert>
+
+
+
+</mapper>

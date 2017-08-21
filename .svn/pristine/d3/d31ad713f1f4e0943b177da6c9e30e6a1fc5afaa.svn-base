@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.personInfo.dao.UserInfoDao">
+    <select id="getUserInfoByName" resultType="com.threegrand.bison.personInfo.model.UserInfo">
+        select * from acl_userInfo  where user_name=#{userName}
+    </select>
+
+    <select id="getUserInfoById" resultType="com.threegrand.bison.personInfo.model.UserInfo">
+        select * from acl_userinfo u
+        left join acl_user_area a on  u.user_area=a.id
+         where u.user_id=#{userId}
+    </select>
+
+    <insert id="addUserInfo">
+        insert into acl_userInfo(user_id, user_name, user_role,user_tag) values
+            (#{userId},#{userName},#{userRole},#{userTag})
+
+    </insert>
+    <insert id="addAlertArea">
+     insert into acl_user_area( areaId, status, user_id) values(#{areaId},#{status},#{userId})
+    </insert>
+
+    <update id="setUserInfoRole" >
+        update acl_userinfo set
+        user_role=#{userRole}
+        where user_id in(#{userId})
+    </update>
+
+    <insert id="setUserInfoArea">
+       insert into acl_user_area(step,area_name,areaId,status,user_id) VALUES
+       (#{step},#{areaName},#{building},#{status},#{userId})
+   </insert>
+
+   <select id="getUserInfoListPage" resultType="com.threegrand.bison.personInfo.model.UserInfo">
+      select * from acl_userinfo
+       where 1=1
+       <if test="userId!=''">and user_id like '%${userId}%'</if>
+       <if test="userName!=''">and user_name like '%${userName}%'</if>
+       <if test="userTag!=''">and user_tag like '%${userTag}%'</if>
+       <if test="userRole!=''">and user_role like  '%${userRole}%'</if>
+   </select>
+
+    <select id="getBuilds" resultType="com.threegrand.bison.personInfo.model.Area">
+        select building from  acl_area;
+    </select>
+
+    <select id="getStepsByBuild" resultType="com.threegrand.bison.personInfo.model.Area">
+        select step  from  acl_area where building=#{build};
+    </select>
+
+    <select id="getAreaByStep" resultType="com.threegrand.bison.personInfo.model.Area">
+
+       select area_name from acl_area where building=#{building} and step =#{step};
+    </select>
+
+    <select id="getTags" resultType="com.threegrand.bison.personInfo.model.Tag">
+        select * FROM  acl_tags
+    </select>
+
+    <select id="getAreasListPage" resultType="com.threegrand.bison.personInfo.model.Area">
+        select * from acl_area  a where 1=1
+        <if test="building!='' and building!=null">and a.building=#{building}</if>
+        <if test="step!='' and step!=null">and a.step=#{step}</if>
+        <if test="areaName!='' and areaName!=null">and a.area_name=#{areaName}</if>
+    </select>
+
+    <select id="getUserAreasListPage" resultType="com.threegrand.bison.personInfo.model.Area">
+        select  u.user_id,a.area_id ,a.building,a.step,a.area_name
+         from acl_user_area u left join acl_area a on  u.areaId=a.area_id
+        where user_id = #{userId}
+    </select>
+
+
+    <select id="getUserRoles" resultType="com.threegrand.bison.personInfo.model.ConsumerRole">
+        select * from acl_consumer_role
+    </select>
+
+     <update id="setUserInfoTag">
+         update acl_userInfo SET
+         user_tag=#{userTag}
+         where user_id in(#{userId})
+     </update>
+
+
+
+<!--
+<select id="getDetail" resultType="com.threegrand.bison.personInfo.model.UserInfo">
+        select    * from acl_userinfo  where 1=1 <if test="ids!=null">and </if>
+    </select>
+
+    <select id="getBindingPerdelListPage" resultType="com.threegrand.bison.AccountMgt.model.BindingPerson">
+        SELECT a.id monitId,u.* FROM
+        (SELECT * FROM acl_accountbingding WHERE 1=1 <if test="ids!=null">AND empID in (${ids})</if>) a
+        LEFT JOIN userinfo u ON a.persionId=u.userId
+    </select> -->
+
+
+   </mapper>

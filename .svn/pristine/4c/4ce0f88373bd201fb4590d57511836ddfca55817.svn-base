@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.security.dao.UserDao">
+
+	<!-- 添加用户 -->
+	<insert id="addUser">
+		INSERT INTO acl_user (login_name,username,PASSWORD,company_id,organ_id,role_name) VALUES
+		(#{loginName},#{username},#{password},#{companyId},#{organId},#{roleName})
+		<selectKey resultType="string" keyProperty="userId">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<insert id="addUserRole">
+		INSERT INTO acl_user_role (login_name, role_name, company_id) VALUES
+		(#{loginName},#{roleName},#{companyId});
+	</insert>
+
+	<update id="updateUser">
+		UPDATE acl_user SET login_name=#{loginName},username=#{username},organ_id=#{organId},role_name=#{roleName}
+		<if test="password!=null and password!=''">
+			,password=#{password}
+		</if>
+		WHERE user_id=#{userId}
+	</update>
+
+	<delete id="deleteUser">
+		DELETE FROM acl_user WHERE user_id=#{userId} AND company_id = #{companyId}
+	</delete>
+
+	<delete id="deleteUserRoleByLoginName">
+		DELETE FROM acl_user_role WHERE login_name=#{loginName}
+	</delete>
+
+	<delete id="deleteUserPermissionByLoginName">
+		DELETE FROM acl_user_permission WHERE login_name=#{loginName}
+	</delete>
+
+	<select id="getUserByLoginName" resultType="com.threegrand.bison.security.model.User">
+		SELECT * FROM acl_user WHERE login_name=#{loginName} AND company_id = #{companyId}
+	</select>
+
+    <select id="getCompanyIdByLoginName" resultType="com.threegrand.bison.security.model.User">
+		SELECT * FROM acl_user WHERE login_name=#{loginName} AND password=#{password}
+	</select>
+	<select id="getUserByUserName" resultType="com.threegrand.bison.AccountMgt.model.Account">
+		SELECT * FROM acl_account
+		<where>
+			<if test="username !=null and username != ''">
+				username=#{username}
+			</if>
+			<if test="empID !=null and empID != ''">
+				empID=#{empID}
+			</if>
+		</where>
+	</select>
+
+	<select id="getUserPermTokensByLoginName" resultType="string">
+		SELECT perm_token FROM acl_user_permission
+		WHERE login_name=#{loginName}
+	</select>
+
+
+	<select id="getUserPermTokensByLoginNameAccount" resultType="string">
+		SELECT perm_token FROM acl_role_permission
+		WHERE role_name=#{loginName}
+	</select>
+
+	<select id="queryAll" resultType="com.threegrand.bison.security.model.User">
+		select * from acl_user
+	</select>
+
+
+	<!-- 获取分页用户 -->
+	<select id="getUserListPage" resultType="com.threegrand.bison.security.model.User">
+		SELECT * FROM acl_user
+		WHERE company_id=#{companyId}
+		<if test="loginName!=null and loginName !=''">
+			and login_name LIKE CONCAT('%',#{loginName},'%')
+		</if>
+		<if test="username!=null and username !=''">
+			and username LIKE CONCAT('%',#{username},'%')
+		</if>
+		<if test="roleName!=null and roleName !=''">
+			and role_name LIKE CONCAT('%',#{roleName},'%')
+		</if>
+		<if test="organId !=null and organId !=''">
+			and organ_id = #{organId}
+		</if>
+	</select>
+
+	<!-- 获取用户 -->
+	<select id="getUser" resultType="com.threegrand.bison.security.model.User">
+		SELECT * FROM acl_user WHERE user_id=#{userId} AND company_id = #{companyId}
+	</select>
+
+	<update id="updatePassword">
+		UPDATE acl_user SET password=#{password} WHERE login_name=#{loginName} AND company_id = #{companyId}
+	</update>
+
+	<select id="getUserList" resultType="com.threegrand.bison.security.model.User">
+		SELECT * FROM acl_user WHERE company_id=#{companyId}
+	</select>
+
+	<update id="updateOrganUser">
+		UPDATE acl_user SET organ_id=#{organId}
+		WHERE user_id=#{userId}
+	</update>
+
+	<select id="getUserListByOrganId" resultType="com.threegrand.bison.security.model.User">
+		SELECT u.*
+		FROM acl_user u, organ g
+		WHERE u.organ_id = g.organ_id
+		AND g.organ_id=#{organId}
+	</select>
+
+	<select id="getUserListToOrgan" resultType="com.threegrand.bison.security.model.User">
+		SELECT * FROM acl_user WHERE company_id=#{companyId} AND organ_id is null
+	</select>
+
+	<select id="getRoles" resultType="String">
+		SELECT role_name from acl_user_role WHERE login_name=#{loginName} AND
+		company_id=#{companyId}
+	</select>
+
+	<!-- 删除用户角色 -->
+	<delete id="deleteUserRole">
+		DELETE FROM acl_user_role WHERE login_name=#{loginName} AND
+		company_id=#{companyId}
+	</delete>
+</mapper>

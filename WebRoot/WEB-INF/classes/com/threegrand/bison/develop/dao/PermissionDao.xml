@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.develop.dao.PermissionDao">
+    <sql id="permissionTree">
+        SELECT * FROM
+        (SELECT m.menu_id id, m.menu_name name,m.parent_id pId,m.perm_token,level FROM acl_menu m
+        WHERE m.enable=1
+        AND m.leaf=0
+        AND perm_token !='' ORDER BY m.sequence)temp
+        UNION
+        SELECT perm_token id,description name,parent_id pId,perm_token,level FROM acl_permission
+    </sql>
+
+    <select id="getPermissionTree" resultType="com.threegrand.bison.security.model.PermissionTreeNode">
+        SELECT * FROM
+        (SELECT m.menu_id id, m.menu_name name,m.parent_id pId,m.perm_token,level FROM acl_menu m
+        WHERE m.enable=1
+        AND m.leaf=0
+        AND perm_token !='' ORDER BY m.sequence)temp
+        UNION
+        SELECT perm_token id,description name,parent_id pId,perm_token,level FROM acl_permission
+    </select>
+
+    <select id="getPermissionTreeByLoginName" resultType="com.threegrand.bison.security.model.PermissionTreeNode">
+        SELECT a.id,a.name,a.pId,a.perm_token,IF(b.perm_token IS NULL,'false','true')checked,a.level
+        FROM(
+        <include refid="permissionTree"/>
+        )a
+        LEFT JOIN
+        (SELECT * FROM acl_user_permission WHERE login_name=#{loginName})b
+        ON a.perm_token = b.perm_token
+    </select>
+
+    <select id="getPermissionListPage" resultType="com.threegrand.bison.develop.model.Permission">
+        SELECT * FROM acl_permission
+        <where>
+            <if test="permToken!=null and permToken !=''">
+                and perm_token = #{permToken}
+            </if>
+            <if test="description!=null and description !=''">
+                and description like CONCAT('%',#{description},'%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="addPermission">
+        INSERT INTO acl_permission (perm_token,description,parent_id) VALUES (#{permToken},#{description},#{parentId})
+    </insert>
+
+    <select id="getPermissionByPermToken" resultType="com.threegrand.bison.develop.model.Permission">
+        SELECT * FROM acl_permission WHERE perm_token=#{permToken}
+    </select>
+
+    <select id="getPermissionByDescription" resultType="com.threegrand.bison.develop.model.Permission">
+        SELECT * FROM acl_permission WHERE description=#{description}
+    </select>
+
+    <delete id="deletePermission">
+        DELETE FROM acl_permission WHERE perm_token=#{permToken}
+    </delete>
+
+    <delete id="deleteUserPermissionByPermToken">
+        DELETE FROM acl_user_permission WHERE perm_token=#{permToken}
+    </delete>
+
+    <select id="getPermissionTreeByRole" resultType="com.threegrand.bison.security.model.PermissionTreeNode">
+        SELECT a.id,a.name,a.pId,a.perm_token,IF(b.perm_token IS NULL,'false','true')checked,a.level
+        FROM(
+        <include refid="permissionTree"/>
+        )a
+        LEFT JOIN
+        (SELECT * FROM acl_role_permission WHERE role_name=#{roleName})b
+        ON a.perm_token = b.perm_token
+    </select>
+
+    <select id="getPermissionByParentId" resultType="com.threegrand.bison.develop.model.Permission">
+        SELECT * FROM acl_permission WHERE parent_id=#{parentId}
+    </select>
+
+    <update id="updatePermission">
+        UPDATE acl_permission SET description=#{description} WHERE perm_token=#{permToken}
+    </update>
+</mapper>

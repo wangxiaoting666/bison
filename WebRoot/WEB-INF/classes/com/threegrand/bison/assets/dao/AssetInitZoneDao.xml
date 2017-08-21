@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.assets.dao.AssetInitZoneDao">
+<select id="getZones" resultType="com.threegrand.bison.personInfo.model.Area">
+    select * from acl_user_area
+</select>
+    <update id="addInitZone" >
+       update acl_assets  set asset_init= #{areaId}
+    </update>
+
+<select id="getBuildings" resultType="com.threegrand.bison.personInfo.model.Area">
+    select * from acl_buildings
+</select>
+
+    <select id="getStepsByBuildingId" resultType="com.threegrand.bison.personInfo.model.Area">
+        select * from acl_steps where building_id=#{buildingId}
+    </select>
+
+    <select id="getAreaByStepId" resultType="com.threegrand.bison.personInfo.model.Area">
+        select * from acl_user_area where  step=#{stepId}
+    </select>
+
+
+</mapper>

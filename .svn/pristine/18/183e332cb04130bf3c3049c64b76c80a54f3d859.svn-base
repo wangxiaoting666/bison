@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.autocomplete.dao.AutoCompleteDao">
+    <select id="gAutoLoginName" resultType="com.wonderland.sail.autocomplete.model.AutoComplete">
+        select user_id id,login_name name
+        from acl_user
+    </select>
+    <select id="gAutoUsername" resultType="com.wonderland.sail.autocomplete.model.AutoComplete">
+        select user_id id,username name
+        from acl_user
+    </select>
+
+    <select id="gAutoMenu" resultType="com.wonderland.sail.autocomplete.model.AutoComplete">
+        select menu_id id,menu_name name from acl_menu where leaf=1 and enable=1
+    </select>
+
+    <select id="gAutoPageTitle" resultType="com.wonderland.sail.autocomplete.model.AutoComplete">
+        select news_id id,page_title name from news
+    </select>
+
+    <select id="gAutoRoleName" resultType="com.wonderland.sail.autocomplete.model.AutoComplete">
+        select role_id id,role_name name from acl_role
+    </select>
+    <select id="gAutoPermToken" resultType="com.wonderland.sail.autocomplete.model.AutoComplete">
+        select perm_token id,perm_token name from acl_permission
+    </select>
+
+    <select id="gAutoNewsTypeName" resultType="com.wonderland.sail.autocomplete.model.AutoComplete">
+        select news_type_id id,news_type_name name from news_type;
+    </select>
+    <select id="gAutoParamName" resultType="com.wonderland.sail.autocomplete.model.AutoComplete">
+        select custom_param_id id,param_name name from custom_param
+    </select>
+    <select id="gAutoModuleName" resultType="com.wonderland.sail.autocomplete.model.AutoComplete">
+        select module_id id,module_name name from module
+    </select>
+    <select id="gAutoModuleAlias" resultType="com.wonderland.sail.autocomplete.model.AutoComplete">
+        select module_id id,alias name from module
+    </select>
+    <select id="gAutoNewsParamName" resultType="com.wonderland.sail.autocomplete.model.AutoComplete">
+        select news_param_id id,param_name name from news_param
+    </select>
+    <select id="gAutoSinglePageName" resultType="com.wonderland.sail.autocomplete.model.AutoComplete">
+        select single_Page_id id,single_page_Name name from single_page
+    </select>
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.keyWord.dao.KeyWordLinkDao">
+    <select id="getKeyWordLinkListPage" resultType="com.threegrand.bison.keyWord.model.KeyWordLink">
+        SELECT * FROM key_word_link WHERE 1=1
+        <if test="companyId!=null and companyId !=''">
+            and company_id=#{companyId}
+        </if>
+    </select>
+
+    <select id="getKeyWordLinkByKeyWord" resultType="com.threegrand.bison.keyWord.model.KeyWordLink">
+        SELECT *FROM key_word_link WHERE key_word=#{keyWord}
+    </select>
+
+    <select id="getKeyWordLinkById" resultType="com.threegrand.bison.keyWord.model.KeyWordLink">
+        SELECT * FROM key_word_link WHERE key_word_link_id=#{keyWordLinkId}
+    </select>
+
+    <insert id="addKeyWordLink">
+        INSERT INTO key_word_link (company_id,key_word,key_word_link) VALUES (#{companyId},#{keyWord},#{keyWordLink}
+        <selectKey resultType="string" keyProperty="keyWordLinkId">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        )
+    </insert>
+
+    <update id="updateKeyWordLink">
+        UPDATE key_word_link SET company_id=#{companyId},key_word=#{keyWord}, key_word_link=#{keyWordLink} WHERE
+        key_word_link_id=#{keyWordLinkId}
+    </update>
+
+    <delete id="deleteKeyWordLink">
+        DELETE FROM key_word_link WHERE key_word_link_id=#{keyWordLinkId}
+    </delete>
+
+</mapper>

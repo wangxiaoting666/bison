@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.personInfo.dao.AreaDao">
+
+ <select id="getAreasByConditions" resultType="com.threegrand.bison.personInfo.model.Area">
+     select b.building_name,s.step_number,a.area_name from
+      (acl_buildings b left join acl_steps s on b.building_id=s.building_id)
+      left join acl_user_area a on a.step=s.id
+      where b.building_id like #{buildingId}
+      and s.step_number like #{stepName}
+      and a.area_name like #{areaName}
+ </select>
+
+    <select id="getBuildings" resultType="com.threegrand.bison.personInfo.model.Area">
+        select * from acl_buildings
+    </select>
+    <select id="getStepsByBuildingId" resultType="com.threegrand.bison.personInfo.model.Area">
+        select * from acl_steps where building_id=#{buildingId}
+    </select>
+    <select id="getAreaByStepId" resultType="com.threegrand.bison.personInfo.model.Area">
+        select * from acl_user_area where step=#{stepId}
+    </select>
+
+   <insert id="addAreas" >
+       insert into acl_user_area values
+       <foreach collection="areaList" item="areaName" separator="，">
+           (#{areaName})
+       </foreach>
+   </insert>
+
+</mapper>

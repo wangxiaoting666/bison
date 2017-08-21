@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.sjgl.dao.BraceletDao">
+
+
+
+
+    <select id="getShListPage" resultType="com.threegrand.bison.sjgl.model.Bracelet">
+
+        SELECT * FROM acl_bracelet
+        where 1=1
+        <if test="braceletId!=null and ''!=braceletId">and braceletId=#{braceletId}</if>
+        <if test="mac!=null and ''!=mac">and mac=#{mac}</if>
+        <if test="status!=null and ''!=status">and status=#{status}</if>
+        <if test="bindType!=null and ''!=bindType">and bindType=#{bindType}</if>
+        <if test="bindObjmc!=null and ''!=bindObjmc">and bindObjmc=#{bindObjmc}</if>
+
+    </select>
+
+
+    <insert id="addSh">
+        INSERT INTO acl_bracelet(braceletId,mac)VALUES (#{braceletId},#{mac})
+    </insert>
+
+
+    <select id="getBraceletRz" resultType="com.threegrand.bison.sjgl.model.Binding">
+        SELECT * FROM braceletRz
+        where 1=1
+        <if test="braceletId !=null and ''!=braceletId">and userId =#{braceletId}</if>
+    </select>
+
+
+
+
+</mapper>

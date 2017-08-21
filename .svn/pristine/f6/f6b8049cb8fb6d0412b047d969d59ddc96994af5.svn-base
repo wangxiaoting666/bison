@@ -1,0 +1,48 @@
+{
+  "mapwidth": "834",
+  "mapheight": "1280",
+  "categories": [],
+  "levels": [{
+    "id": "world",
+    "title": "World",
+    "map": "img/map5/",
+    "minimap": "img/map5/map.jpg",
+    "degree": [{
+      "name": "1",
+      "ratio": 1,
+      "picSide": 400,
+      "prefix": "1_"
+    },
+      {
+        "name": "2",
+        "ratio": 2,
+        "picSide": 400,
+        "prefix": "2_"
+      }
+    ],
+    "locations": [
+    ]
+  },
+    {
+      "id": "world2",
+      "title": "World2",
+      "map": "img/map5/",
+      "minimap": "img/map5/map.jpg",
+      "degree": [{
+        "name": "1",
+        "ratio": 1,
+        "picSide": 400,
+        "prefix": "1_"
+      },
+        {
+          "name": "2",
+          "ratio": 2,
+          "picSide": 400,
+          "prefix": "2_"
+        }
+      ],
+      "locations": [
+      ]
+    }
+  ]
+}

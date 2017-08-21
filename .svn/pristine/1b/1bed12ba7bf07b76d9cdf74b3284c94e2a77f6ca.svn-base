@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>秘境DIS</title>
+<link type="text/css" rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+	<div class="top">
+    	<div class="t_txt"><a href="#" target="_parent">设为首页</a> | <a href="#" target="_parent">加入收藏</a></div>
+    </div>
+    <div class="tip">
+    	<div class="logo">
+        	<img src="images/logo.jpg" width="229" height="62" alt="秘境DIS"/>
+        </div>
+        <div class="search">
+			<dl>
+				<dt><input type="text" class="txt_search" placeholder="输入关键词进行查询"/></dt>
+				<dd><input name="搜索" type="button" class="btn_search" value="搜索" /> </dd>
+			</dl>
+		</div>
+    </div>
+    <div class="menu">
+		<div class="m_menu">
+			<ul>
+				<li><a href="index.html" target="_parent">首页</a></li>
+				<li><a href="kown.html" target="_parent">发现已知</a></li>
+                <li><a href="unkown.html" target="_parent">踏足未知</a></li>
+				<li><a href="fenxiang.html" target="_parent">秘境分享</a></li>
+				<li><a href="shanshi.html" target="_parent">善事利器</a></li>
+				<li><a href="zuji.html" target="_parent">足迹探秘</a></li>
+				<li><a href="daren.html" target="_parent">达人团队</a></li>
+			</ul>
+		</div>
+    </div>
+	<div class="main">
+    	<div class="z_fa_title">足迹探秘<span class="dang"><a href="index.html" target="_parent">首页</a> > <a href="zuji.html" target="_parent">足迹探秘</a></span></div>
+        <div class="z_fa">
+            	<div class="z_f_con">
+					<div class="news">
+                        <div class="newx_tit">大西洋"魔海"漩涡逃生记</div>
+                        <div class="newx_time">发布时间：2015年12月24日 16:44 </div>
+                        <div class="con_txt">
+        <p>位于美国佛罗里达州东北海岸的迪玛半岛风景秀丽，是有名的海滨度假胜地。但在半岛以西约80海里的大西洋上，却有一片海域被当地人称为"魔海"。在潮汐的作用下，海面上有时会形成无数个大大小小的漩涡，这些漩涡一律呈逆时针方向旋转，然后渐渐汇合在一起，形成一个巨大的"漏斗"状漩涡，这种飞速旋转的大漩涡，吸引力大得足以鲸吞一艘轮船。通常两小时后，这种现象会自然消失。</p>
+        <p>2010年6月，来自美国堪萨斯州立大学的三名研究生在出海观看日落途中，游艇不幸驶进了这片漩涡海域……</p>
+        <p>度假学子遭遇惊天漩涡</p>
+        <p>　2010年6月中旬的一天，美国堪萨斯州立大学生物科学学院的一群学生来到了迪玛半岛度假，这些刚刚获得硕士学位的大学生们立刻被迪玛半岛的风光陶醉了。然而，他们中的尼克却显得心事重重神情忧郁。尼克本来是应届研究生中成绩最优秀的一个，正当他踌躇满志地准备毕业后干一番事业时，他热恋了3年的女友露茜却突然提出与他分手。</p>
+        <p>露茜和尼克是同一个系的研究生，尼克几年来在学习上给予了她大量的帮助。露茜曾多次表白会永远爱尼克。不料，就在他俩双双通过研究生毕业答辩后不到一周，露茜就以尼克过于内向，缺乏幽默感为由与他断绝了恋爱。然而，尼克很快就发现，露茜其实是另有所爱。毕业前夕，露茜与另一个系的赖恩打得火热。赖恩身材高大，谈吐幽默，颇受女生青睐。与风流倜傥的赖恩相比，个子不高、性格敦厚的尼克就显得缺少魅力了。</p>
+        <p>　失恋的打击使尼克情绪一落千丈，他对露茜的绝情寡义耿耿于怀。不过，极爱面子的他还是强打精神参加了这次集体度假活动。一路上，露茜和新男友赖恩耳鬓厮磨的情形像锥子一样刺痛着尼克的心，他的情绪坏极了。</p>
+        <p>来迪玛半岛的第二天黄昏，有人提议租游艇去海上看日落。因时值旅游旺季，游艇管理处只剩下两艘尚未出租。有6位同学抢先登上了一艘游艇，并立刻驶离了船埠。结果出现了十分尴尬的一幕：赖恩牵着露茜跳上了另一艘游艇后，只剩下落在最后的尼克孤零零地站在那儿。倒是露茜大大方方地喊了一句："尼克，别愣在那儿，快上来吧！"尼克犹豫了片刻，极不自然地跳进了游艇。</p>
+        <p>赖恩立刻发动了游艇，游艇似离弦之箭奔向远海，兴奋异常的露茜发出了惊叹声。坐在艇尾的尼克心里很不是滋味。</p>
+        <p>黄昏的海面风平浪静，成群的海鸟贴着海面飞翔嬉戏。热恋中的露茜和赖恩很快就陶醉了。赖恩有意与另一艘游艇分道扬镳，他甚至把游艇管理处工作人员的嘱咐忘得一干二净。工作人员曾提醒他，游艇只能在50海里的范围内游弋。</p>
+        <p>不知不觉中，1个多小时过去了，火球似的落日终于被海水吞没。尼克看见水天相接处聚集着浓浓的旗状叶卷云，具有一定海洋气象知识的他预感到天气可能发生变化。此时，暮色苍茫的海面上已看不见任何船只，赖恩没有意识到他驾驶的游艇已经驶离海岸80海里，恰恰进入了那片危险的"魔鬼"海域！关闭了马达的游艇像一片树叶漂浮在茫茫大海上。</p>
+        <p>如坐针毡的尼克索性躺在了椅子上。不知过了多久，尼克感到游艇在摇晃，起先他并不在意，以为是海浪的正常波动，可几分钟后，游艇又像筛子似的剧烈抖动起来。尼克一个激灵坐起身来，他立刻被看到的景象惊呆了！</p>
+                        </div>
+                    </div>
+                    
+                    
+                    					
+                </div>
+            </div>
+    </div>
+    <div class="footer">
+    	<div class="foo_main">秘境DIS 版权所有 王丹  </div>
+    </div>
+</body>
+</html>

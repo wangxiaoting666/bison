@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.design.dao.ModuleDao">
+
+    <select id="getModuleListPage" resultType="com.threegrand.bison.design.model.Module">
+        SELECT * FROM module m
+        <where>
+            <if test="moduleName!=null and moduleName !=''">
+                and m.module_name like CONCAT('%',#{moduleName},'%')
+            </if>
+            <if test="alias!=null and alias !=''">
+                and m.alias like CONCAT('%',#{alias},'%')
+            </if>
+            and m.company_id=#{companyId}
+        </where>
+    </select>
+    <select id="getModuleList" resultType="com.threegrand.bison.design.model.Module">
+        SELECT * FROM module m
+        <where>
+            <if test="companyId != null">
+                m.company_id = #{companyId}
+            </if>
+        </where>
+    </select>
+    <insert id="addModule">
+        INSERT INTO module
+        (company_id,module_name,alias,module_page_size,index_template_id,list_template_id,content_template_id) VALUES
+        (#{companyId},#{moduleName},#{alias},#{modulePageSize},#{indexTemplateId},#{listTemplateId},#{contentTemplateId})
+        <selectKey resultType="string" keyProperty="moduleId">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <select id="getModuleById" resultType="com.threegrand.bison.design.model.Module">
+        select * from module where module_id=#{moduleId}
+    </select>
+    <select id="getModuleByModuleName" resultType="com.threegrand.bison.design.model.Module">
+        SELECT * FROM module WHERE module_name=#{moduleName}
+    </select>
+    <select id="getModuleByAlias" resultType="com.threegrand.bison.design.model.Module">
+        SELECT * FROM module WHERE alias=#{alias}
+    </select>
+    <update id="updateModule">
+        UPDATE module SET
+        module_name=#{moduleName},alias=#{alias},module_page_size=#{modulePageSize},index_template_id=#{indexTemplateId},list_template_id=#{listTemplateId},content_template_id=#{contentTemplateId}
+        WHERE module_id=#{moduleId} and company_id=#{companyId}
+    </update>
+    <delete id="deleteModule">
+        DELETE FROM module WHERE module_id=#{moduleId}
+    </delete>
+</mapper>

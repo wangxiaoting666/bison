@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.monitor.dao.UserMonitorDao">
+
+    <select id="getUserMonitorListPage" resultType="com.threegrand.bison.monitor.model.UserMonitor">
+        select * from acl_userinfo
+        where 1=1
+        <if test="userId!=null">and user_id like '%${userId}%'</if>
+        <if test="userName!=''">and user_name like '%${userName}%'</if>
+        <if test="tagName!=''">and user_tag like '%${tagName}%'</if>
+        <if test="roleName!=''">and user_role  like '%${roleName}%'</if>
+    </select>
+</mapper>

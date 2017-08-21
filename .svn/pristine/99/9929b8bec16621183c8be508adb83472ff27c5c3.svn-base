@@ -1,0 +1,113 @@
+package com.threegrand.controller.design;
+
+import com.wonderland.sail.ajax.response.AjaxResponse;
+import com.wonderland.sail.ajax.response.ReturnState;
+import com.threegrand.bison.common.util.FileUtil;
+import com.threegrand.bison.design.model.ResourceFile;
+import com.threegrand.bison.design.model.ResourceTreeNode;
+import com.threegrand.bison.design.service.ResourceService;
+import com.threegrand.bison.system.model.Company;
+
+import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.List;
+
+@Controller
+@RequestMapping("/design/resource")
+public class ResourceController {
+
+    @Autowired
+    private ResourceService resourceService;
+
+    @Value("${apacheDocPath}")
+    private String apacheDocPath;
+
+    @Value("${apacheUrl}")
+    private String apacheUrl;
+
+    @RequestMapping(method = RequestMethod.GET)
+    public String getResource(HttpServletRequest request, Model model) {
+        return "/design/resource";
+    }
+
+    @RequestMapping("/getAvailableAndUsedSize")
+    @ResponseBody
+    public AjaxResponse getAvailableAndUsedSize(HttpServletRequest request) {
+        Company company = (Company) request.getSession().getAttribute("company");
+        return new AjaxResponse("spaceSize", resourceService.getAvailableAndUsedSize(company));
+    }
+
+    @RequestMapping("/resourceTree")
+    @ResponseBody
+    public List<ResourceTreeNode> resourceTree(ResourceTreeNode resourceTreeNode, HttpServletRequest request) {
+        Company company = (Company) request.getSession().getAttribute("company");
+        return resourceService.getResourceTree(resourceTreeNode, company);
+    }
+
+    @RequestMapping(value="/getFileList",method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResponse getFileList(ResourceFile resourceFile, HttpServletRequest request) {
+        Company company = (Company) request.getSession().getAttribute("company");
+        return new AjaxResponse("fileList", resourceService.getFileList(resourceFile.getFileName(), company));
+    }
+
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    @ResponseBody
+    public AjaxResponse updateModule(@RequestBody @Valid ResourceFile resourceFile, HttpServletRequest request) {
+        Company company = (Company) request.getSession().getAttribute("company");
+        return AjaxResponse.getInstanceByResult(resourceService.deleteFile(resourceFile.getFileName(),company,
+                resourceFile.getFileParentDirect()));
+    }
+
+    @RequestMapping("/uploadFile")
+    @ResponseBody
+    public AjaxResponse uploadFile(@RequestParam("uploadFile") MultipartFile multipartFile, HttpServletRequest request) throws IOException {
+             //如果用的是Tomcat服务器，则文件会上传到  
+             String realPath = request.getSession().getServletContext().getRealPath("/upload");
+             //这里不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉，我是看它的源码才知道的   
+             InputStream inputStream = multipartFile.getInputStream();
+             String contextPath = request.getContextPath();
+             String filename = getUploadFileName(multipartFile);
+             //String filename = multipartFile.getOriginalFilename();
+             File file = new File(realPath, filename);
+             FileUtils.copyInputStreamToFile(inputStream,file);   
+        return new AjaxResponse("url",contextPath+"/upload/"+filename);
+    }
+
+    /**
+     * 获取上传文件的名称,新文件名为原文件名加上时间戳
+     *
+     * @param multipartFile multipartFile
+     * @return 文件名
+     */
+    private String getUploadFileName(MultipartFile multipartFile) {
+        String uploadFileName = multipartFile.getOriginalFilename();
+        String fileName = uploadFileName.substring(0, uploadFileName.lastIndexOf("."));
+        String type = uploadFileName.substring(uploadFileName.lastIndexOf("."));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        String timeStr = sdf.format(new Date());
+        String name= fileName + "_" + timeStr + type;
+        return name;
+    }
+}

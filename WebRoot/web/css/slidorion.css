@@ -1,0 +1,16 @@
+#slidorion {width: 1200px;height: 400px;position: relative;background: #cbcbcb;float:left;margin-top:30px;}
+#slider {width: 765px;height: 400px;position: relative;float: left;overflow: hidden;}
+#slider > div {position:absolute;width:100%;height:100%;}
+#accordion {width: 435px;height: 400px; background: #eee;position: relative;z-index:999;overflow: hidden;float: left;}
+#accordion > .link-header {padding: 8px 14px;font-size:16px;font-weight: bold;color: #333;background: #ededed;border-top: 1px solid #ccc; height:30px; line-height:30px; font-weight:bold;}
+#accordion > .link-header:first-child {border-top:none;}
+#accordion > .link-header:hover {background: #ededed;cursor: pointer;}
+#accordion > .link-header.active {border-bottom: none;background:#003679 !important;filter: none;color: #fff; }
+#accordion > .link-content {height: 230px;font-weight: normal; line-height:25px;margin: 0; padding:16px;background:#ccc;overflow:hidden;}
+#slidorion .nav {position: absolute;top: 200px;width: 16px;height: 27px;z-index: 9999;
+cursor: pointer;}
+#slidorion .nav-left {left:30px;}
+#slidorion .nav-right {right: 310px;background-position: -16px 0;}
+
+
+

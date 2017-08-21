@@ -1,0 +1,102 @@
+/*start ovrview */
+#ovrview{ width:1003px; margin:0px auto; height:460px; padding-top:10px; padding-bottom:30px;}
+#ovrview>h2{ color:#0f1f4d; font-size:14px; padding-left:43px; padding-bottom:14px; font-weight:bold;}
+#ovrview .left{ float:left; width:498px;}
+#ovrview .left ul{ border-bottom:#001142 solid 2px; height:35px;}
+#ovrview .left ul div{ float:left; width:43px; height:34px; background: url(../img/biao1.gif) no-repeat right bottom; margin-right:9px;}
+#ovrview .left ul li{ cursor:pointer; font-size:18px; float:left; width:104px; height:35px; background-color:#0a3e78; text-align:center; line-height:35px; font-weight:bold;}
+#ovrview .left ul li a{color:#FFF; }
+#ovrview .left .picturesKJ{ width:445px; padding:14px 0 0 34px; }
+#ovrview .left .pictures{ width:445px; height:208px; }
+#ovrview .left .pictures img{ width:100%; height:100%; }
+#ovrview .left .text{width:445px; height:154px;padding-top:15px;}
+#ovrview .left .text p{ text-indent:25px; color:#001142;}
+#ovrview .center{ float:left; width:342px; margin-left:15px;}
+#ovrview .center .title{border-bottom:#001142 solid 2px; height:34px; padding-top:1px;}
+#ovrview .center .title>h2{ margin-left:27px; background:url(../img/biao2.gif) no-repeat top left; color:#0f1f4d;font-weight:bold;height:35px; width:133px; text-align:right; line-height:35px; font-size:18px;}
+#ovrview .center .text{width:328px; height:170px; padding-left:12px; margin-top:35px; background:url(../img/menuq.gif) no-repeat center top;}
+#ovrview .center .text p{ width:94px;margin:auto;color:#001142; font-size:18px; font-weight:bold; padding-top:9px;}
+#ovrview .center ul{ }
+#ovrview .center ul li{ float:left; width:15px; font-size:14px; font-weight:bold;color:#001142; margin-left:20.5px;}
+#ovrview .right{ float:left; width:133px; margin-left:15px;}
+#ovrview .right .href-1{ height:103px; background: url(../img/over.gif) top no-repeat; padding-bottom:3px;}
+#ovrview .right .href-2{ height:103px; background: url(../img/overa.gif) top no-repeat; padding-bottom:3px;}
+#ovrview .right .href-3{ height:100px; background: url(../img/overb.gif) top no-repeat;}
+/*stop ovrview */
+/* start Work*/
+#work{ width:1003px; margin:0px auto;  padding-top:10px;}
+#work>h2{ color:#0f1f4d; font-size:14px; padding-left:43px; padding-bottom:14px; font-weight:bold;}
+#work .functions{ min-height:320px; border:#f2f1f1 solid 2px; padding:10px 13px 0px 6px;}
+#work .functions .ul-menu{ border-bottom:#0a3e78 solid 2px; height:29px; padding-left:30px;}
+#work .functions .ul-menu .li1{ float:left;}
+#work .functions .ul-menu .li1 a{display: block; color:#0a3e78; font-size:18px; font-weight:bold; width:133px; height:29px; line-height:29px; text-align:center; }
+#work .functions .ul-menu .li2{  float:left; background: #0a3e78 ;  }
+#work .functions .ul-menu .li2 a{ display:block;color:#FFF; font-size:18px; font-weight:bold;width:133px; height:29px; line-height:29px; text-align:center;}
+#work .functions .ul-menu .li-end{float:right; font-size:14px; font-weight:bold; width:74px; height:29px; line-height:29px; text-align:center;}
+#work .functions .ul-menu .li-end a{ color:#0a3e78;}
+#work .functions .text { display:none; padding:31px 138px 0px 85px;}
+#work .functions .text.menu00{ display:inherit;}
+#work .functions .text a{display:inline-block; list-style:url(../img/work-3.gif); font-size:12px; color:#0a3e78; width:757px; height:20px;}
+#work .functions .text li .span1{ float:right;}
+#work  .workPagination{font-family:'微软雅黑';font-size:14px; padding: 30px 0; margin: 0 auto; text-align: center;}
+
+#work .scholarships{ height:356px;border:#f2f1f1 solid 2px; margin-top:1px; padding:10px 13px 0px 6px;}
+#work .scholarships .ul-menu{ border-bottom:#da0101 solid 2px; height:29px; padding-left:30px;}
+#work .scholarships .ul-menu .li1{float:left; background: #FFF url(../img/work-2.gif) no-repeat bottom right;}
+#work .scholarships .ul-menu .li1 a{ display:inline-block; color:#494949; font-size:18px; font-weight:bold;  width:163px; height:29px; line-height:29px; text-align:center;}
+#work .scholarships .ul-menu .li2{ float:left; background: #da0101 url(../img/work-2.gif) no-repeat bottom right; }
+#work .scholarships .ul-menu .li2 a{ display:inline-block;color:#FFF; font-size:18px; font-weight:bold;  width:163px; height:29px; line-height:29px; text-align:center;}
+#work .scholarships .ul-menu .li-end{  float:right; font-size:14px; font-weight:bold; width:74px; height:29px; line-height:29px; text-align:center;}
+#work .scholarships .ul-menu .li-end a{color:#da0101; }
+#work .scholarships .text { display:none;padding:31px 138px 0px 85px;} 
+#work .scholarships .text.menu00{ display:inherit;}
+#work .scholarships .text a{ display:inline-block; list-style:url(../img/work-3.gif); font-size:12px; color:#494949;width:757px; height:20px;}
+#work .scholarships .text li .span1{ float:right;}
+/* stop Work*/
+/* start experimental*/
+#experimental{ height:750px;width:1003px; margin:0px auto; padding-top:10px; }
+#experimental>h2{ color:#0f1f4d; font-size:14px; padding-left:43px; padding-bottom:14px; font-weight:bold;}
+#experimental .experimental-top{ height:293px; border:#f2f1f1 solid 2px; padding:10px 13px 0px 6px;}
+#experimental .experimental-top .introduction{ width:493px; height:100%; padding-right:31px; float:left;}
+#experimental .experimental-top .introduction .ul-menu{ border-bottom:#0a3e78 solid 2px; height:29px; padding-left:15px;}
+#experimental .experimental-top .introduction .ul-menu .li1{ cursor:pointer; color:#0a3e78; font-size:18px; font-weight:bold; float:left; background: #FFF ; width:153px; height:29px; line-height:29px; text-align:center;}
+#experimental .experimental-top .introduction .ul-menu .li2{cursor:pointer; color:#FFF; font-size:18px; font-weight:bold; float:left; background-color: #0a3e78;  width:153px; height:29px; line-height:29px; text-align:center;}
+#experimental .experimental-top .introduction .text{ display:none;padding:28px 17px 0px;color:#001142; font-weight:bold;  }
+#experimental .experimental-top .introduction .menu00{ display:inline;}
+#experimental .experimental-top .introduction .text p{ text-indent:25px;font-size:13px; }
+#experimental .experimental-top .introduction .text li{ list-style: disc inside;}
+
+#experimental .experimental-top .features{ width:452px; height:100%; float:left;}
+#experimental .experimental-top .features .ul-menu{ border-bottom:#0a3e78 solid 2px; height:29px; padding-left:15px;}
+#experimental .experimental-top .features .ul-menu .li1{ color:#0a3e78; font-size:18px; font-weight:bold; float:left; background: #FFF ; width:153px; height:29px; line-height:29px; text-align:center;}
+#experimental .experimental-top .features .ul-menu .li2{ color:#FFF; font-size:18px; font-weight:bold; float:left; background-color: #0a3e78;  width:153px; height:29px; line-height:29px; text-align:center;}
+#experimental .experimental-top .features .text{ display:none; padding:28px 17px 0px;}
+#experimental .experimental-top .features .menu00{ display:inline;}
+#experimental .experimental-top .features p{ text-indent:25px;font-size:13px;color:#001142; font-weight:bold;}
+#experimental .environment{ height:356px;border:#f2f1f1 solid 2px; margin-top:3px; padding:10px 13px 0px 6px;}
+#experimental .environment .ul-menu{ border-bottom:#f9a400 solid 2px; height:29px; padding-left:30px;}
+#experimental .environment .ul-menu .li1{ color:#f9a400; font-size:18px; font-weight:bold; float:left; background: #FFF  url(../img/experimental-1.gif) no-repeat bottom right; width:163px; height:29px; line-height:29px; text-align:center;}
+#experimental .environment .ul-menu .li2{ color:#FFF; font-size:18px; font-weight:bold; float:left; background: #f9a400 url(../img/experimental-1.gif) no-repeat bottom right;  width:163px; height:29px; line-height:29px; text-align:center;}
+#experimental .environment .pictures{ float:left;width:220px; height:100%; padding:0px 49px 0 35px; clear:left;}
+.pictures-1 img,.pictures-2 img{width:200px; height:133px;}
+#experimental .environment .pictures-1{  width:201px; height:133px;}
+#experimental .environment .pictures-2{  width:200px; height:134px; margin-top:7px;}
+#experimental .environment  .text{ display:none; padding:35px 68px 0px 0px;}
+#experimental .environment  .menu00{ display:inherit;}
+#experimental .environment  .text li{ color:#494949; font-size:13px; list-style: lower-alpha inside; font-weight:bold; }
+#experimental .environment  .text li p{}
+#experimental .environment  .text li{list-style: disc inside;}
+/*stop experimental*/
+/* start Introduction*/
+#introduction{width:1003px;margin:0px auto; padding-top:10px; margin-bottom:20px;}
+#introduction>h2{ color:#0f1f4d; font-size:14px; padding-left:43px; padding-bottom:14px; font-weight:bold;}
+#introduction .details{border:#f2f1f1 solid 2px; padding:19px 19px 0 28px;}
+#introduction .details .detailsTime{ text-align:right; padding:10px;}
+#introduction .details .detailsText{ color:#393737; font-size:16px; width:800px; margin:20px auto; line-height:1.8em; }
+.attach{ margin:20px 0;}
+.attach a{ color:#0044FF;}
+#introduction .details h2{ color:#a20000; font-size:24px;font-weight:bold; text-align:center; border-bottom:#a20000 solid 2px; height:34px; line-height:17px;}
+#introduction .details .p-0{ font-size:14px; color:#393737; font-weight:bold; margin-top:18px; padding:0 20px;}
+#introduction .details .p-1{  color:#a20000; font-size:14px; font-weight:bold; padding:5px 20px; text-indent:25px;}
+#introduction .details .p-2{color:#393737; font-size:14px; line-height:200%;padding:5px 20px;text-indent:25px;}
+/*stop Introduction*/

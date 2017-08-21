@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>秘境DIS</title>
+<link type="text/css" rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+	<div class="top">
+    	<div class="t_txt"><a href="#" target="_parent">设为首页</a> | <a href="#" target="_parent">加入收藏</a></div>
+    </div>
+    <div class="tip">
+    	<div class="logo">
+        	<img src="images/logo.jpg" width="229" height="62" alt="秘境DIS"/>
+        </div>
+        <div class="search">
+			<dl>
+				<dt><input type="text" class="txt_search" placeholder="输入关键词进行查询"/></dt>
+				<dd><input name="搜索" type="button" class="btn_search" value="搜索" /> </dd>
+			</dl>
+		</div>
+    </div>
+    <div class="menu">
+		<div class="m_menu">
+			<ul>
+				<li><a href="index.html" target="_parent">首页</a></li>
+				<li><a href="kown.html" target="_parent">发现已知</a></li>
+                <li><a href="unkown.html" target="_parent">踏足未知</a></li>
+				<li><a href="fenxiang.html" target="_parent">秘境分享</a></li>
+				<li><a href="shanshi.html" target="_parent">善事利器</a></li>
+				<li><a href="zuji.html" target="_parent">足迹探秘</a></li>
+				<li><a href="daren.html" target="_parent">达人团队</a></li>
+			</ul>
+		</div>
+    </div>
+	<div class="main">
+    	<div class="z_fa_title">达人团队<span class="dang"><a href="index.html" target="_parent">首页</a> > <a href="daren.html" target="_parent">达人团队</a></span></div>
+        <div class="z_fa">
+                <div class="z_f_con3">
+                	<dl>
+                    	<dt><img src="images/d1.jpg" width="334" height="218" alt=""/></dt>
+                        <dd>
+                        	<div class="fx_title">探访密境世界佤乡 临沧翁丁原始村落 含餐住宿门票（6日行程）</div>
+                            <div class="fx_txt">
+                            <p>温馨提示：此活动3人成行，如是3人可直接报名付款。少于这个人数的可咨询客服是否成行再付款！</p>
+                            </div>
+                        </dd>
+                    </dl>
+                    <h3>行程安排</h3>
+                    <h4>昆明集合</h4>
+                    <p>当天到达昆明，入住俱乐部统一安排的酒店，领队与队员见面，行前会。</p>
+                    <h4>昆明——祥云——临沧</h4>
+                    <p>早上乘车前往临沧，全程471公里，中午12点抵达祥云午餐，餐后前往临沧，预计达到时间下午5:00（可拍摄途经的"云南第一跨"澜沧江大桥和澜沧江）。当晚由领队统一安排食宿；饭后自由活动。</p>
+                    <h4>临沧-博尚-勐库-双江-大峡谷-勐省峡谷-司岗里-沧源县</h4>
+                    <p>早餐后7:30-8:00出发，拍摄博尚日出；后至勐库万亩古茶树园游览拍摄；中午在双江午餐，餐后沿双江到勐省的大峡谷行驶，沿途观赏侏罗纪时期的恐龙食物园—桫椤树、董棕林，在万年董棕情侣园诉说不老的爱情故事；然后到达沧源县城，晚餐安排"佤王宴"（佤王宴是佤族最高接待盛宴—佤王歌舞盛宴，品尝特色的鸡肉烂饭、醇香的米酒），也是佤族接待贵宾的最尊贵最高级别的宴会。</p>
+                    <h4>沧源-永和金三角口岸（佤山云海）-广允缅寺-翁丁原始部落-沧源</h4>
+                    <p>早餐后8:00-8:30出发，拍摄佤山云海，游览中缅边境有大金三角之称的永和口岸，远眺缅甸群山；返程到沧源市区，游览广允缅寺，感受缅寺独有的佛教净地；中午在沧源市区午餐，午餐后出发前往翁丁原始部落拍摄游览。 翁丁——佤语意为"云雾缭绕的地方"，整个部落共有101户470多口人，感受中国最后的原始部落，觐见佤王、头人，领略真正原生态的古朴生活。 游览完毕返回沧源。</p>
+                    <h4>沧源-糯良-勐省-小黑江-双江水库-临沧（临翔区）</h4>
+                    <p>早餐后8:30出发，沿糯良机场公路到达勐省，途中欣赏日出时的彩色佤山，拍摄糯良云海，体验和永和口岸及翁丁不一样的云雾绕山风光。在双江午餐，午餐后游览拍摄双江水库，走近高原明珠，感受双江宜人山水。下午到达临沧临翔区，游览临沧市区，晚餐后入住酒店。</p>
+                    <h4>临沧-昆明</h4>
+                    <p>早餐后9:00做车辆检查后出发返回昆明，结束愉快的旅程！</p>
+                </div>
+            </div>
+            
+            <div class="liuyan">
+                    	<ul>
+                        	<li>
+                            	<div class="ser_name">18743049000</div>
+                                <div class="ser_txt">
+                                	<div class="question">您好，请问一下现在还可以预定么？</div>
+                                    <div class="answer"><span class="guan">管理员回复：</span>您好，现在您这面是几位呢？我们的活动是4位成行的，感谢您对秘境DIS的支持，祝您旅行愉快！</div>
+                                </div>
+                            </li>
+                            <li>
+                            	<div class="ser_name">18743049000</div>
+                                <div class="ser_txt">
+                                	<div class="question">您好，请问一下现在还可以预定么？</div>
+                                    <div class="answer"><span class="guan">管理员回复：</span>您好，现在您这面是几位呢？我们的活动是4位成行的，感谢您对秘境DIS的支持，祝您旅行愉快！</div>
+                                </div>
+                            </li>
+                        </ul>
+		</div>
+        
+        <div class="l_liuy">
+                    	<form  method="post" action="">
+                            <div class="l_message">姓名：<input type="text" class="msg_txt"/> *</div>
+                            <div class="l_message">电话：<input type="text" class="msg_txt"/> *</div>
+                            <div class="l_message">邮箱：<input type="text" class="msg_txt"/></div>
+                            <div class="l_message">留言：<input type="text" class="msg_txt2"/> *</div>
+                            <input type="submit" value="提交" class="msg_btn3"/>
+                            <input type="reset" value="重置" class="msg_btn3"/>
+                        </form>
+                    </div>
+            
+    </div>
+    <div class="footer">
+    	<div class="foo_main">秘境DIS 版权所有 王丹  </div>
+    </div>
+</body>
+</html>

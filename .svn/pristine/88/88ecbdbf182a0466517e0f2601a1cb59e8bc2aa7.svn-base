@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.news.dao.SinglePageContentDao">
+
+    <select id="getSinglePageListPage" resultType="com.threegrand.bison.design.model.SinglePage">
+        SELECT * FROM single_page
+        where company_id=#{companyId}
+        <if test="singlePageName!=null and singlePageName !=''">
+            and single_page_name = #{singlePageName}
+        </if>
+    </select>
+
+    <update id="updateSinglePageContent">
+        UPDATE single_page SET content=#{content}
+        WHERE single_page_id=#{singlePageId} and company_id=#{companyId}
+    </update>
+
+    <select id="getSinglePageContent" resultType="com.threegrand.bison.design.model.SinglePage">
+        select content from single_page where single_page_id=#{singlePageId} and company_id=#{companyId}
+    </select>
+
+</mapper>

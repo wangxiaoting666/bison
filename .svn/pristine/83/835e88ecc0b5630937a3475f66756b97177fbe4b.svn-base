@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.alert.dao.AlertDao">
+    <select id="getAlertHistoryListPage" resultType="com.threegrand.bison.alert.model.AlertSignal">
+        select * from mote_sos_manage GROUP BY deviceId
+    </select>
+    <select id="getUncheckedAlert" resultType="com.threegrand.bison.alert.model.AlertSignal">
+        select * from mote_sos_manage WHERE checked=0 GROUP BY deviceId
+    </select>
+    <select id="getAlertTrace" resultType="com.threegrand.bison.alert.model.AlertSignal">
+        select * from mote_sos_manage where deviceId = #{deviceId}
+    </select>
+    <update id="checkAlert" parameterType="com.threegrand.bison.alert.model.AlertSignal">
+        update mote_sos_manage set checked = 1 where deviceId = #{deviceId};
+    </update>
+</mapper>

@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>秘境DIS</title>
+<link type="text/css" rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+	<div class="top">
+    	<div class="t_txt"><a href="#" target="_parent">设为首页</a> | <a href="#" target="_parent">加入收藏</a></div>
+    </div>
+    <div class="tip">
+    	<div class="logo">
+        	<img src="images/logo.jpg" width="229" height="62" alt="秘境DIS"/>
+        </div>
+        <div class="search">
+			<dl>
+				<dt><input type="text" class="txt_search" placeholder="输入关键词进行查询"/></dt>
+				<dd><input name="搜索" type="button" class="btn_search" value="搜索" /> </dd>
+			</dl>
+		</div>
+    </div>
+    <div class="menu">
+		<div class="m_menu">
+			<ul>
+				<li><a href="index.html" target="_parent">首页</a></li>
+				<li><a href="kown.html" target="_parent">发现已知</a></li>
+                <li><a href="unkown.html" target="_parent">踏足未知</a></li>
+				<li><a href="fenxiang.html" target="_parent">秘境分享</a></li>
+				<li><a href="shanshi.html" target="_parent">善事利器</a></li>
+				<li><a href="zuji.html" target="_parent">足迹探秘</a></li>
+				<li><a href="daren.html" target="_parent">达人团队</a></li>
+			</ul>
+		</div>
+    </div>
+	<div class="main">
+    	<div class="z_fa_title">发现已知<span class="dang"><a href="index.html" target="_parent">首页</a> > <a href="kown.html" target="_parent">发现已知</a> > 最新资讯</span></div>
+        <div class="z_fa">
+            	<div class="z_f_con">
+					<div class="news">
+                        <div class="newx_tit">澳门为打造优质旅游服务“蛮拼的”（图）</div>
+                        <div class="newx_time">发布时间：2015年12月24日 16:44 </div>
+                        <div class="con_txt">
+           					<div style="text-align:center"><img src="images/new1.jpg" width="400" height="288" alt=""/></div>
+        <p>作为一个有着独特魅力的旅游休闲城市，澳门一直吸引全世界的游客纷至沓来。世界旅游业理事会发布的报告称，2014年澳门旅游业产值占GDP的43.1%。为了提升游客的体验，让他们玩得尽兴、还想再来，澳门旅游局采取多种方式，致力提升旅游业界服务素质。</p>
+        <p>课程专业有针对性</p>
+        <p>为进一步提升澳门的整体旅游服务素质及工作效率，应对越来越多元化和国际化的客源，澳门旅游局为旅游业及相关业界举办了75场培训工作坊(一种小团体间的学习方式)、课程及讲座，参加培训总人数超过2300人，培训对象包括旅行社、导游、酒店业、零售业、餐饮业及葡语系国家旅游部门人员等。</p>
+        <p>这些课程的设立都充分吸收了业界人士的建议和需求。例如，为零售业举办的是“卓越客户服务正能量”工作坊，为旅行社前线人员举办的是“City&Guilds 国际资格——冲突处理”课程，为旅行社经理及主管而设的是“有效旅行社督导管理”工作坊，为酒店从业员、旅行社从业员和现职导游而设的“伊斯兰教旅客文化”工作坊等。</p>
+        <p>同时，澳门旅游局还推出以餐饮业为对象的“星级旅游服务认可计划”。配合此计划，澳门旅游局为参加商户举办“前线人员服务心态”和“处理非常顾客”工作坊，以提升前线服务人员的正面心态和服务技巧。2015年度共有84家餐饮商户达到“星级旅游服务”标准，获颁“星级服务商户奖”，其中4家还获得“称心服务团队奖”。明年，澳门旅游局打算将此计划推广至旅行社行业。</p>
+        <p>抓住葡语独特优势</p>
+        <p>由于历史原因，澳门有着与葡语系国家合作的独特优势。由于历史原因，澳门有着与葡语系国家合作的独特优势。</p>
+        <p>为了让葡语系国家旅游部门人员了解澳门旅游业的发展和澳门旅游局的日常工作，澳门旅游局在今年3月至5月间，为18位来自佛得角、几内亚比绍和东帝汶等葡语系国家旅游部门人员开展旅游培训计划。培训内容除了业务工作外，还包括考察澳门的世界历史文化遗产、其他旅游景点及基建设施等。2012年至2014年间，澳门旅游局已为57位来自葡语系国家的旅游部门人员提供培训。</p>
+        <p>随着国家“一带一路”倡议的实施，未来澳门将迎来更多国际游客。澳门旅游局局长文绮华表示，澳门将与“一带一路”沿线各地开展更多的旅游交流与合作，“我们要率先‘走出去’，未来我们会把很多工作集中在欧盟地区，特别是从东南亚已经跟澳门、香港有航空联系的，或者是跟我们这边已经有长期来往的那些地方。”</p>
+        <p>多元产业优势迸发</p>
+        <p>除旅游业外，澳门在会展业、文化创意产业方面也大有可为。</p>
+        <p>国际展览业协会9月底发布的报告显示，2014年度澳门展览市场为亚洲区内表现最佳，净销售展览面积升幅达38%。澳门特区贸易投资促进局执行委员刘关华表示，澳门会展服务水平得到世界广泛的认同和肯定：“这几年来，多个国际知名品牌酒店和综合度假村项目相继落户澳门，为各种会展项目提供了多种不同类型、总面积10多万平方米的活动场地。近5年来，澳门会展活动每年都超过1000场。而澳门(国际)贸易投资展览会等本地大型展会已经相继成为了国际认证展会和区域品牌展会活动。”</p>
+        <p>与此同时，包括文化创意产业在内的文化产业也日益散发光彩。澳门特区行政长官崔世安表示，澳门以中华文化为主流、多元文化共存，有很深远的历史和澳门的文化特色。澳门的文化创意产业虽发展比较晚，但是起点比较高，特别能吸引年轻人的关注和参与。</p>
+                        </div>
+                    </div>
+                    
+                    
+                    					
+                </div>
+            </div>
+    </div>
+    <div class="footer">
+    	<div class="foo_main">秘境DIS 版权所有 王丹  </div>
+    </div>
+</body>
+</html>

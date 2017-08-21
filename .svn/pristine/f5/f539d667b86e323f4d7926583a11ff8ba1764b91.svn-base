@@ -1,0 +1,556 @@
+var userInfoListTable = function () {
+    var dataTable1;
+    var dataTable2;
+    var dataTable;
+    var zTreeObj;
+    var $table  =$("#dataTable");
+    var $table1 =$("#dataTable1");
+    var $table2 =$("#dataTable2");
+    var zNodes;
+    /**
+     * dataTable事件初始化方法
+     */
+    var handleRecords = function () {
+        dataTable = new Datatable();
+        dataTable.init({
+            src: $table,
+            onQuery:function(data){
+                data.userName=$("#userNameQuery").val();
+                data.userRole=$("#userRoleQuery").val();
+                data.userTag=$("#userTagQuery").val();
+                data.userId=$("#userIdQuery").val();
+            },
+            dataTable: {
+                "ajax": {
+                     type:"get",
+                    "url": basePath + "/personInfo/userInfo/getUserInfoListPage" // ajax source
+                },
+                "columns": [
+                    {data: 'user_id', orderable: false,
+                        render: function (data, type, full) {
+                            return '<input type="checkbox" name="checkbox" value="'+full.userId+'"/>';
+                        }},
+                    {data: 'userId', orderable: true,searchable:true},
+                    {data: 'userName', orderable: true,searchable:true},
+                    {data: 'userRole', orderable: true,searchable:true},
+                    {data: 'userTag', orderable: true,searchable:true},
+                    {data: 'alertArea', orderable: true,searchable:true},
+                    {data: 'dangerArea', orderable: true,searchable:true},
+                    {data: 'buildingName', orderable: true,searchable:true},
+                    {data: 'stepNumber', orderable: true,searchable:true},
+                    {data: 'relationId',orderable:true,searchable:true},
+                    {data: 'operate', orderable: false,
+                        render: function (data, type, full) {
+                        	var userID = full.userId;
+                            return '<a class="edit btn default btn-xs purple" user_id="' + userID + '"><i class="fa fa-edit"></i>监控信息</a>&nbsp;'
+                            +'<a class="edit1 edit btn default btn-xs purple" user_id="' + userID + '"><i class="fa fa-edit"></i>历史轨迹</a>&nbsp;'
+                            +'<a class="edit2 edit btn default btn-xs purple" user_id="' + userID + '"><i class="fa fa-edit"></i>区域报警</a>&nbsp;';
+                        }
+                    }
+                ]
+            }
+        });
+        $("#dataTableReload").on("click",function(){
+            dataTable.reloadTable();
+        });
+    };
+
+
+    var handleRecords01 = function () {
+        dataTable1 = new Datatable();
+        dataTable1.init({
+            src: $table1,
+            onQuery:function(data){
+                data.building=$("#buildingQuery").val();
+                data.step=$("#stepQuery").val();
+                data.areaName=$("#areaQuery").val();
+            },
+            dataTable: {
+                "ajax": {
+                    type:"get",
+                    "url": basePath + "/personInfo/userInfo/getAreaListPage" // ajax source
+                },
+                "columns": [
+                    {data: 'area_id', orderable: false,
+                        render: function (data, type, full) {
+                            return '<input type="checkbox" name="checkbox" value="'+full.areaId+'"/>';
+                        }},
+                    {data: 'areaId', orderable: true,searchable:true},
+                    {data: 'building', orderable: true,searchable:true},
+                    {data: 'step', orderable: true,searchable:true},
+                    {data: 'areaName', orderable: true,searchable:true},
+                ]
+            }
+        });
+    };
+
+    var handleRecords02=function(){
+        dataTable2 = new Datatable();
+        dataTable2.init({
+            src: $table2,
+            onQuery:function(data){
+                var str = fun();
+                data.userId= str;
+            },
+            dataTable: {
+                "ajax": {
+                    "url": basePath + "/personInfo/userInfo/getUserAreaListPage" // ajax source
+                },
+                "columns": [
+                    {data: 'area_id', orderable: false,
+                        render: function (data, type, full) {
+                            return '<input type="checkbox" name="checkbox" value="'+full.area_id+'"/>';
+                        }},
+                    {data: 'areaId', orderable: true,searchable:true},
+                    {data: 'building', orderable: true, searchable: true},
+                    {data: 'step', orderable: true, searchable: true},
+                    {data: 'areaName', orderable: true, searchable: true}
+                ]
+            }
+        });
+    }
+
+
+
+    var handleEvent = function(){
+
+        $("#queryUserInfo").on("click",function(){
+                dataTable.reloadTable();
+        });
+
+        $("#reset").on("click",function(){
+            buildingQuery.value="";
+            stepQuery.value="";
+            areaNameQuery.value="";
+        });
+
+
+        $("#queryArea").on("click",function(){
+            dataTable1.reloadTable();
+        });
+
+        $("#reset").on("click",function(){
+            userNameQuery.value="";
+            userRoleQuery.value="";
+            userTagQuery.value="";
+            userIdQuery.value="";
+        });
+
+        $("#addUserInfo").on("click",function(){
+            $("#modalTitle").html("添加用户");
+            customGlobal.clearFormAndShowDialog("modalDialog");
+            zTreeInit();
+            rules: {
+                userId:{
+                    required: true
+                }
+                userName: {
+                    required: true
+                }
+            }
+            $('#roleList').select2();
+            $('#tagList').select2();
+            $("#dialogForm").validate({
+            }).resetForm();
+            $("#addBtn").show();
+            $("#updateBtn").hide();
+        });
+
+
+        $("#addBtn").on("click",function(){
+            if ($("#dialogForm").validate().form()) {
+                customGlobal.blockUI("#modalContent");
+                $.ajax({
+                    url: "personInfo/userInfo/addUserInfo",
+                    data:{
+                        userId :$("#userNum").val(),
+                        userName: $("#username").val(),
+                        userRole: $("#roleList option:selected").val(),
+                        userTag: $("#tagList option:selected").val()
+                    },
+                    type:"post",
+                    success: function (data) {
+                        if (customGlobal.ajaxCallback(data)) {
+                            $("#modalDialog").modal("hide");
+                            dataTable.reloadTable();
+                        }
+                    }
+                });
+            }
+        });
+
+
+
+
+
+        $("#setRole").on("click",function(){
+            $("#modalTitleRole").html("设置角色");
+            customGlobal.clearFormAndShowDialog("modalDialogRole");
+            zTreeInit();
+            rules: {
+                userId:{
+                    required: true
+                }
+                userName: {
+                    required: true
+                }
+            }
+            $('#roleList1').select2();
+            $("#dialogFormRole").validate({
+
+            }).resetForm();
+            $("#addRoleBtn").show();
+            $("#updateRoleBtn").hide();
+        });
+        $("#addRoleBtn").on("click",function(){
+            if ($("#dialogFormRole").validate().form()) {
+                var ss= $("#roleList1 option:selected").val();
+                customGlobal.blockUI("#modalContentRole");
+                $.ajax({
+                    url: "personInfo/userInfo/setRole",
+                    data:{
+                        userId :fun(),
+                       userRole: $("#roleList1 option:selected").val()
+                    },
+                    type:"post",
+                    success: function (data) {
+                        if (customGlobal.ajaxCallback(data)) {
+                            $("#modalDialogRole").modal("hide");
+                            dataTable.reloadTable();
+                        }
+                    }
+                });
+            }
+        });
+        $("#setTag").on("click",function(){
+            $("#modalTitleTag").html("设置标签");
+            customGlobal.clearFormAndShowDialog("modalDialogTag");
+            zTreeInit();
+            rules: {
+                userId:{
+                    required: true
+                }
+                userName: {
+                    required: true
+                }
+            }
+            $('#tagList1').select2();
+            $("#dialogFormTag").validate({
+
+            }).resetForm();
+           // $("#addTagBtn").show();
+            $("#updateTagBtn").show();
+        });
+        $("#updateTagBtn").on("click",function(){
+            if ($("#dialogFormTag").validate().form()) {
+                customGlobal.blockUI("#modalContentTag");
+                $.ajax({
+                    url: "personInfo/userInfo/setTag",
+                    data:{
+                        userId :fun(),
+                        userTag : $("#tagList1 option:selected").val()
+                    },
+                    type:"post",
+                    success: function (data) {
+                        if (customGlobal.ajaxCallback(data)) {
+                            $("#modalDialogTag").modal("hide");
+                            dataTable.reloadTable();
+                        }
+                    }
+                });
+            }
+        });
+
+
+       /* $("#setArea").on("click",function(){
+            $("#modalTitleArea").html("设置区域");
+            customGlobal.clearFormAndShowDialog("modalDialogArea");
+            zTreeInit();
+            rules: {
+                userId:{
+                    required: true
+                }
+                userName: {
+                    required: true
+                }
+            }
+            $('#buildList').select2();
+            $('#stepList').select2();
+            $('#areaList').select2();
+            $("#dialogFormArea").validate({
+
+            }).resetForm();
+            // $("#addTagBtn").show();
+            $("#updateTagBtn").show();
+        });*/
+      $("#buildList").change(function(){
+
+        $.ajax({
+            url:"personInfo/userInfo/getStepByBuild",
+            data:{
+               build: $("#buildList option:selected").val()
+            },
+            type:"get",
+            datatype:"json",
+            success:function(data){
+                var str = "";
+                for(var i=0;i<data.length;i++){
+                   // alert(data[0].step);
+                    str +="<option value="+data[i].step+">"+data[i].step+"</option>";
+                }
+                $("#stepList").empty();
+                $("#stepList").append(str);
+
+            }
+        });
+      });
+
+        $("#stepList").change(function(){
+
+            $.ajax({
+                url:"personInfo/userInfo/getAreaByStep",
+                data:{
+                    building: $("#buildList option:selected").val(),
+                    step:$("#stepList option:selected").val()
+                },
+                type:"get",
+                datatype:"json",
+                success:function(data){
+                    var str = "";
+                    for(var i=0;i<data.length;i++){
+                        // alert(data[0].step);
+                        str +="<option value="+data[i].areaName+">"+data[i].areaName+"</option>";
+                    }
+                    $("#areaList").empty();
+                    $("#areaList").append(str);
+
+                }
+            });
+        });
+
+        $("#alertArea").on("click",function(){
+            $.ajax({
+                url:"personInfo/userInfo/addArea",
+                data:{
+                    userId:fun(),
+                    areaId:f(),
+                    status:0
+                },
+                type:"post",
+                success:function(data){
+
+                    if (customGlobal.ajaxCallback(data)) {
+                        $("#modalDialogAddArea").modal("hide");
+                        dataTable.reloadTable();
+                    }
+
+                }
+            })
+
+        });
+
+        $("#dangerArea").on("click",function(){
+            $.ajax({
+                url:"personInfo/userInfo/addArea",
+                data:{
+                    userId:fun(),
+                    areaId:f(),
+                    status:1
+                },
+                type:"post",
+                success:function(data){
+                    if (customGlobal.ajaxCallback(data)) {
+                        $("#modalDialogAddArea").modal("hide");
+                        dataTable.reloadTable();
+                    }
+                }
+            })
+
+        });
+       
+
+
+
+      
+        
+        
+        $table.on("click","a.edit",function(){
+            $("#modalTitleUserInfo").html("查看详细");
+            embedStatus(1);
+            
+            customGlobal.clearFormAndShowDialog("recordUserInfo");
+            $.ajax({
+                url: "personInfo/userInfo/getUserInfoById",
+                data: {
+                    userId:$(this).find("input").val()
+                },
+                type: "GET",
+                success: function (data) {
+//                    var history = data.returnData.History;
+//                    var str = "";
+//                    for(var i=0;i < history.length;i++){
+//                        str +="名称"+history[i].userName+"    "+"ID"+history[i].userId+"   "
+//                        +"角色"+history[i].userRole+"   "+"标签"+history[i].userTag+"</br>";
+//                    }
+                    //$("#contentUserInfo").empty();
+                    //$("#contentUserInfo").append(str);
+                }
+            });
+        });
+
+        $table.on("click","a.edit1",function(){
+            $("#modalTitleUserInfo").html("查看详细");
+            embedStatus(2);
+            customGlobal.clearFormAndShowDialog("recordUserInfo");
+            $.ajax({
+                url: "personInfo/userInfo/getUserInfoById",
+                data: {
+                    userId:$(this).find("input").val()
+                },
+                type: "GET",
+                success: function (data) {
+//                    var history = data.returnData.History;
+//                    var str = "";
+//                    for(var i=0;i < history.length;i++){
+//                        str +="名称"+history[i].userName+"    "+"ID"+history[i].userId+"   "
+//                        +"角色"+history[i].userRole+"   "+"标签"+history[i].userTag+"</br>";
+//                    }
+                    //$("#contentUserInfo").empty();
+                    //$("#contentUserInfo").append(str);
+                }
+            });
+        });
+        $table.on("click","a.edit2",function(){
+            $("#modalTitleUserInfo").html("查看详细");
+            embedStatus(3);
+            customGlobal.clearFormAndShowDialog("recordUserInfo");
+            $.ajax({
+                url: "personInfo/userInfo/getUserInfoById",
+                data: {
+                    userId:$(this).find("input").val()
+                },
+                type: "GET",
+                success: function (data) {
+//                    var history = data.returnData.History;
+//                    var str = "";
+//                    for(var i=0;i < history.length;i++){
+//                        str +="名称"+history[i].userName+"    "+"ID"+history[i].userId+"   "
+//                        +"角色"+history[i].userRole+"   "+"标签"+history[i].userTag+"</br>";
+//                    }
+                    //$("#contentUserInfo").empty();
+                    //$("#contentUserInfo").append(str);
+                }
+            });
+        });
+
+      /*  $table.on("click","a.delete",function(){
+            var $this = $(this);
+            //confirm中确认按钮事件，此处需要unbind，否则点击取消时下次再点击删除按钮会重复绑定click。
+            $("#confirmBtn").off("click.deleteRow").on("click.deleteRow",function(){
+                $.ajax({
+                    url: "person/userInfo/" + $table.DataTable().row($this.parents('tr')[0]).data().userId,
+                    dataType: "json",
+                    type: "DELETE",
+                    success: function (data) {
+                        $("#confirmDialog").modal("hide");
+                        if (customGlobal.ajaxCallback(data)) {
+                            dataTable.reloadTable();
+                        }
+                    }
+                })
+            })
+        });*/
+    };
+
+    $("#setArea").on("click",function(){
+        $("#modalTitleAddArea").html("设置区域");
+
+        customGlobal.clearFormAndShowDialog("modalDialogAddArea");
+        dataTable1.reloadTable();
+
+        $("#passwordHelpBlock").html("");
+    });
+
+    $("#deleteArea").on("click",function(){
+        $("#modalTitledel").html("删除区域");
+        customGlobal.clearFormAndShowDialog("modalDialogdel");
+        dataTable2.reloadTable();
+        $("#passwordHelpBlock").html("");
+    });
+    function fun(){
+        var  objs = $("#dataTable input[type=checkbox]:checked");
+        var check_val = "";
+        $.each(objs,function(index,obj){
+            check_val +=  objs[index].defaultValue+"%";
+        });
+        return check_val;
+    }
+
+    function ff(){
+        var  objs = $("#dataTable2 input[type=checkbox]:checked");
+        var check_val = "";
+        $.each(objs,function(index,obj){
+            check_val +=  objs[index].defaultValue+"%";
+        });
+        return check_val;
+    }
+
+    function f(){
+        var  objs = $("#dataTable1 input[type=checkbox]:checked");
+        var check_val = "";
+        $.each(objs,function(index,obj){
+            check_val += objs[index].defaultValue+"%";
+        });
+        return check_val;
+    }
+
+
+    var zTableInit = function (nodes){
+        nodes = nodes == undefined ? zNodes : nodes;
+        zTreeck = $.fn.zTree.init($("#checkAllUserInfo"), {
+            check: {
+                enable: true
+            },
+            view: {
+                showLine:false
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            }
+        }, nodes);
+    };
+
+
+
+
+
+
+    var zTreeInit = function (node){
+        node = node == undefined ? zNodes : node;
+        zTreeObj = $.fn.zTree.init($("#permissionTree"), {
+            check: {
+                enable: true
+            },
+            view: {
+                showLine:false
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            }
+        }, node);
+    };
+
+    return {
+        init: function (zTreeNodes) {
+            handleRecords();
+            handleEvent();
+            handleRecords01();
+            handleRecords02();
+            zNodes = zTreeNodes;
+        }
+    };
+}();

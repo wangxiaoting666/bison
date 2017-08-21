@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.sjgl.dao.PictureDao">
+
+
+
+
+    <insert id="addImage">
+        INSERT INTO acl_image(imageId,imageName,building,lc,url) VALUES (
+        #{imageId},#{imageName},#{building},#{lc},#{url}
+        )
+    </insert>
+
+
+    <delete id="deleteImage">
+        DELETE FROM acl_image WHERE imageId=#{imageId}
+    </delete>
+
+
+    <select id="getPictureList" resultType="com.threegrand.bison.sjgl.model.Picture">
+        SELECT * FROM acl_image
+    </select>
+
+    <update id="updatePicture">
+        UPDATE acl_image SET
+        building=#{building},
+        lc=#{lc}
+        WHERE imageId=#{imageId}
+    </update>
+</mapper>

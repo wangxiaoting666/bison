@@ -1,0 +1,110 @@
+/* head */
+
+/* content */
+#content{overflow:hidden; background-color:#f3f2f2;}
+
+/* foot */
+
+/* nav_list */
+.nav_list{position:absolute;left:47%; top:98px; width:152px; background:rgba(0,0,0,0.5);padding:13px 0;}
+.nav_list li{padding:10px 0; text-align:center;}
+.nav_list li a{color:rgba(134,222,255,1); font-weight:bold;}
+.nav_list li a:hover{color:rgba(255,255,255,1); font-weight:bold;}
+
+/*start forecast*/
+#content .banner_forecast{width:100%; height:182px; background: url(../img/show.gif) no-repeat; margin-bottom:31px;}
+#content .banner_forecast .banner_p{ width:999px; margin:0 auto; padding-top:157px; color:#666666; font-size:14px;}
+#forecast{ width:925px; margin:0 auto;}
+#forecast p span{color:#5a5a5a; font-size:18px; padding:0 12px; line-height:1.7em; margin:25px 0px;}
+#forecast h1{ color:#385cab; font-size:36px; text-align:center; height:33px; line-height:36px; padding-top:52px;}
+#forecast p.pl{ padding:21px 0px; color:#5a5a5a;text-align:center; }
+#forecast img.ForecastImg{ margin-bottom:6px;}
+#forecast p.text{ color:#5a5a5a; font-size:18px; padding:0 12px; line-height:1.7em; margin:25px 0px;}
+/*stop forecast*/
+/*solution_case*/
+#content .banner_case{width:100%; height:182px; background: url(../img/show.gif) no-repeat; margin-bottom:31px;}
+#content .banner_case .banner_p{ width:999px; margin:0 auto; padding-top:157px; color:#666666; font-size:14px;}
+#content .banner_solution{width:100%; height:182px; background: url(../img/solution_09.gif) no-repeat; margin-bottom:31px;}
+#content .banner_solution .banner_p{ width:999px; margin:0 auto; padding-top:153px; color:#666666; font-size:14px;}
+#details{background-color:#f3f2f2; width:999px; margin:0 auto;}
+.left{ width:140px;float:left}
+.left .liebiao li{ width:138px; background: url(../img/xiaojiantou1.gif) right no-repeat; margin-bottom:15px; font-size:18px; color:#666666; font-weight:bold;}
+.left .liebiao li a{color:#666666;}
+.left .liebiao .liEffects{ width:138px; background: url(../img/xiaojiantou.gif) right no-repeat; margin-bottom:15px; font-size:18px; color:#4f87e1; font-weight:bold; cursor: pointer;}
+.right{ width:859px;float: right;}
+#solution,#case{width:815px;padding-left:65px;}
+.system{min-height: 100px; width:100%; padding-bottom:100px; padding-left:15px;}
+.system p{ font-size:18px; color:#5a5a5a; padding-top:4px; float:left;} 
+#solution .system .recognition{ width:280px; height:200px; float:left; background: top right no-repeat; margin-right:16px;}
+#case .system .security { width:193px; height:200px; float:left; background: url(../img/case_03.gif) top right no-repeat; margin-right:16px;}
+#solution .system .SEO{ width:193px; height:200px; float:left; background: url(../img/solution_07.gif) top right no-repeat; margin-right:16px;}
+#case .system .medical { width:193px; height:200px; float:left; background: url(../img/case_07.gif) top right no-repeat; margin-right:16px;}
+#solution .system .management{ width:193px; height:200px; float:left; background: url(../img/solution_11.gif) top right no-repeat; margin-right:16px;}
+#case .system .mall { width:193px; height:200px; float:left; background: url(../img/case_10.gif) top right no-repeat; margin-right:16px;}
+#solution .system .office{ width:193px; height:200px; float:left; background: url(../img/solution_15.gif) top right no-repeat; margin-right:16px;}
+#case .system .website{ width:193px; height:200px; float:left; background: url(../img/case_13.gif) top right no-repeat; margin-right:16px;}
+.system .text{padding:0px 15px;font-size:18px;color:#5a5a5a; line-height:1.7em;}
+ .pagination{ width:100%; height:40px; padding-bottom:45px;}
+ .pagination ul li{ float:left; height:40PX; cursor:pointer; }
+ .pagination ul li.li_04{ width:83px; background:url(../img/solution_28.gif) no-repeat bottom center; line-height:40px; text-align:center; font-size:18px; color:#FFF;}
+ .pagination ul li.li_03{ width:60px; background:url(../img/solution_34.gif) no-repeat center center;}
+ .pagination ul li.li_05{  width:60px; background: url(../img/solution_37.gif) no-repeat center center;}
+ .pagination ul li.li_01{ font-size:45px; color:#7aacfb; line-height:40px; text-align:center; width:300px;}
+  .pagination ul li.li_01 a{ font-size:28px; color:#666666;}
+ .pagination ul li.li_11{ width:56px; background: url(../img/solution_19.gif) center no-repeat;}
+ .pagination ul li.li_12{width:56px; background: url(../img/solution_21.gif) center no-repeat;}
+ .pagination ul li.li_13{width:56px; background: url(../img/solution_23.gif) center no-repeat;}
+ .pagination ul li.li_14{width:56px; background: url(../img/solution_25.gif) center no-repeat;}
+ .pagination ul li.li_02{ font-size:18px; color:#666666; line-height:40px; text-align:center; width:56px;}
+/*stop solution_case*/
+
+/* start news3*/
+#content .banner_news3{width:100%; height:182px; background: url(../img/new3_02.gif) no-repeat; margin-bottom:31px;}
+#content .banner_news3 .banner_p{ width:999px; margin:0 auto; padding-top:157px; color:#666666; font-size:14px;}
+#news_3{ width:925px; margin:0 auto;}
+#news_3 h1{ color:#385cab; font-size:36px; text-align:center; height:33px; line-height:36px; padding-top:52px;}
+#news_3 p.pl{ padding:21px 0px; color:#5a5a5a;text-align:center; }
+#news_3 img.ForecastImg{ margin-bottom:6px;}
+#news_3 p.text{ color:#5a5a5a; font-size:18px; padding:0 12px; line-height:1.7em; margin:25px 0px;}
+#news_3 ul p.biaoti{ font-size:24px; color:#3d7cdf; margin-bottom:17px; background:url(../img/news_3_1.gif) right center no-repeat; width:130px; height:22px;}
+#news_3 ul li{ color:#7b7b7b; cursor:pointer; font-size: 16px; padding-bottom:10px;}
+#news_3 .new_more{ height:32px; padding-top:9px; padding-bottom:37px;}
+#news_3 .new_more .pa{ width:92px; float:left; background:url(../img/new3_09.gif) no-repeat; height:32px; padding-left:5px; cursor:pointer; }
+#news_3 .new_more .pb{ float:right; color:#3d7cdf; font-size: 16px;cursor:pointer;}
+/* stop news3*/
+
+/* start company introduction*/
+#case{ padding-bottom:120px}
+.banner_introduction{width:100%; height:182px; background: url(../img/toplong.gif) no-repeat; margin-bottom:31px;}
+.banner_introduction .banner_p{ width:999px; margin:0 auto; padding-top:157px; color:#666666; font-size:14px;}
+.middle{ width:999px; height:780px; margin: 0 auto}
+.liebiao{  font-family:"黑体"; font-size:18px; color:#5a5a5a; font-weight:bold;width:140px}
+.liebiao td { border: 0px none;font-size: 16px;}
+.photo{ width:854px; height:165px; margin:0 auto;}
+.paragraph,.paragraph h1{padding-top: 27px;width: 837px;margin:0 auto;text-indent:2em; width:824;  font-family:"黑体"; font-size:18px; color:#5a5a5a; line-height:1.7em;}
+.paragraph p{ text-indent:2em; width:824;  font-family:"黑体"; font-size:18px; color:#5a5a5a; line-height:1.7em;padding-top: 14px;}  
+/* stop company introduction*/
+
+/* start news_second*/
+.banner_news2{width:100%; height:182px; background: url(../img/toppicture1.gif) no-repeat; margin-bottom:31px;}
+.banner_news2 .banner_p{ width:999px; margin:0 auto; padding-top:157px; color:#666666; font-size:14px;}
+ul.news2_list{ width:758px; margin:0 auto; padding-bottom:231px;}
+ul.news2_list li{font-size:18px; color:#5a5a5a; padding:8px 0; width:100%; height:18px; list-style: url(../img/bluetip.gif) outside ;}
+ul.news2_list li .span1{ float:left; padding-left:10px;}
+ul.news2_list li .span2{ float:right;}
+.pagination_newa2{ width:600px; margin:0 auto;}
+/* stop news_second*/
+/*start lianxi*/
+#content .banner_lianxi{width:100%; height:182px; background:url(../img/contactus_02.gif) no-repeat; margin-bottom:31px;}
+#content .banner_lianxi .banner_p{ width:999px; margin:0 auto; padding-top:157px; color:#666666; font-size:14px;}
+.right .lxl{margin-bottom:30px;}
+.right .lxl p{ font-size:18px; color:#5a5a5a; padding-bottom:18px;}
+/*stop lianxi*/
+/*start zhaopin*/
+ .banner_zhaopin{width:100%; height:182px; background:url(../img/blues_02.gif) no-repeat; margin-bottom:31px;}
+ .banner_zhaopin .banner_p{width:999px; margin:0 auto; padding-top:157px; color:#666666; font-size:14px;}
+.right .zp{margin-bottom:30px;}
+.right .mach{ width:826px; margin:0 auto; }
+.right .mach p{ color:#666666; font-size:18px; padding-bottom:18px;}
+.right .mach li{ color:#666666; font-size:18px; padding-bottom:18px; list-style: decimal;margin-left:37px;}
+/*stop zhaopin*/

@@ -1,0 +1,401 @@
+<%--@elvariable id="roleList" type="java.util.List<com.threegrand.bison.security.model.Role>"--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+<%@include file="../includes/head.jsp"%>
+<title>${menu.menuName}</title>
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/js/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/js/bower_components/ztree_v3/css/zTreeStyle/zTreeStyle.css"/>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/global/ztree_custom.css"/>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/global/ol.css"/>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/global/ol3-base_3d.css"/>" />
+
+<!-- 日历 -->
+<script src="<c:url value="/date/jedate/jedate.js"/>"></script>
+<!-- 地图 -->
+<script src="<c:url value="/js/asset/ol-debug.js"/>"></script>
+<script src="<c:url value="/js/asset/jquery-1.9.1.js"/>"></script>
+<script src="<c:url value="/js/asset/asset_common.js"/>"></script>
+<script src="<c:url value="/js/asset/asset_style.js"/>"></script>
+<script src="<c:url value="/js/asset/asset_init.js"/>"></script>
+<script src="<c:url value="/js/asset/asset_base_fun.js"/>"></script>
+
+<style type="text/css">
+</style>
+</head>
+<body class="page-header-fixed page-quick-sidebar-over-content">
+	
+	
+	<!-- 添加资产 -->
+
+	<!-- 查看资产信息角色 -->
+	
+		
+		<div  >
+		<div class="">
+			<div class="modal-content" id="">
+				
+				
+				<!--切换按钮 -->
+
+				<ul id="myTab" class="nav nav-tabs">
+      <li class="active">
+            <a href="#home" data-toggle="tab"> 基本信息</a>
+      </li>
+      <li><a href="#ios" data-toggle="tab">高级信息</a></li>
+      
+</ul>
+
+
+				<div id="myTabContent" class="tab-content">
+					<!-- 基本信息 -->
+					<div class="tab-pane fade in active" id="home">
+						<div class="modal-body form">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<div class="col-md-9 col-sm-8 col-xs-12"
+											 >
+											<div class="white_content  col-md-12">
+												<form role="form" class="form-horizontal" id="dialogForm">
+													<input type="text" id="id1" hidden="true" />
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="" id="">资产编号</label>
+														<div class="col-sm-8">
+														 <input type="hidden" id="type" value="${param.type}"/>
+														    <input type="hidden" id="assetId" value="${param.assetId}"/>
+															<input type="text" class="form-control" id="assetId1"
+																placeholder=""></input>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="" id="">资产名称</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="assetName1"
+																placeholder=""></input>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-md-6">
+															<div class="form-group">
+																<label class="col-md-4 control-label">资产分类</label>
+																<div class="col-md-8">
+																   <input type="text" class="form-control" id="className1"/>
+																	 <span class="help-block"></span>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="">资产简称</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control"
+																id="abbreviation1" placeholder=""></input>
+														</div>
+													</div>
+
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="">资产型号</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="version1"
+																placeholder=""></input>
+														</div>
+													</div>
+
+													<div class="row">
+														<div class="col-md-6">
+															<div class="form-group last">
+																<label class="col-md-4 control-label">归属单位<span
+																	class="required"> * </span></label>
+																<div class="col-md-8">
+																	<input type="text" class="form-control" id="organName1"/>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="row">
+														<div class="col-md-6">
+															<div class="form-group last">
+																<label class="col-md-4 control-label">重要等级<span
+																	class="required"> * </span></label>
+																<div class="col-md-8">
+																	<select id="grade1" class="form-control select2"
+																		style="width:445px;" placeholder="角色">
+																		<option value="2">重要</option>
+																		<option value="1">一般</option>
+																		<option value="0">轻微</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="row">
+														<div class="col-md-12">
+															<div class="form-group">
+																<label class="col-md-2 control-label" id="initGeom1">初始位置</label>
+															</div>
+														</div>
+													</div>
+
+													<!-- ---------------------------------- -->
+													<div id="updmap" class="updmapmap"  >
+													
+														<div class="floor-select">
+															<div class="wheel">
+																<ul class="nav nav-pills nav-stacked">
+																	<li role="presentation" class="up"><a><i
+																		class="glyphicon glyphicon-chevron-up"></i></a></li>
+																	<li class="divider"></li>
+																	<li class="floor-wheel ">
+																		<ul class="nav nav-pills nav-stacked " id="floorlist"></ul>
+																	</li>
+																	<li class="divider"></li>
+																	<li role="presentation" class="down"><a><i
+																		class="glyphicon glyphicon-chevron-down"></i></a></li>
+																</ul>
+															</div>
+														</div>
+														<div id="scale"  style="position:absolute; right:0px; top:0px;"><img src="img/suo.png"/></div>
+													</div>
+												</form>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<!-- 高级信息 -->
+					<div class="tab-pane fade" id="ios">
+
+						<div class="modal-body form">
+
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+
+
+										<div class="col-md-9 col-sm-8 col-xs-12"
+											>
+											<div class="white_content  col-md-12">
+												<form role="form" class="form-horizontal">
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="" id="">厂商名称</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="factoryName1"
+																placeholder=""></input>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="" id="">采购价格</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="buyPrice1"
+																placeholder=""></input>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="" id="">采购日期</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control"   id="buyDate1"
+																placeholder=""></input>
+														</div>
+													</div>
+
+
+
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="">经销商</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="agency1"
+																placeholder=""></input>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="">经销商联系方式</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="agencyPhone1"
+																placeholder=""></input>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="">责任人</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="person1"
+																placeholder=""></input>
+														</div>
+													</div>
+
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="">使用者</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="user1"
+																placeholder=""></input>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="">使用者手机号</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="userPhone1"
+																placeholder=""></input>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-md-6">
+															<div class="form-group last">
+																<label class="col-md-4 control-label">备注<span
+																	class="required"> * </span></label>
+																<div class="col-md-8">
+																	<textarea class="form-control input-medium"
+																		placeholder="" id="remark1" name=""></textarea>
+																</div>
+															</div>
+														</div>
+													</div>
+
+												</form>
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn default" data-dismiss="modal" id="close">关闭</button>	
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+<!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+<script src="<c:url value="/js/bower_components/bootstrap/dist/js/bootstrap.min.js"/>" type="text/javascript"></script>
+
+<script src="<c:url value="/js/bower_components/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js"/>"
+        type="text/javascript"></script>
+
+<script src="<c:url value="/js/bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js"/>"
+        type="text/javascript"></script>
+
+	
+	<script type="text/javascript"
+		src="<c:url value="/js/bower_components/DataTables/media/js/jquery.dataTables.min.js"/>"></script>
+	<script type="text/javascript"
+		src="<c:url value="/js/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"/>"></script>
+	<script type="text/javascript"
+		src="<c:url value="/js/bower_components/ztree_v3/js/jquery.ztree.core-3.5.min.js"/>"></script>
+	<script type="text/javascript"
+		src="<c:url value="/js/bower_components/ztree_v3/js/jquery.ztree.excheck-3.5.min.js"/>"></script>
+	<script src="<c:url value="/js/global/scripts/datatable.js"/>"></script>
+	<script src="<c:url value="/js/asset/assetPage.js"/>"></script>
+<!-- 弹框 -->
+<script src="layer/layer.js"></script>
+<script src="layer/extend/layer.ext.js"></script>
+
+
+
+
+<script type="text/javascript">
+jeDate({
+	dateCell:"#buyDate1",
+	format:"yyyy-MM-dd HH:mm:ss",//控制是否显示小时
+})
+
+  $(function(){
+    assetListTable.init();
+  });
+  
+
+</script>
+
+<script type="text/javascript">
+$(function(){
+		//查看资产信息
+		AssetSavetype = null;
+		AssetSelecttype = 'one';// 查看资产初始位置
+		
+		var index = parent.layer.getFrameIndex(window.name);
+		$.ajax({
+			url : "/bison/asset/getAsset",
+			data : "id=" + $("#assetId").val(),
+			type : "get",
+			success : function(data) {
+				var asset = data.returnData.asset;
+				loadInitAsset(asset.assetId);			// 查看资产初始位置		
+				$("#assetId1").val(asset.assetId);
+				$("#assetName1").val(asset.assetName);
+				$("#className1").val(asset.className);
+				$("#abbreviation1").val(asset.abbreviation);
+				$("#version1").val(asset.version);
+				$("#organName1").val(asset.organName);
+				$("#grade1").find("option[value=" + asset.grade + "]")
+						.attr("selected", "selected");
+				$("#initGeom1").val();
+				$("#factoryName1").val(asset.factoryName);
+				$("#buyPrice1").val(asset.buyPrice);
+				$("#buyDate1").val(asset.buyDate);
+				$("#agency1").val(asset.agency);
+				$("#agencyPhone1").val(asset.agencyPhone);
+				$("#person1").val(asset.person);
+				$("#user1").val(asset.user);
+				$("#userPhone1").val(asset.userPhone);
+				$("#remark1").val(asset.remark);
+				initLoadMap('updmap');		
+			},
+		});
+		getFloorList();
+		
+		$('#close').on('click', function(){
+		     parent.layer.close(index);
+		});
+			
+		
+		 $("#scale").toggle(function(){
+             $("#updmap").css({
+              "width":"135%",
+				  "height":"120%",
+				  "position":"absolute",
+				  "margin-left":"0px",
+				  "top":"0",
+				  "left":"0"
+             });
+         },function(){
+             $("#updmap").css({
+            "position": "relative",
+            "width":"400px",
+            "height":"200px",
+            "margin-left":"80px",
+         	"background-color":" rgba(255,250,250,1)"
+				 
+             	
+             });
+         });
+
+
+});
+
+
+</script>
+
+
+</body>
+</html>

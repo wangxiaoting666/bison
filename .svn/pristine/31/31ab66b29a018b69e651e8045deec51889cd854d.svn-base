@@ -1,0 +1,55 @@
+package com.threegrand.bison.system.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.threegrand.bison.system.dao.StaffDao;
+import com.threegrand.bison.system.model.Staff;
+import com.threegrand.bison.system.service.StaffService;
+
+@Service("staffService")
+public class StaffServiceImpl implements StaffService{
+	
+	@Autowired
+	private StaffDao staffDao;
+
+	/**
+	 * 添加部门员工
+	 */
+	public int addStaff(Staff staff) {
+		return staffDao.addStaff(staff);
+	}
+
+	
+	/**
+	 * 根据部门id获取部门下的员工
+	 */
+	public List<Staff> getStaffByOrganId(String organId,String companyId) {
+		return staffDao.getStaffByOrganId(organId,companyId);
+	}
+
+
+	/**
+	 * 根据员工id获取员工
+	 */
+	public Staff getStaff(String id, String companyId) {
+		return staffDao.getStaff(id,companyId);
+	}
+
+
+	@Override
+	public List<Staff> getStaffLikeName(String key, String companyId) {
+		return staffDao.getStaffLikeName(key,companyId);
+	}
+
+
+	@Override
+	public List<String> getStaffNameByOrganId(String organId, String companyId) {
+		return staffDao.getStaffNameByOrganId(organId,companyId);
+	}
+	
+	
+
+}

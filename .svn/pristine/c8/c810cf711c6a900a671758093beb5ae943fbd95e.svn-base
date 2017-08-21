@@ -1,0 +1,252 @@
+var roleListTable = function () {
+
+        var dataTable;
+        var zTreeObj;
+        var oTreeObj;
+        var $table = $("#dataTable");
+        var zNodes;
+        var oNodes;
+        /**
+         * dataTable事件初始化方法
+         */
+        var handleRecords = function () {
+            dataTable = new Datatable();
+            dataTable.init({
+                src: $table,
+                onQuery:function(data){
+                    data.roleName=$("#roleNameQuery").val();
+                    data.description=$("#descriptionQuery").val();
+                },
+                onSortColumn:function (sortColumn, sortDirection) {
+                    switch (sortColumn) {
+                        case "roleName":
+                            sortColumn = "role_name";
+                            break;
+                    }
+                    return customGlobal.onSortColumnDefault(sortColumn, sortDirection);
+                },
+                dataTable: {
+                    "ajax": {
+                        "url": basePath + "security/role/getRoleListPage" // ajax source
+                    },
+                    "columns": [
+                        {data: 'roleName', orderable: true,searchable:true},
+                        {data: 'description', orderable: true,searchable:true},
+                        {data: 'operate', orderable: false,
+                            render: function (data, type, full) {
+                            	var str='';
+                            	if($("#pupdate").val() == "update"){
+                            		str = '<a class="edit btn default btn-xs purple" roleId="' + full.roleId + '"><i class="fa fa-edit"></i>编辑</a>';
+                            	}
+                            	if($("#pdelete").val() == "delete"){
+                            		str = str + '<a class="delete btn default btn-xs black" data-target="#confirmDialog" data-toggle="modal"><i class="fa fa-times"></i>删除</a>';
+                            	}
+                            	return str;
+                            }
+                        }
+                    ]
+                }
+            });
+        };
+
+        var handleEvent = function(){
+            $("#addRole").on("click",function(){
+                $("#modalTitle").html("添加角色");
+                customGlobal.clearFormAndShowDialog("modalDialog");
+                zTreeInit();
+                oTreeInit();
+                $("#dialogForm").validate({
+                    rules: {
+                        roleName: {
+                            required: true
+                        }
+                    }
+                }).resetForm();
+
+                $("#passwordHelpBlock").html("");
+                $("#addBtn").show();
+                $("#updateBtn").hide();
+            });
+
+            function getPermTokens (){
+                var nodes = zTreeObj.getCheckedNodes();
+                //去掉重复的permToken
+                var permTokenObj = {};
+                for (var node in nodes) {
+                    if (nodes[node].permToken!="") {
+                        permTokenObj[nodes[node].permToken] = nodes[node].permToken;
+                    }
+                }
+                var permTokens = [];
+                for (node in permTokenObj) {
+                    permTokens.push(permTokenObj[node]);
+                }
+                return permTokens;
+            }
+            
+           /* ---------------------------------*/
+            function getOrganTokens (){
+                var nodes = oTreeObj.getCheckedNodes();
+                var organTokens = [];
+                for (node in nodes) {
+                    organTokens.push(nodes[node].id);
+                }
+                return organTokens;
+            }
+
+            $("#addBtn").on("click",function(){
+
+                if ($("#dialogForm").validate().form()) {
+                    customGlobal.blockUI("#modalContent");
+                    $.ajax({
+                        url: basePath+"security/role",
+                        data: JSON.stringify({
+                            roleName: $("#roleName").val(),
+                            description: $("#description").val(),
+                            getUserList:$("#userNameList").val(),
+                            permTokenList:getPermTokens(),
+                            organTokenList:getOrganTokens()
+                        }),
+
+                        contentType: "application/json; charset=utf-8",
+                        type: "post",
+                        success: function (data) {
+
+                            if (customGlobal.ajaxCallback(data)) {
+                                $("#modalDialog").modal("hide");
+                                dataTable.reloadTable();
+                            }
+                        }
+                    });
+
+                }
+            });
+
+            $table.on("click","a.edit",function(){
+                $("#modalTitle").html("编辑角色");
+                customGlobal.clearFormAndShowDialog("modalDialog");
+                $("#dialogForm").validate({
+                    rules: {
+                        roleName: {
+                            required: true
+                        }
+                    }
+                }).resetForm();
+
+                $("#addBtn").hide();
+                $("#updateBtn").show();
+                $.get(basePath+"security/role/"+$(this).attr("roleId"),function(data){
+                    var role = data.returnData.role;
+                    $("#roleId").val(role.roleId);
+                    $("#roleName").val(role.roleName);
+                    $("#description").val(role.description);
+                    $("#passwordHelpBlock").html("");
+                    var $roleNameList = $("#userNameList");
+                    $roleNameList.find("option").removeAttr("selected");
+                    zTreeInit(data.returnData.permTokenTree);
+                    oTreeInit(data.returnData.organTokenTree);
+                });
+            });
+
+            $("#updateBtn").on("click",function(){
+                if ($("#dialogForm").validate().form()) {
+                    customGlobal.blockUI("#modalContent");
+                    var data = {
+                        roleId: $("#roleId").val(),
+                        roleName: $("#roleName").val(),
+                        description: $("#description").val(),
+                        getUserList:$("#userNameList").val(),
+                        permTokenList:getPermTokens(),
+                        organTokenList:getOrganTokens()
+                    };
+
+                    $.ajax({
+                        url: basePath+"security/role",
+                        data: JSON.stringify(data),
+                        type: "put",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            if (customGlobal.ajaxCallback(data)) {
+                                $("#modalDialog").modal("hide");
+                                dataTable.reloadTable();
+                            }
+                        }
+                    });
+                }
+            });
+
+            $table.on("click","a.delete",function(){
+                var $this = $(this);
+                //confirm中确认按钮事件，此处需要unbind，否则点击取消时下次再点击删除按钮会重复绑定click。
+                $("#confirmBtn").off("click.deleteRow").on("click.deleteRow",function(){
+                	$.ajax({
+                        url:basePath+ "security/role/" + $table.DataTable().row($this.parents('tr')[0]).data().roleId,
+                        dataType: "json",
+                        type: "DELETE",
+                        success: function (data) {
+                            $("#confirmDialog").modal("hide");
+                            if (customGlobal.ajaxCallback(data)) {
+                                dataTable.reloadTable();
+                            }
+                        }
+                    })
+                })
+            });
+        };
+
+        var zTreeInit = function (node){
+            node = node == undefined ? zNodes : node;
+            zTreeObj = $.fn.zTree.init($("#permissionTree"), {
+                check: {
+                    enable: true
+                },
+                view: {
+                    showLine:false
+                },
+               /*  data: {
+                    simpleData: {
+                        enable: true
+                    }
+                } */
+                data: {
+                    key: {
+                        name: "name"
+                    },
+                    simpleData: {
+                        enable: true,
+                        idKey: "id",
+                        pIdKey: "pId"
+                    }
+                }
+            }, node);
+        };
+        
+        
+        /*  -------------------------------*/
+        var oTreeInit = function (node){
+            node = node == undefined ? oNodes : node;
+            oTreeObj = $.fn.zTree.init($("#organTree"), {
+                check: {
+                    enable: true
+                },
+                view: {
+                    showLine:false
+                },
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                }
+            }, node);
+        };
+        
+
+        return {
+            init: function (zTreeNodes,oTreeNodes) {
+                handleRecords();
+                handleEvent();
+                zNodes = zTreeNodes;
+                oNodes = oTreeNodes;
+            }
+        };   
+    }();

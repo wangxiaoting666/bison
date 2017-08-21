@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.AccountMgt.dao.AccountDao">
+
+
+    <select id="getAccountListPage" resultType="com.threegrand.bison.AccountMgt.model.Account">
+        SELECT * FROM acl_account
+        where 1=1
+        <if test="department!=null and ''!=department">and department like '%${department}%'</if>
+        <if test="position!=null and ''!=position">and position like   '%${position}%'</if>
+        <if test="empID!=null and ''!=empID">and empID like  '%${empID}%'</if>
+        <if test="username!=null and ''!=username">and username  like '%${username}%' </if>
+    </select>
+
+    <insert id="addAccount">
+        INSERT INTO acl_account(empID,username,password,department,position,status,createTime)VALUES
+        (#{empID},#{username},#{password},#{department},#{position},#{status},#{createTime})
+    </insert>
+
+
+
+    <update id="updateAccountpassword">
+        UPDATE acl_account SET
+        password="123456"
+        WHERE empID=#{empID}
+    </update>
+
+    <update id="updateAccountstatusstop">
+        UPDATE acl_account SET
+        status="封禁"
+        WHERE empID=#{empID}
+    </update>
+
+    <update id="updateAccountstatusstart">
+        UPDATE acl_account SET
+        status="正常"
+        WHERE empID=#{empID}
+    </update>
+
+    <select id="getBindingPerListPage" resultType="com.threegrand.bison.AccountMgt.model.BindingPerson">
+        SELECT * FROM userinfo
+        where 1=1
+    </select>
+
+    <select id="getAccountListByIds" resultType="com.threegrand.bison.AccountMgt.model.Account">
+        SELECT * FROM acl_account
+        where 1=1
+        <if test="ids!=null">and empID in (${ids})</if>
+
+    </select>
+
+    <select id="findRolePer" resultType="com.threegrand.bison.security.model.Role">
+        SELECT * FROM acl_role_permission
+        where 1=1
+        and company_id = #{companyId}
+        and role_name = #{roleName}
+        and perm_token = #{permToken}
+
+    </select>
+
+    <insert id="AddmonitorobjectPer">
+        INSERT INTO acl_accountbingding(empID,userId)VALUES
+        (#{empID},#{userId})
+    </insert>
+
+    <select id="getBindingPerdelListPage" resultType="com.threegrand.bison.AccountMgt.model.BindingPerson">
+        SELECT a.id monitId,u.* FROM
+        (SELECT * FROM acl_accountbingding WHERE 1=1 <if test="ids!=null">AND empID in (${ids})</if>) a
+        LEFT JOIN userinfo u ON a.persionId=u.userId
+    </select>
+
+    <delete id="monitorobjectPerdel">
+        DELETE FROM acl_accountbingding
+        WHERE id=#{monitId}
+    </delete>
+
+
+    <update id="updateAccountPer">
+        INSERT INTO acl_role_permissionBF (company_id,role_name,perm_token)VALUES
+            (#{companyId},#{roleName},#{permToken})
+    </update>
+
+    <insert id="addRolePermission">
+        INSERT INTO acl_role_permission (company_id,role_name,perm_token)VALUES
+            (#{companyId},#{roleName},#{permToken})
+    </insert>
+
+    <delete id="deleteAccountPer">
+        DELETE FROM acl_role_permissionBF
+        WHERE company_id="0"
+    </delete>
+
+    <delete id="deleteAccountList">
+        DELETE FROM acl_account
+        WHERE empID=#{empID}
+    </delete>
+
+
+</mapper>

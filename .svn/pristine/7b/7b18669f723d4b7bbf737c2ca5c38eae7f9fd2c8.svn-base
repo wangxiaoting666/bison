@@ -1,0 +1,75 @@
+
+header h2{
+    font-size: 22px;
+    margin: 0px auto;
+    padding: 10px 0;
+    width: 80%;
+    text-align: center;
+}
+header a, a:visited {
+    text-decoration:none;
+    color:#fcfcfc;
+}
+
+#gallery{
+	width:100% !important;
+	margin:0 auto !important;
+	overflow:hidden !important;
+	}
+#gallery img{ width:100% !important;}
+#ft-buttons-gallery{ display:none;}
+/*.main {
+    height: 521px;
+    margin: 0 auto;
+    position: relative;
+	padding:0 5px 0 5px;
+}*/
+.main {
+    height: 521px;
+    margin: 0 auto;
+    position: relative;
+    width: 100%;
+	/*padding:0 5px 0 5px;*/
+}
+
+.ft-title {
+    background-color: rgba(128, 128, 128, 0.8) !important;
+    font-size: 18px;
+    font-weight: bold;
+    height: 37px;
+    line-height: 40px;
+    margin-right:10px;
+    text-align: right;
+    width: 100%;
+}
+.ft-title a {
+    color: #fff;
+}
+.ft-prev, .ft-next {
+    /* CSS3 transform */
+    -webkit-transition: all 0.2s ease-in-out 0s;
+    -moz-transition: all 0.2s ease-in-out 0s;
+    -o-transition: all 0.2s ease-in-out 0s;
+    -ms-transition: all 0.2s ease-in-out 0s;
+    transition: all 0.2s ease-in-out 0s;
+}
+.ft-prev {
+    
+   
+    background:url(../img/left_button.gif);
+	font-size:0px;
+    border-width: 30px;
+    height: 99px;
+    overflow: hidden;
+    width: 92px;
+}
+.ft-next {
+    
+   
+    background:url(../img/right_button.gif);
+	font-size:0px;
+    border-width: 30px;
+    height: 99px;
+    overflow: hidden;
+    width: 92px;
+}

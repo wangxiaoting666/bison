@@ -1,0 +1,452 @@
+<%--@elvariable id="roleList" type="java.util.List<com.threegrand.bison.security.model.Role>"--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+<%@include file="../includes/head.jsp"%>
+<title>${menu.menuName}</title>
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/js/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/js/bower_components/ztree_v3/css/zTreeStyle/zTreeStyle.css"/>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/global/ztree_custom.css"/>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/global/ol.css"/>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/global/ol3-base_3d.css"/>" />
+
+<!-- 日历 -->
+<script src="<c:url value="/date/jedate/jedate.js"/>"></script>
+<!-- 地图 -->
+<script src="<c:url value="/js/asset/ol-debug.js"/>"></script>
+<script src="<c:url value="/js/asset/jquery-1.9.1.js"/>"></script>
+<script src="<c:url value="/js/asset/asset_common.js"/>"></script>
+<script src="<c:url value="/js/asset/asset_style.js"/>"></script>
+<script src="<c:url value="/js/asset/asset_init.js"/>"></script>
+<script src="<c:url value="/js/asset/asset_base_fun.js"/>"></script>
+
+<style type="text/css">
+</style>
+</head>
+<body class="page-header-fixed page-quick-sidebar-over-content">
+	<%@include file="../includes/top.jsp"%>
+	<div class="page-container">
+		<%@include file="../includes/sidebar.jsp"%>
+		<div class="page-content-wrapper">
+			<div class="page-content">
+				<%@include file="../includes/current.jsp"%>
+				<div class="row" style="overflow: hidden; margin-left: 2px;">
+					<input style="float: left;" type="text"
+						class="form-control input-medium" placeholder="资产名称"
+						name="assetNameQuery" id="assetName"> <select
+						style="float: left;" class="form-control input-medium"
+						id="classfiy" placeholder="资产类别">
+						<option value="">请选择分类</option>
+						<c:forEach var="classify" items="${twoClassList}">
+							<option value="${classify.classId}">${classify.className}</option>
+						</c:forEach>
+					</select> <select style="float: left;" class="form-control input-medium"
+						id="selectOrgan" placeholder="所属部门">
+						<option value="">请选择部门</option>
+						<c:forEach var="organ" items="${organList}">
+							<option value="${organ.organId}">${organ.organName}</option>
+						</c:forEach>
+					</select> <input style="float: left;" type="text"
+						class="form-control input-medium" placeholder="使用者"
+						name="assetUser" id="assetUser">
+
+					<div class="form-group last">
+						<button type="button" class="btn red" id="queryAssetInfo">查询</button>
+						<button type="button" class="btn default" id="reset">重置</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="portlet">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="${menu.icon}"></i>${menu.menuName}
+								</div>
+								<div class="tools">
+									<a href="javascript:;" class="collapse"></a>
+								</div>
+								<div class="actions">
+								<shiro:hasPermission name="fansai:assetInfoAdd:open">
+									    <a href="javascript:;" class="btn default yellow-stripe"
+										id="addAsset"><i class="fa fa-plus"></i><span
+										class="hidden-480">添加资产</span></a> 
+								  </shiro:hasPermission>
+								  <shiro:hasPermission name="fansai:assetInfoUpdate:open">
+								        <input id="pupdate" value="1" hidden="true">
+								  </shiro:hasPermission>
+										
+								 <shiro:hasPermission name="fansai:assetInfoDelete:open">
+										<a href="javascript:;" class="btn default yellow-stripe"><i class="fa fa-minus"></i><span
+										class="hidden-480" id="assetremove"> 删除资产</span></a> 
+								 </shiro:hasPermission>
+										<a href="javascript:;" class="btn default yellow-stripe"><i
+										class="fa fa-refresh"></i><span class="hidden-480" id="reload">
+											重新载入</span></a>
+
+								</div>
+							</div>
+							<!-- 表格 -->
+							<div class="portlet-body">
+								<div class="table-container">
+									<table class="table table-striped table-bordered table-hover"
+										id="dataTable">
+										<thead>
+											<tr role="row" class="heading">
+												<th></th>
+												<th>资产ID</th>
+												<th>资产名称</th>
+												<th>资产分类</th>
+												<th>资产型号</th>
+												<th>归属单位</th>
+												<th>重要等级</th>
+												<th>责任人</th>
+												<th>使用者</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+
+										<tbody>
+											<th width="5%"><input type='checkbox' id='checkAllUser'
+												onclick="checkAll(this)"></th>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<!-- 表格结束 -->
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 添加资产 -->
+
+	<!-- 查看资产信息角色 -->
+	<div style="position: absolute; top: 20px; left: 300px; display: none;"
+		id="modal">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content" id="">
+				<div class="modal-header">
+					<button type="button" class="close" id="close" data-dismiss="modal"
+						aria-hidden="true"></button>
+					<h4 class="modal-title" id="modalTitleRole"></h4>
+				</div>
+
+				<!--切换按钮 -->
+
+				<ul id="myTab" class="nav nav-tabs">
+					<li class="active"><a href="#home" data-toggle="tab"> 基本信息
+					</a></li>
+					<li><a href="#ios" data-toggle="tab">高级信息</a></li>
+
+				</ul>
+
+
+				<div id="myTabContent" class="tab-content">
+					<!-- 基本信息 -->
+					<div class="tab-pane fade in active" id="home">
+						<div class="modal-body form">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<div class="col-md-9 col-sm-8 col-xs-12"
+											style="padding-top: 50px;">
+											<div class="white_content  col-md-12">
+												<form role="form" class="form-horizontal" id="dialogForm">
+													<input type="text" id="id1" hidden="true" />
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="" id="">资产编号</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="assetId1"
+																placeholder=""></input>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="" id="">资产名称</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="assetName1"
+																placeholder=""></input>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-md-6">
+															<div class="form-group">
+																<label class="col-md-4 control-label">资产分类</label>
+																<div class="col-md-8">
+																	<select id="className1" class="form-control select2"
+																		style="width: 400px;" placeholder="角色">
+																		<option value="">请选择</option>
+																		<c:forEach var="classify" items="${twoClassList}">
+																			<option value="${classify.classId}">${classify.className}</option>
+																		</c:forEach>
+																	</select> <span class="help-block"></span>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="">资产简称</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control"
+																id="abbreviation1" placeholder=""></input>
+														</div>
+													</div>
+
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="">资产型号</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="version1"
+																placeholder=""></input>
+														</div>
+													</div>
+
+													<div class="row">
+														<div class="col-md-6">
+															<div class="form-group last">
+																<label class="col-md-4 control-label">归属单位<span
+																	class="required"> * </span></label>
+																<div class="col-md-8">
+																	<select id="homeUnit1" class="form-control select2"
+																		style="width: 400px;" placeholder="所属单位">
+																		<option value="">请选择</option>
+																		<c:forEach var="organ" items="${organList}">
+																			<option value="${organ.organId}">${organ.organName}</option>
+																		</c:forEach>
+																	</select>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="row">
+														<div class="col-md-6">
+															<div class="form-group last">
+																<label class="col-md-4 control-label">重要等级<span
+																	class="required"> * </span></label>
+																<div class="col-md-8">
+																	<select id="grade1" class="form-control select2"
+																		style="width: 400px;" placeholder="角色">
+																		<option value="2">非常重要</option>
+																		 <option value="1">重要</option>
+																		<option value="0">一般</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="row">
+														<div class="col-md-12">
+															<div class="form-group">
+																<label class="col-md-2 control-label" id="initGeom1">初始位置</label>
+															</div>
+														</div>
+													</div>
+
+													<!-- ---------------------------------- -->
+													<div id="updmap" class="updmapmap">
+														<img class="updmap-initcenterimg"
+															src="./icon/asset_setcenter.png " />
+														<div class="floor-select">
+															<div class="wheel">
+																<ul class="nav nav-pills nav-stacked">
+																	<li role="presentation" class="up"><a><i
+																			class="glyphicon glyphicon-chevron-up"></i></a></li>
+																	<li class="divider"></li>
+																	<li class="floor-wheel ">
+																		<ul class="nav nav-pills nav-stacked " id="floorlist"></ul>
+																	</li>
+																	<li class="divider"></li>
+																	<li role="presentation" class="down"><a><i
+																			class="glyphicon glyphicon-chevron-down"></i></a></li>
+																</ul>
+															</div>
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<!-- 高级信息 -->
+					<div class="tab-pane fade" id="ios">
+						<div class="modal-body form">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<div class="col-md-9 col-sm-8 col-xs-12"
+											style="padding-top: 50px;">
+											<div class="white_content  col-md-12">
+												<form role="form" class="form-horizontal" id="dialogForm1">
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="" id="">厂商名称</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="factoryName1"
+																placeholder=""></input>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="" id="">采购价格</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="buyPrice1"
+																placeholder=""></input>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="" id="">采购日期</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="buyDate1"
+																placeholder=""></input>
+														</div>
+													</div>
+
+
+
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="">经销商</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="agency1"
+																placeholder=""></input>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="">经销商联系方式</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="agencyPhone1"
+																placeholder=""></input><font class="phoneValidate"></font>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="">责任人</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="person1"
+																placeholder=""></input>
+														</div>
+													</div>
+													
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="">使用者</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="user1"
+																placeholder=""></input>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label" for="">使用者手机号</label>
+														<div class="col-sm-8">
+															<input type="text" class="form-control" id="userPhone1"
+																placeholder=""></input> <font class="phoneValidate1"></font>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-md-6">
+															<div class="form-group last">
+																<label class="col-md-4 control-label">备注<span
+																	class="required"> * </span></label>
+																<div class="col-md-8">
+																	<textarea class="form-control input-medium"
+																		placeholder="" id="remark1" name=""></textarea>
+																</div>
+															</div>
+														</div>
+													</div>
+
+												</form>
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn default" data-dismiss="modal"
+						id="close1">关闭</button>
+					<button type="button" class="btn blue" id="addBtn">保存</button>
+
+
+					<button type="button" class="btn blue" id="updateBtn">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<%@include file="../includes/footer.jsp"%>
+	<jsp:include page="../includes/confirmdiv.jsp" />
+	<%@include file="../includes/bottomscript.jsp"%>
+	<script type="text/javascript"
+		src="<c:url value="/js/bower_components/DataTables/media/js/jquery.dataTables.min.js"/>"></script>
+	<script type="text/javascript"
+		src="<c:url value="/js/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"/>"></script>
+	<script type="text/javascript"
+		src="<c:url value="/js/bower_components/ztree_v3/js/jquery.ztree.core-3.5.min.js"/>"></script>
+	<script type="text/javascript"
+		src="<c:url value="/js/bower_components/ztree_v3/js/jquery.ztree.excheck-3.5.min.js"/>"></script>
+	<script src="<c:url value="/js/global/scripts/datatable.js"/>"></script>
+	<script src="<c:url value="/js/asset/assetPage.js"/>"></script>
+	<!-- 弹框 -->
+	<script src="layer/layer.js"></script>
+	<script src="layer/extend/layer.ext.js"></script>
+
+
+
+	<script type="text/javascript">
+		jeDate({
+			dateCell : "#buyDate1",
+			format : "YYYY-MM-DD",//控制是否显示小时
+		})
+
+		$(function() {
+			assetListTable.init();
+			//验证手机号码
+			$("#userPhone1").blur(function() {
+				var value = $("#userPhone1").val();
+				var reg01 = /^1[3|4|5|7|8]\d{9}$/;//手机号
+				if (reg01.test(value) || value == '') {
+					$(".phoneValidate1").html("");
+				} else {
+					$(".phoneValidate1").attr("size", "-1");
+					$(".phoneValidate1").attr("color", "red");
+					$(".phoneValidate1").html("手机格式不正确");
+				}
+			});
+			$("#agencyPhone1").blur(function() {
+				var value = $("#agencyPhone1").val();
+				var reg01 = /^1[3|4|5|7|8]\d{9}$/;//手机号
+				if (reg01.test(value) || value == '') {
+					$(".phoneValidate").html("");
+				} else {
+					$(".phoneValidate").attr("size", "-1");
+					$(".phoneValidate").attr("color", "red");
+					$(".phoneValidate").html("手机格式不正确");
+				}
+			})
+		});
+	</script>
+
+
+</body>
+</html>

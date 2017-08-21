@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.threegrand.bison.flex.dao.BleLogMapper">
+<resultMap id="BleLogMapMap" type="com.threegrand.bison.flex.entity.BleLogVO">
+		<result column="userid" property="userid" jdbcType="DECIMAL" />
+		<result column="code" property="code" jdbcType="DECIMAL" />
+		<result column="describ" property="describ" jdbcType="VARCHAR" />
+		<result column="bid" property="bid" jdbcType="DECIMAL" />
+		<result column="levelid" property="levelid" jdbcType="DECIMAL" />
+		<result column="x" property="x" jdbcType="DECIMAL" />
+		<result column="y" property="y" jdbcType="DECIMAL" />
+		<result column="time" property="time" jdbcType="DATE" />
+</resultMap>
+<select id="find" resultMap="BleLogMapMap">
+	select userid,code,describ,bid,levelid,x,y,time from (select userid,code,describ,bid,levelid,x,y,time
+from BLE_LOG order by time desc) as a group by a.userid
+</select>
+</mapper>

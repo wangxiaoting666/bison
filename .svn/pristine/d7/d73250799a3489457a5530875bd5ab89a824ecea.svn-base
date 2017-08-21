@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.system.dao.CustomParamDao">
+
+    <insert id="addCustomParam">
+        INSERT INTO custom_param (param_name,param_value,description,company_id) VALUES
+        (#{paramName},#{paramValue},#{description},#{companyId})
+        <selectKey resultType="string" keyProperty="customParamId">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="updateCustomParam">
+        UPDATE custom_param SET param_name=#{paramName},param_value=#{paramValue},description=#{description}
+        WHERE custom_param_id=#{customParamId} and company_id=#{companyId}
+    </update>
+
+    <delete id="deleteCustomParam">
+        DELETE FROM custom_param WHERE custom_param_id=#{customParamId}
+    </delete>
+
+    <select id="getCustomParam" resultType="com.threegrand.bison.system.model.CustomParam">
+        SELECT * FROM custom_param WHERE custom_param_id=#{customParamId} and company_id=#{companyId}
+    </select>
+
+    <select id="getCustomParamListPage" resultType="com.threegrand.bison.system.model.CustomParam">
+        SELECT * FROM custom_param
+        where company_id=#{companyId}
+        <if test="paramName!=null and paramName !=''">
+            and param_name = #{paramName}
+        </if>
+        <if test="paramValue!=null and paramValue !=''">
+            and param_value like CONCAT('%',#{paramValue},'%')
+        </if>
+        <if test="description!=null and description !=''">
+            and description like CONCAT('%',#{description},'%')
+        </if>
+    </select>
+
+    <select id="getCustomParamByParamName" resultType="com.threegrand.bison.system.model.CustomParam">
+        select * from custom_param where param_name=#{paramName}
+    </select>
+
+</mapper>

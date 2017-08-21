@@ -1,0 +1,41 @@
+{
+    "mapwidth":"834",
+	"mapheight":"1280",
+	"categories":[
+
+	],
+	"levels":[
+		{
+			"id":"world",
+			"title":"World",
+			"map":"img/map/inmoOffice.jpg",
+			"minimap": "img/map/inmoOffice_mini.jpg",
+			"locations":[
+				{
+					"id": "shelf_eight",
+					"title": "鎺у埗鍙�",
+					"description": "鍏跺疄锛屾垜鍙互鎺у埗涓�鍒囷紱浣嗘槸鎴戝緢浣庤皟銆�",
+					"pin": "default",
+					"action": "default",
+					"link":"http://www.intmote.com/",
+					"thumbnail": "img/map/control.jpg",
+					"x": "0.5411",
+					"y": "0.5000",
+					"zoom": "2"
+				},
+				{
+					"id": "shelf_nine",
+					"title": "鏇磋。瀹�",
+					"description": "鍒湅鎴戦噷闈㈠皬锛屾垜澶栭潰鍏跺疄寰堝ぇ銆�",
+					"pin": "default",
+					"action": "default",
+					"link":"http://www.intmote.com/",
+					"thumbnail": "img/map/gate.jpg",
+					"x": "0.3527",
+					"y": "0.2276",
+					"zoom": "2"
+				}
+			]	
+		}
+	]		
+}

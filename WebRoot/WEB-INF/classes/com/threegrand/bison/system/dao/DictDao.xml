@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.system.dao.DictDao">
+    <insert id="addDict">
+        INSERT INTO dict_value(dict_name,dict_code,dict_value,state,sequence,systemornot,company_id)VALUES (#{dictName},#{dictCode},#{dictValue},#{state},#{sequence},#{systemOrNot},#{companyId})
+    </insert>
+    <update id="updateDict">
+        UPDATE dict_value SET dict_name = #{dictName},dict_code = #{dictCode},dict_value = #{dictValue},state = #{state},sequence = #{sequence},systemornot = #{systemOrNot},company_id = #{companyId} where dict_id=#{dictId}
+    </update>
+    <delete id="deleteDict">
+        DELETE FROM dict_value where dict_id=#{dictId}
+    </delete>
+    <select id="getDictListPage" resultType="com.threegrand.bison.system.model.Dict">
+        SELECT d.description,v.dict_name,v.dict_code,v.dict_value,v.sequence,v.systemornot,v.state,v.company_id,v.dict_id FROM dict_define d,dict_value v
+        WHERE d.dict_name = v.dict_name AND (v.company_id IS NULL OR v.company_id=#{companyId})
+    </select>
+    <select id="getDictById" resultType="com.threegrand.bison.system.model.Dict">
+        SELECT d.description,v.dict_name,v.dict_code,v.dict_value,v.sequence,v.systemornot,v.state,v.company_id,v.dict_id FROM dict_define d,dict_value v
+        WHERE d.dict_name = v.dict_name AND (v.company_id IS NULL OR v.company_id=#{companyId}) And v.dict_id=#{dictId}
+    </select>
+    <select id="getDictName" resultType="com.threegrand.bison.system.model.Dict">
+        SELECT dict_name FROM dict_define
+    </select>
+</mapper>

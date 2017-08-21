@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans    
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd    
+        http://www.springframework.org/schema/context    
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd    
+        http://cxf.apache.org/jaxws     
+        http://cxf.apache.org/schemas/jaxws.xsd">
+           
+    <context:component-scan base-package="com.quicksand.push"/>
+        
+    <import resource="classpath*:META-INF/cxf/cxf.xml" />
+                
+    
+    <bean id="loggingInInterceptor" class="org.apache.cxf.interceptor.LoggingInInterceptor"/>  
+    <bean id="loggingOutInterceptor" class="org.apache.cxf.interceptor.LoggingOutInterceptor"/> 
+    <bean id="locationWSImpl" class="com.mote.ws.service.impl.LocationWSImpl" /> 
+    
+   <jaxws:server serviceClass="com.mote.ws.service.LocationWS"
+        address="/locateWS">
+        <jaxws:serviceBean>
+            <ref bean="locationWSImpl" />
+        </jaxws:serviceBean>
+        <jaxws:inInterceptors>
+        <ref bean="loggingInInterceptor"/>
+	    </jaxws:inInterceptors>
+	    <jaxws:outInterceptors>
+	        <ref bean="loggingOutInterceptor"/>
+	    </jaxws:outInterceptors>
+	    </jaxws:server>
+</beans>

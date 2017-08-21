@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.deviceManage.dao.ApplicationManageDao">
+	<sql id="applicationSql">
+		version,upload_date,description,filename
+	</sql>
+	<insert id="insert" parameterType="com.threegrand.bison.deviceManage.model.ApplicationManage">
+		insert into mote_application_manage(<include refid="applicationSql"/>
+		)values(#{version},#{uploadDate},#{description},#{fileName})
+	</insert>
+	<update id="edit" parameterType="com.threegrand.bison.deviceManage.model.ApplicationManage">
+		update mote_application_manage set description=#{description} where version=#{version}
+	</update>
+	<delete id="delete">
+		delete from mote_application_manage where id = #{id}
+	</delete>
+	<select id="findApplicationListPage" resultType="com.threegrand.bison.deviceManage.model.ApplicationManage">
+		select id,
+		<include refid="applicationSql"/>
+		from mote_application_manage
+	</select>
+	<select id="getApplicationById" resultType="com.threegrand.bison.deviceManage.model.ApplicationManage">
+		select
+		<include refid="applicationSql"/>
+		from mote_application_manage where id = #{id}
+	</select>
+</mapper>

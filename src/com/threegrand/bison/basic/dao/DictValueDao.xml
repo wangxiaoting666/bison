@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.basic.dao.DictValueDao">
+
+    <select id="getDictValueList" resultType="com.threegrand.bison.basic.model.DictValue">
+        SELECT * FROM dict_value
+        where 1=1
+        <if test="dictName!=null and dictName !=''">
+            AND dict_name = #{dictName}
+        </if>
+        <if test="state!=null and state !=''">
+            AND state = #{state}
+        </if>
+        ORDER BY dict_name,sequence
+    </select>
+
+</mapper>

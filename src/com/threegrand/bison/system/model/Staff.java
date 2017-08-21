@@ -1,0 +1,74 @@
+package com.threegrand.bison.system.model;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+public class Staff {
+
+	private String id;
+	@NotEmpty(message="人员名称不能为空!")
+	private String name;
+	private String sex;
+	private String position;
+	private String email;
+	private String tel;
+	@NotEmpty(message="所属部门不能为空!")
+	private String organId;
+	private String companyId;
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+	public String getPosition() {
+		return position;
+	}
+	public void setPosition(String position) {
+		this.position = position;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getTel() {
+		return tel;
+	}
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+	public String getOrganId() {
+		return organId;
+	}
+	public void setOrganId(String organId) {
+		this.organId = organId;
+	}
+	
+	public String getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+	@Override
+	public String toString() {
+		return "Staff [id=" + id + ", name=" + name + ", sex=" + sex
+				+ ", position=" + position + ", email=" + email + ", tel="
+				+ tel + ", organId=" + organId + ", companyId=" + companyId
+				+ "]";
+	}
+
+}

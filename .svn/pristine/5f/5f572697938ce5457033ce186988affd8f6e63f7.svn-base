@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.personInfo.dao.ConsumerRoleDao">
+
+
+   <select id="getUserRoles" resultType="com.threegrand.bison.personInfo.model.ConsumerRole">
+       select * from acl_consumer_role
+   </select>
+
+    <insert id="addConsumer">
+        insert into acl_consumer_role values
+        <foreach collection="consumerList" item="consumerRole" separator=",">
+            (#{roleName})
+        </foreach>
+    </insert>
+</mapper>

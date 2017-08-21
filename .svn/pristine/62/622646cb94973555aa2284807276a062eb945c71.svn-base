@@ -1,0 +1,25 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<h3 class="page-title">${menu.menuName}
+    <small>${menu.memo}</small>
+</h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="flex/mapLocation">主页</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <c:import url="/develop/menu/current?menuId=${param.menuId}"/>
+    </ul>
+</div>
+<section id="map-section" class="inner over">
+    <div class="editor-window">
+        <div class="window-mockup brown"></div>
+    </div>
+    <div class="map-container">
+        <div class="window-mockup">
+            <div class="window-bar"></div>
+        </div>
+<!--         <div class="map"></div> -->
+    </div>
+</section>

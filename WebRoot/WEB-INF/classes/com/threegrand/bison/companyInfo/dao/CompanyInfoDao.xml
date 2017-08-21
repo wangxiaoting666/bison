@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.companyInfo.dao.CompanyInfoDao">
+
+	<sql id="company">
+		companyName,companySite,companyLinker,companyLinkMethod,image
+	</sql>
+	<insert id="addInfo">
+		INSERT companyInfo (
+		<include refid="company" />
+		)value(#{companyName},#{companySite},#{companyLinker},#{companyLinkMethod},#{image})
+	</insert>
+
+	<update id="updateInfo">
+		update companyinfo 
+		<set>
+		<if test="companyName != '' ">companyName=#{companyName},</if>
+		<if test="companySite != '' " >companySite=#{companySite},</if>
+		<if test="companyLinker != '' ">companyLinker=#{companyLinker},</if>
+		<if test="companyLinkMethod !='' ">companyLinkMethod=#{companyLinkMethod},</if>
+		<if test="image!='' ">image=#{image},</if>
+		</set>
+		where id=1
+	</update>
+
+
+	<select id="getCompanyInfo" resultType="com.threegrand.bison.companyInfo.model.CompanyInfo">
+		SELECT * FROM companyinfo order by id asc limit 0,1
+	</select>
+
+</mapper>

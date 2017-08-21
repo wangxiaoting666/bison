@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.design.dao.NewsParamValueDao">
+
+    <insert id="addNewsParamValue">
+        INSERT INTO news_param_value (news_param_id,news_id,param_value) VALUES (#{newsParamId},#{newsId},#{paramValue})
+    </insert>
+
+    <select id="getNewsParamValue" resultType="com.threegrand.bison.design.model.NewsParamValue">
+        SELECT * FROM news_param AS a LEFT JOIN news_param_value AS b
+        ON a.news_param_id=b.news_param_id WHERE b.news_id=#{newsId} ORDER BY b.news_param_id
+    </select>
+
+    <update id="updateNewsParamValue">
+        UPDATE news_param_value SET param_value=#{paramValue}
+        WHERE news_param_id=#{newsParamId} and news_id=#{newsId}
+    </update>
+
+    <delete id="deleteNewsParamValue">
+        DELETE FROM news_param_value WHERE news_id=#{newsId}
+    </delete>
+
+</mapper>

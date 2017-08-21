@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.system.dao.OrganDao">
+
+	<select id="getOrganTreeList" resultType="com.threegrand.bison.system.model.Organ">
+		SELECT * FROM organ
+	</select>
+
+	<insert id="addOrgan">
+		INSERT INTO organ
+		(company_id,organ_name,parent_id,level,leaf,manager,enable,phone,address)
+		VALUES
+		(#{companyId},#{organName},#{parentId},#{level},#{leaf},#{manager},#{enable},#{phone},#{address}
+		<selectKey resultType="string" keyProperty="organId">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		)
+	</insert>
+
+	<select id="getOrgan" resultType="com.threegrand.bison.system.model.Organ">
+		SELECT * FROM organ WHERE
+		organ_id=#{organId} AND company_id=#{companyId}
+	</select>
+
+	<update id="updateOrgan">
+		UPDATE organ SET
+		organ_name=#{organName},
+		parent_id=#{parentId}, level=#{level},
+		manager=#{manager},address=#{address}, phone=#{phone} WHERE
+		organ_id=#{organId}
+	</update>
+
+	<delete id="deleteOrgan">
+		DELETE FROM organ WHERE organ_id=#{organId} AND company_id=#{companyId}
+	</delete>
+
+	<delete id="deleteOrganByParentId">
+		DELETE FROM organ WHERE parent_id=#{parentId} AND company_id=#{companyId}
+	</delete>
+
+	<select id="getOrganByOrganName" resultType="com.threegrand.bison.system.model.Organ">
+		SELECT * FROM organ
+		WHERE organ_name=#{organName} 
+		AND company_id =#{companyId}
+		AND level = #{level}
+	</select>
+	<select id="getOrganListByParentId" resultType="com.threegrand.bison.system.model.Organ">
+		SELECT * FROM
+		organ WHERE parent_id=#{organId}
+		AND company_id=#{companyId}
+	</select>
+
+	<select id="getAllOrgan" resultType="com.threegrand.bison.system.model.Organ">
+		SELECT * FROM organ WHERE
+		company_id=#{companyId}
+	</select>
+
+	<select id="getOrganTree" resultType="com.threegrand.bison.security.model.OrganTreeNode">
+		SELECT o.organ_id
+		id,o.organ_name name,o.parent_id pId FROM organ o WHERE
+		o.company_id =
+		#{companyId}
+	</select>
+
+	<select id="searchOrgan" resultType="com.threegrand.bison.system.model.Organ">
+		SELECT organ_name,organ_id FROM organ
+		WHERE organ_name LIKE '%${key}%'
+		AND company_id = #{companyId}
+	</select>
+
+	<select id="getNumberOrgan" resultType="com.threegrand.bison.system.model.Organ">
+		SELECT * FROM organ WHERE
+		level = #{level}
+	</select>
+
+	<select id="getOrganZTree" resultType="com.threegrand.bison.system.model.OrganOrStaffTree">
+		SELECT organ_id id,organ_name name,parent_id pId FROM organ WHERE parent_id
+		= #{organId} and company_id = #{companyId}
+	</select>
+
+	<select id="getStaffZTree" resultType="com.threegrand.bison.system.model.OrganOrStaffTree">
+		SELECT id, CONCAT(name,'(',position,')') name, organ_id pId, sex sex  FROM staff WHERE organ_id = #{organId} and
+		company_id = #{companyId}
+	</select>
+	
+	<delete id="deleteStaff">
+	DELETE FROM staff WHERE id=#{staffId} AND company_id=#{companyId}
+	</delete>
+	
+	<delete id="deleteStaffByOrganId">
+	DELETE FROM staff WHERE organ_id=#{organId} AND company_id=#{companyId}
+	</delete>
+	
+	<update id="updateStaff">
+	UPDATE staff SET name=#{name}, position=#{position},sex=#{sex},email=#{email}, tel=#{tel}, organ_id=#{organId} WHERE (id=#{id});
+	</update>
+
+    <select id="queryOrganByName" resultType="com.threegrand.bison.system.model.OrganOrStaffTree">
+    SELECT organ_id id,organ_name name,parent_id pId FROM organ WHERE organ_name = #{name} AND company_id=#{companyId}
+    </select>
+    
+    <select id="queryOrganByPId" resultType="String">
+    SELECT organ_id FROM organ WHERE parent_id=#{pId} AND company_id=#{companyId}
+    </select>
+    
+    <insert id="addRoleOrgan">
+    INSERT INTO acl_role_organ (role_id, organ_id, company_id) VALUES (#{roleId}, #{organId}, #{companyId});
+    </insert>
+    
+    <delete id="deleteRoleOrgan">
+    DELETE FROM acl_role_organ WHERE organ_id = #{organId} AND company_id = #{companyId}
+    </delete>
+    
+    <select id="getOrganTreeById" resultType="com.threegrand.bison.system.model.OrganOrStaffTree">
+    SELECT o.organ_id id, o.organ_name name, o.parent_id pId FROM organ o WHERE organ_id = #{id} AND company_id = #{companyId}
+    </select>
+    
+    <select id="getStaffTreeByOrganId" resultType="com.threegrand.bison.system.model.OrganOrStaffTree">
+    SELECT s.id id, s.name name, s.organ_id pId,sex sex FROM staff s WHERE organ_id = #{pid} AND company_id = #{companyId}
+    </select>
+    
+    <select id="queryOrganNameByPId" resultType="String">
+    SELECT organ_name FROM organ WHERE parent_id=#{parentId} AND company_id=#{companyId}
+    </select>
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD iBatis Mapper 3.0 //EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.threegrand.bison.deviceManage.dao.FirmwareManageDao">
+    <sql id="firmwareSql">
+		version,upload_date,description,filename
+	</sql>
+    <insert id="insert" parameterType="com.threegrand.bison.deviceManage.model.FirmwareManage">
+        insert into mote_firmware_manage(<include refid="firmwareSql"/>
+        )values(#{version},#{uploadDate},#{description},#{fileName})
+    </insert>
+    <update id="edit" parameterType="com.threegrand.bison.deviceManage.model.FirmwareManage">
+		update mote_firmware_manage set description=#{description} where version=#{version}
+	</update>
+    <delete id="delete">
+		delete from mote_firmware_manage where id = #{id}
+	</delete>
+    <select id="findFirmwareListPage" resultType="com.threegrand.bison.deviceManage.model.FirmwareManage">
+        select id,
+        <include refid="firmwareSql"/>
+        from mote_firmware_manage
+    </select>
+    <select id="getFirmwareById" resultType="com.threegrand.bison.deviceManage.model.FirmwareManage">
+        select
+        <include refid="firmwareSql"/>
+        from mote_firmware_manage where id = #{id}
+    </select>
+</mapper>
